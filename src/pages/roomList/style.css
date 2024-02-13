@@ -1,0 +1,75 @@
+.room-list {
+  height: 98vh;
+
+  .add-btn {
+    background-color: #1677ff;
+    color: white;
+
+    &.ant-menu-submenu-active {
+      color: #1677ff !important;
+    }
+  }
+
+  .search-btn {
+    outline: none !important;
+  }
+
+  .ant-list-header {
+    padding: 0px;
+    border-block-end: none;
+  }
+
+  .ant-spin-container {
+    height: calc(98vh - 100px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 15px 0px 0px 0px;
+  }
+
+  .ant-list-split .ant-list-item:last-child {
+    display: flex;
+    justify-content: center;
+  }
+
+  .room-card {
+    width: 34vh;
+    min-width: 320px;
+    padding: 0px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .ant-card-body {
+      height: 100px;
+      padding: 0px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      .buttons {
+        display: flex;
+        margin: 12px 16px;
+        height: 72px;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
+      }
+
+      .ant-card-meta {
+        margin: 12px 0px 8px 16px;
+        flex: 1 1;
+
+        .link:hover {
+          cursor: pointer;
+          color: dodgerblue;
+        }
+      }
+    }
+  }
+
+  .ant-list-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
