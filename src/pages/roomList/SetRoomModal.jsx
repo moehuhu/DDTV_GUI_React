@@ -70,6 +70,7 @@ const SetRoomModal = (props) => {
             description={t('Are you sure to delete this room?')}
             onConfirm={handleDelete}
             okText={t('Confirm')}
+            okButtonProps={{ danger: true }}
             cancelText={t('Cancel')}>
             <Button danger type="primary" icon={<DeleteOutlined />} />
         </Popconfirm>,
