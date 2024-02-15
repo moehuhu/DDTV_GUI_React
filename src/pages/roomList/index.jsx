@@ -4,6 +4,7 @@ import useUrlState from '@ahooksjs/use-url-state';
 import { List, Pagination, message } from 'antd';
 import RoomCard from './RoomCard/index';
 import AddRoomModal from './AddRoomModal';
+import SetRoomModal from './SetRoomModal';
 import useDetailedRoomInfoList from '../../hooks/useDetailedRoomInfoList';
 import './style.css'
 import RoomListHeader from './RoomListHeader';
@@ -37,7 +38,20 @@ const Rooms = () => {
     setAddingRoom={setAddingRoom}
     refreshPage={refreshPage}
   />
-  const renderItem = (item) => <List.Item><RoomCard {...item} messageApi={messageApi} refreshPage={refreshPage} /></List.Item>
+  const setRoomModal = <SetRoomModal
+    messageApi={messageApi}
+    editingRoom={editingRoom}
+    setEditingRoom={setEditingRoom}
+    refreshPage={refreshPage}
+  />
+  const renderItem = (item) => <List.Item>
+    <RoomCard
+      {...item}
+      messageApi={messageApi}
+      refreshPage={refreshPage}
+      setEditingRoom={setEditingRoom}
+    />
+  </List.Item>
   const footer = <Pagination
     current={current}
     pageSize={pageSize}
@@ -55,6 +69,11 @@ const Rooms = () => {
     dataSource={roomInfoList}
   />
 
-  return <div className='room-list'>{contextHolder}{list}{addRoomModal}</div>
+  return <div className='room-list'>
+    {contextHolder}
+    {list}
+    {addRoomModal}
+    {setRoomModal}
+  </div>
 }
 export default Rooms

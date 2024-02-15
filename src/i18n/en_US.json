@@ -26,13 +26,15 @@
     "addByUID": "Add by UID",
     "addByRoomID": "Add by Room ID",
     "displayName": "display name",
-    "roomID":"Room ID",
+    "roomID": "Room ID",
     "uid": "UID",
     "Search": "Search",
     "Confirm": "Confirm",
     "Cancel": "Cancel",
     "recDanmu": "Recording Danmakus",
     "autoRec": "Subscribe Recording",
-    "remind": "Remind Me"
+    "remind": "Remind Me",
+    "Delete the room": "Delete the room",
+    "Are you sure to delete this room?": "Are you sure to delete this room?"
   }
 }
