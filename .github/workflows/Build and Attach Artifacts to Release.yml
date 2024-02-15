@@ -60,10 +60,10 @@ jobs:
 
       - name: Tag commit
         if: steps.check_tag.outputs.exists == 'false'
-        uses: tvdias/github-tagger@v0.0.2
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          tag: ${{steps.check_tag.outputs.tag_name}}
+        run: |
+          CURRENT_TAG=${{steps.check_tag.outputs.tag_name}}
+          git tag ${CURRENT_TAG}
+          git push origin ${CURRENT_TAG}
 
       - name: Archive code
         if: steps.check_tag.outputs.exists == 'false'
