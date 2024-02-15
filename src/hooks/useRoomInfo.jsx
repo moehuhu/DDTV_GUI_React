@@ -6,7 +6,7 @@ const useRoomInfo = () => {
     const [err, setError] = useState(null)
     const [roomInfo, setRoomInfo] = useState(null)
     const [isLoading, { setTrue, setFalse }] = useBoolean(false)
-    const getRoom = async (uid) => {
+    const getRoomByUID = async (uid) => {
         setTrue()
         const [err, res] = await to(getRoomInfo({ uid }))
         const roomInfo = res?.data?.data
@@ -15,6 +15,15 @@ const useRoomInfo = () => {
         setFalse()
         return roomInfo
     }
-    return { isLoading, getRoom, err, roomInfo }
+    const getRoomByRoomID = async (room_id) => {
+        setTrue()
+        const [err, res] = await to(getRoomInfo({ room_id }))
+        const roomInfo = res?.data?.data
+        setError(err)
+        setRoomInfo(roomInfo)
+        setFalse()
+        return roomInfo
+    }
+    return { isLoading, getRoomByUID, getRoomByRoomID, err, roomInfo }
 }
 export default useRoomInfo
