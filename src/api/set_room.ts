@@ -13,6 +13,10 @@ export function setRoomsDMState(data: { uid: bigint[]; state: boolean }) {
   return instance.post<Response<any>>('set_rooms/modify_room_dm_settings', data)
 }
 
+export function modifyRoomSettings(data: { uid: bigint; AutoRec: boolean; Remind: boolean; RecDanmu: boolean; }) {
+  return instance.post<Response<any>>('set_rooms/modify_room_settings', data)
+}
+
 export function addRoom(
   data: Combine<
     { uid: bigint; room_id: number },
