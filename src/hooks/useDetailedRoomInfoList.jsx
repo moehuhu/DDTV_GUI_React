@@ -6,7 +6,6 @@ import SearchType from '../enums/search_type';
 import _ from 'lodash'
 const useDetailedRoomInfoList = () => {
   const [err, setError] = useState(null)
-  if (err) { console.error(err) }
   const [isLoading, { setTrue, setFalse }] = useBoolean(false)
   const [total, setTotal] = useState(0)
   const [roomInfoList, setRoomInfoList] = useState([])
@@ -19,6 +18,7 @@ const useDetailedRoomInfoList = () => {
       screen_name: params?.search,
     }).pickBy(option => option).value()
     const [err, res] = await to(getDetailedRoomInfoList(options))
+    if (err) { console.error(err) }
     setFalse()
     setError(err)
     setTotal(res?.data?.data?.total || 0)

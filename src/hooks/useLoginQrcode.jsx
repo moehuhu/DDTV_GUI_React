@@ -14,10 +14,10 @@ const blobToBase64 = (blob) => {
 
 const useLoginQrcode = () => {
   const [err, setError] = useState(null)
-  if (err) { console.error(err) }
   const [qrcode, setQrcode] = useState(null)
   const refreshQrcode = async () => {
     const [err, res] = await to(getLoginQrcode())
+    if (err) { console.error(err) }
     setError(err)
     if (res) {
       const imageSrc = await blobToBase64(res.data)

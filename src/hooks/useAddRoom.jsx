@@ -8,7 +8,6 @@ import _ from 'lodash'
 const useAddRoom = () => {
     const [err, setError] = useState(null)
     const [res, setRes] = useState(null)
-    if (err) { console.error(err) }
     const [isLoading, { setTrue, setFalse }] = useBoolean(false)
     const { getRoomByUID, getRoomByRoomID } = useRoomInfo()
     const checkAddStatus = (params) => async () => {
@@ -23,6 +22,7 @@ const useAddRoom = () => {
             .mapKeys((item, key) => _.snakeCase(key))
             .value()
         const [err, res] = await to(addRoom(mappedParams))
+        if (err) { console.error(err) }
         await to(polling(checkAddStatus(mappedParams), { interval: 1000, maxRetries: 59 }))
         setFalse()
         setError(err)

@@ -4,10 +4,10 @@ import { doReLogin } from "../api/login";
 
 const useRelogin = () => {
   const [err, setError] = useState()
-  if (err) { console.error(err) }
   const [res, setRes] = useState()
   const relogin = async () => {
     const [err, res] = await to(doReLogin())
+    if (err) { console.error(err) }
     setError(err)
     setRes(res)
     return [err, res]
