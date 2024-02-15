@@ -1,0 +1,80 @@
+name: Build and Attach Artifacts to Release
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Get version from package.json
+        id: get_version
+        run: echo version=$(node -p "require('./package.json').version") >> $GITHUB_OUTPUT
+
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          CURRENT_TAG="v${{ steps.get_version.outputs.version }}"
+          TAG_EXISTS=$(git ls-remote --tags origin refs/tags/${CURRENT_TAG} || echo '')
+          if [[ -z ${TAG_EXISTS} ]]; then
+            echo exists=false >> $GITHUB_OUTPUT
+            echo tag_name=v${{ steps.get_version.outputs.version }} >> $GITHUB_OUTPUT
+          else
+            echo exists=true >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set yarn version
+        if: steps.check_tag.outputs.exists == 'false'
+        run: yarn set version stable
+
+      - name: Install dependencies
+        if: steps.check_tag.outputs.exists == 'false'
+        run: yarn install
+
+      - name: Build
+        if: steps.check_tag.outputs.exists == 'false'
+        run: yarn build
+
+      - name: Archive production artifacts
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ddtv-gui-react_${{steps.check_tag.outputs.tag_name}}.zip
+          path: dist
+
+      - name: Tag commit
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: tvdias/github-tagger@v0.0.2
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          tag: ${{steps.check_tag.outputs.tag_name}}
+
+      - name: Archive code
+        if: steps.check_tag.outputs.exists == 'false'
+        run: |
+          cd dist
+          zip -r ../ddtv-gui-react_${{steps.check_tag.outputs.tag_name}}.zip .
+
+      - name: Attach dist to release
+        if: steps.check_tag.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{steps.check_tag.outputs.tag_name}}
+          files: |
+            ddtv-gui-react_${{steps.check_tag.outputs.tag_name}}.zip
