@@ -16,6 +16,7 @@ export const useSystemSettingsStore = create(
         }
         return {
             ...defaultConfig,
+            resetConfig: () => set(defaultConfig),
             toggleDarkMode: () => set(() => ({ isDarkMode: !get().isDarkMode })),
             setLanguage: getSetter('language'),
             setAutoRefresh: getSetter('isAutoRefresh'),

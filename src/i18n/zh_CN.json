@@ -9,6 +9,12 @@
     "overview": "概览",
     "fileManagement": "文件管理",
     "systemSettings": "系统设置",
+    "resetSettings": "重置设置",
+    "AutoRefresh": "自动刷新",
+    "RefreshInterval": "刷新间隔",
+    "s": "秒",
+    "PageSize": "分页容量",
+    "DefaultRoomConfig": "默认房间设置",
     "collapseTheSidebar": "折叠侧边栏",
     "Add": "添加",
     "All": "所有直播间",
@@ -35,6 +41,7 @@
     "autoRec": "监听录制",
     "remind": "开播提醒",
     "Delete the room": "删除房间",
-    "Are you sure to delete this room?": "确定要删除这个房间?"
+    "Are you sure to delete this room?": "确定要删除这个房间?",
+    "Are you sure to reset these settings?": "确定要重置这些设置?"
   }
 }

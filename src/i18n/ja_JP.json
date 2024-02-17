@@ -9,6 +9,12 @@
     "overview": "概要",
     "fileManagement": "ファイル管理",
     "systemSettings": "システム設定",
+    "resetSettings": "Reset Default Settings",
+    "AutoRefresh": "Auto Refresh",
+    "RefreshInterval": "Refresh Interval",
+    "PageSize": "Page Size",
+    "s": "s",
+    "DefaultRoomConfig": "Default Room Config",
     "collapseTheSidebar": "折り畳み",
     "Add": "Add",
     "All": "All",
@@ -35,6 +41,7 @@
     "autoRec": "Subscribe Recording",
     "remind": "Remind Me",
     "Delete the room": "Delete the room",
-    "Are you sure to delete this room?": "Are you sure to delete this room?"
+    "Are you sure to delete this room?": "Are you sure to delete this room?",
+    "Are you sure to reset these settings?": "Are you sure to reset all settings?"
   }
 }
