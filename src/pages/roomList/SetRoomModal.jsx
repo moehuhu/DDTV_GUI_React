@@ -1,12 +1,12 @@
-import { Modal, Switch, Form, Skeleton, Divider, Card, Button, Popconfirm } from "antd"
+import { Modal, Switch, Form, Skeleton, Space, Card, Button, Popconfirm, Image } from "antd"
 import { DeleteOutlined } from "@ant-design/icons"
-import RoomCover from "./RoomCard/RoomCover"
 import { useUpdateEffect } from "ahooks"
 import _ from 'lodash'
 import useSetRoom from "../../hooks/useSetRoom"
 import { useTranslation } from "react-i18next"
 import useRoomInfo from "../../hooks/useRoomInfo"
 import useDelRoom from "../../hooks/useDelRoom"
+const errorImg = new URL('../../../public/error.png', import.meta.url).href
 
 const SetRoomModal = (props) => {
     const { editingRoom, setEditingRoom, messageApi, refreshPage } = props
@@ -48,21 +48,28 @@ const SetRoomModal = (props) => {
     }
 
     const { t } = useTranslation()
-    const roomForm = <Skeleton loading={isLoadingRoomInfo}><Form
-        form={form}
-        onFinish={onFinish}
-        initialValues={roomInfo}>
-        <Form.Item label={t('recDanmu')} name={'IsRecDanmu'}>
-            <Switch />
-        </Form.Item>
-        <Form.Item label={t('autoRec')} name={'IsAutoRec'}>
-            <Switch />
-        </Form.Item>
-        <Form.Item label={t('remind')} name={'IsRemind'}>
-            <Switch />
-        </Form.Item>
-    </Form></Skeleton>
-
+    const cover = <Card>
+        <Image
+            src={roomInfo?.cover_from_user?.Value || roomInfo?.keyframe?.Value}
+            fallback={errorImg}
+            preview={false} />
+    </Card>
+    const roomForm = <Card>
+        <Form
+            form={form}
+            onFinish={onFinish}
+            initialValues={roomInfo}>
+            <Form.Item label={t('recDanmu')} name={'IsRecDanmu'}>
+                <Switch />
+            </Form.Item>
+            <Form.Item label={t('autoRec')} name={'IsAutoRec'}>
+                <Switch />
+            </Form.Item>
+            <Form.Item label={t('remind')} name={'IsRemind'}>
+                <Switch />
+            </Form.Item>
+        </Form>
+    </Card>
     const footer = [
         <Popconfirm
             key={'delete'}
@@ -88,11 +95,12 @@ const SetRoomModal = (props) => {
         confirmLoading={isLoading}
         className="set-room-modal"
         onCancel={closeModal}>
-        <Card>
-            <RoomCover {...editingRoom} />
-            <Divider />
-            {content}
-        </Card>
+        <Skeleton loading={isLoadingRoomInfo}>
+            <Space direction="vertical">
+                {cover}
+                {content}
+            </Space>
+        </Skeleton>
     </Modal>
 
     return modalWrapper(roomForm)
