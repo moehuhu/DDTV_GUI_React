@@ -3,6 +3,8 @@ import { useSystemSettingsStore } from "../../SystemSettingsStore"
 import { Button, Checkbox, Divider, Space, InputNumber, Col, Row, Popconfirm, theme } from 'antd';
 import './style.css'
 import config from '../../../package.json'
+import _ from 'lodash'
+
 const Settings = () => {
   const { t } = useTranslation()
   const {
@@ -39,13 +41,14 @@ const Settings = () => {
           value={autoRefreshIntervalSeconds}
           min={10}
           max={86400}
-          disabled={!isAutoRefresh}
-          addonAfter={t('s')} />
+          formatter={_.toInteger}
+          disabled={!isAutoRefresh} />
+        <span style={style}>{t('s')}</span>
       </Space>
     </FullRow>
     <FullRow>
       <span style={style}>{`${t('PageSize')}:`}</span>
-      <InputNumber onChange={setPageSize} value={pageSize} min={4} max={64} />
+      <InputNumber onChange={setPageSize} value={pageSize} min={4} max={64} formatter={_.toInteger} />
     </FullRow>
     <FullRow>
       <span style={style}>{`${t('DefaultRoomConfig')}:`}</span>
