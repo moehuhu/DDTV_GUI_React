@@ -14,7 +14,7 @@ const Rooms = () => {
   const { isLoading, total, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
   const [pageState, setPageState] = useUrlState({ current: 1, searchType: 'All', search: undefined })
   const { current, searchType, search } = pageState
-  const { pageSize } = useSystemSettingsStore(state => state)
+  const { pageSize, setPageSize } = useSystemSettingsStore(state => state)
   const refreshPage = () => refreshRoomInfoList({ ...pageState, pageSize })
 
   const { isAutoRefresh, autoRefreshIntervalSeconds } = useSystemSettingsStore(state => state)
@@ -57,7 +57,10 @@ const Rooms = () => {
     pageSize={pageSize}
     total={total}
     onChange={(current) => { setPageState({ current }) }}
-    showSizeChanger={false}
+    pageSizeOptions={[12, 16, 24, 32, 48, 64]}
+    onShowSizeChange={(current, size) => { setPageSize(size); refreshPage() }}
+    showSizeChanger
+    showQuickJumper
   />
   const grid = { xs: 1, sm: 1, md: 1, lg: 2, xl: 3, xxl: 4, }
   const list = <List
