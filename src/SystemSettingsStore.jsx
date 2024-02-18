@@ -4,9 +4,11 @@ import { persist } from 'zustand/middleware'
 export const useSystemSettingsStore = create(
     persist((set, get) => {
         const getSetter = (keyName) => (value) => set(() => ({ [keyName]: value }))
-        const defaultConfig = {
+        const defaultGlobalConfig = {
             isDarkMode: false,
             language: navigator?.language || 'zh',
+        }
+        const defaultOverviewConfig = {
             isAutoRefresh: true,
             autoRefreshIntervalSeconds: 15,
             pageSize: 12,
@@ -15,8 +17,9 @@ export const useSystemSettingsStore = create(
             remind: false,
         }
         return {
-            ...defaultConfig,
-            resetConfig: () => set(defaultConfig),
+            ...defaultGlobalConfig,
+            ...defaultOverviewConfig,
+            resetConfig: () => set({ ...defaultOverviewConfig }),
             toggleDarkMode: () => set(() => ({ isDarkMode: !get().isDarkMode })),
             setLanguage: getSetter('language'),
             setAutoRefresh: getSetter('isAutoRefresh'),
