@@ -47,10 +47,6 @@ const Settings = () => {
       </Space>
     </FullRow>
     <FullRow>
-      <span style={style}>{`${t('PageSize')}:`}</span>
-      <InputNumber onChange={setPageSize} value={pageSize} min={4} max={64} formatter={_.toInteger} />
-    </FullRow>
-    <FullRow>
       <span style={style}>{`${t('DefaultRoomConfig')}:`}</span>
       <Space>
         <Checkbox onChange={e => setRecDanmu(e.target.checked)} checked={recDanmu} />
