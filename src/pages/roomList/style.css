@@ -39,6 +39,11 @@
     justify-content: center;
     align-items: center;
 
+    .ant-card-cover>.ant-image>img {
+      width: 320px;
+      height: 180px;
+    }
+
     .ant-card-body {
       height: 100px;
       padding: 0px;
