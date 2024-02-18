@@ -9,6 +9,8 @@
     "overview": "Overview",
     "fileManagement": "File management",
     "systemSettings": "System settings",
+    "frontend": "frontend",
+    "version": "version",
     "resetSettings": "Reset Default Settings",
     "AutoRefresh": "Auto Refresh",
     "RefreshInterval": "Refresh Interval",

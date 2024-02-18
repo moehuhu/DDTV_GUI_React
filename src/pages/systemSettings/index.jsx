@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useSystemSettingsStore } from "../../SystemSettingsStore"
 import { Button, Checkbox, Divider, Space, InputNumber, Col, Row, Popconfirm, theme } from 'antd';
 import './style.css'
-
+import config from '../../../package.json'
 const Settings = () => {
   const { t } = useTranslation()
   const {
@@ -27,6 +27,9 @@ const Settings = () => {
   const color = token.colorText
   const style = { color }
   const overviewSettings = <>
+    <FullRow>
+      <span style={style}>{t('frontend')}: {config?.version}</span>
+    </FullRow>
     <FullRow>
       <span style={style}>{`${t('AutoRefresh')}:`}</span>
       <Space>

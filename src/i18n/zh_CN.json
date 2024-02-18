@@ -9,6 +9,8 @@
     "overview": "概览",
     "fileManagement": "文件管理",
     "systemSettings": "系统设置",
+    "frontend": "前端",
+    "version": "版本",
     "resetSettings": "重置设置",
     "AutoRefresh": "自动刷新",
     "RefreshInterval": "刷新间隔",
