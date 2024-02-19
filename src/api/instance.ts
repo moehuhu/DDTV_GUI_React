@@ -4,7 +4,7 @@ import SHA1 from 'crypto-js/sha1'
 // 定义封装的axios实例
 const instance = axios.create({
   timeout: 10000,
-  baseURL: 'api/'
+  baseURL: '/api/'
 })
 
 // 定义请求拦截器
