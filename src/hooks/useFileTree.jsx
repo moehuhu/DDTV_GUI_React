@@ -59,16 +59,14 @@ const useFileTree = () => {
         setTrue()
         const [err, res] = await to(getFileTree())
         const originTree = res?.data?.data
-        if (originTree) {
-            const newTree = getFormattedTree(originTree)
-            setFileTree(newTree)
-            const [treeArray, treeMap] = getTreeArrayAndMap(newTree)
-            setFlattenTree(treeArray)
-            setTreeMap(treeMap)
-        }
+        const newTree = getFormattedTree(originTree)
+        setFileTree(newTree)
+        const [treeArray, treeMap] = getTreeArrayAndMap(newTree)
+        setFlattenTree(treeArray)
+        setTreeMap(treeMap)
         setFalse()
         setError(err)
-        return [err, originTree]
+        return [err, newTree]
     }
     return { err, fileTree, flattenTree, treeMap, isLoading, getTree }
 }

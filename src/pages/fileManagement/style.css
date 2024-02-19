@@ -1,0 +1,6 @@
+.file-management {
+    .chonky-chonkyRoot {
+        height: calc(100vh - 36px);
+        margin: 8px;
+    }
+}
