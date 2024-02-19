@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useMount } from "ahooks"
 import { message } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { useSystemSettingsStore } from '../../SystemSettingsStore';
 import useFileTree from "../../hooks/useFileTree"
 import { ChonkyActions, setChonkyDefaults, } from 'chonky';
 import { FileBrowser, FileContextMenu, FileHelper, FileList, FileNavbar, FileToolbar } from 'chonky';
@@ -59,9 +60,11 @@ const FileManagement = () => {
     'jp': jpI18n,
     'ja-JP': jpI18n
   }[i18n.language]
+  const { isDarkMode } = useSystemSettingsStore(state => state)
   return <div className="file-management">
     {contextHolder}
     <FileBrowser
+      darkMode={isDarkMode}
       i18n={i18nConfig}
       files={files}
       folderChain={folderChain}
