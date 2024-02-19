@@ -44,7 +44,7 @@ export const zhI18n = {
         [`chonky.actions.${ChonkyActions.DeleteFiles.id}.button.name`]: '删除',
         [`chonky.actions.${ChonkyActions.OpenSelection.id}.button.name`]: '打开选择',
         [`chonky.actions.${ChonkyActions.SelectAllFiles.id}.button.name`]: '全选',
-        [`chonky.actions.${ChonkyActions.ClearSelection.id}.button.name`]: '清除选择',
+        [`chonky.actions.${ChonkyActions.ClearSelection.id}.button.name`]: '取消选择',
         [`chonky.actions.${ChonkyActions.EnableListView.id}.button.name`]: '列表视图',
         [`chonky.actions.${ChonkyActions.EnableGridView.id}.button.name`]: '网格视图',
         [`chonky.actions.${ChonkyActions.SortFilesByName.id}.button.name`]: '按名称排序',
