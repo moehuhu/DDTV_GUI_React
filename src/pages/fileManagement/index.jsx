@@ -1,16 +1,18 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useMount } from "ahooks"
 import { message } from 'antd';
+import { useTranslation } from 'react-i18next';
 import useFileTree from "../../hooks/useFileTree"
 import { ChonkyActions, setChonkyDefaults, } from 'chonky';
 import { FileBrowser, FileContextMenu, FileHelper, FileList, FileNavbar, FileToolbar } from 'chonky';
 import { ChonkyIconFA } from 'chonky-icon-fontawesome';
+import { zhI18n, enI18n, jpI18n } from "./chonkyI18n"
 setChonkyDefaults({ iconComponent: ChonkyIconFA });
 import './style.css'
 const FileManagement = () => {
   const { getTree, treeMap } = useFileTree()
   const [currentFolderId, setCurrentFolderId] = useState('')
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, contextHolder] = message.useMessage()
   useMount(async () => {
     const [err, tree] = await getTree()
     if (err) {
@@ -47,9 +49,20 @@ const FileManagement = () => {
       }
     }
   }, [setCurrentFolderId]);
+
+  const { i18n } = useTranslation()
+  const i18nConfig = {
+    'zh': zhI18n,
+    'zh-CN': zhI18n,
+    'en': enI18n,
+    'en-US': enI18n,
+    'jp': jpI18n,
+    'ja-JP': jpI18n
+  }[i18n.language]
   return <div className="file-management">
     {contextHolder}
     <FileBrowser
+      i18n={i18nConfig}
       files={files}
       folderChain={folderChain}
       onFileAction={handleFileAction}>
