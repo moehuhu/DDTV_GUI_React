@@ -1,5 +1,6 @@
 import { Badge, Card } from 'antd'
 import { useTranslation } from 'react-i18next';
+import { BellFilled } from '@ant-design/icons';
 import RoomCover from './RoomCover';
 import RoomUser from './RoomUser';
 import RoomActions from './RoomActions';
@@ -7,7 +8,7 @@ import RoomActions from './RoomActions';
 const RoomCard = (item) => {
   const { roomInfo, userInfo } = item
   const { t } = useTranslation()
-  const { isAutoRec } = userInfo
+  const { isAutoRec, isRemind } = userInfo
 
   const buttons = <RoomActions {...item} />
   const cover = <RoomCover {...item} />
@@ -21,8 +22,12 @@ const RoomCard = (item) => {
   const liveStatusWrapper = (component) => liveStatus ?
     <Badge offset={[-20, 0]} count={t('Live')}>{component}</Badge>
     : component
-  const autoRecStatusWrapper = component => isAutoRec ?
-    <Badge.Ribbon style={{ top: 16 }} text={t("isAutoRec")}>{component}</Badge.Ribbon>
+  const autoRecStatusWrapper = component => (isAutoRec || isRemind) ?
+    <Badge.Ribbon
+      style={{ top: 16 }}
+      text={<>{isRemind && <BellFilled />}{isAutoRec && t("isAutoRec")}</>}>
+      {component}
+    </Badge.Ribbon>
     : component
   const roomCard = autoRecStatusWrapper(liveStatusWrapper(card))
 
