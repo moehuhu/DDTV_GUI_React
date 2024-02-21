@@ -1,5 +1,6 @@
 import axios from 'axios'
 import SHA1 from 'crypto-js/sha1'
+import _ from 'lodash'
 
 // 定义封装的axios实例
 const instance = axios.create({
@@ -29,10 +30,12 @@ instance.interceptors.request.use(
       }
       const origin_params = { ...params }
       origin_params['access_key_secret'] = accessKeySecret
-      const sortedParams = Object.keys(origin_params)
-        .sort()
-        .map((key) => `${key.toLowerCase()}=${origin_params[key]}`)
-        .join(';')
+      const lower_case_params = _(origin_params).mapKeys((v, key: string) => _.toLower(key)).value()
+      const sorted_keys = _.keys(lower_case_params).sort()
+      const sortedParams = (sorted_keys || [])
+        .map((key) => `${key.toLowerCase()}=${lower_case_params[key]}`)
+        .join(';');
+
 
       params['sig'] = SHA1(sortedParams).toString()
 

@@ -19,9 +19,11 @@ const useSetRoom = () => {
     }
     const setRoom = async (params) => {
         setTrue()
-        const [err, res] = await to(modifyRoomSettings(params))
+        const { uid, IsAutoRec: AutoRec, IsRemind: Remind, IsRecDanmu: RecDanmu } = params
+        const args = { uid, AutoRec, Remind, RecDanmu }
+        const [err, res] = await to(modifyRoomSettings(args))
         if (err) { console.error(err) }
-        await to(polling(checkAddStatus(params), { interval: 1000, maxRetries: 59 }))
+        await to(polling(checkAddStatus(args), { interval: 1000, maxRetries: 59 }))
         setFalse()
         setError(err)
         setRes(res)
