@@ -14,7 +14,7 @@ const RoomListHeader = (props) => {
     const spinIcon = <Spin size='small' spinning={isLoading} delay={500} />
     const showSpin = (key) => (key == searchType) && isLoading && spinIcon
     const getLabel = (key) => ({ label: t(key), key, icon: showSpin(key) })
-    const searchTypeKeys = _(SearchType).keys().value().filter(item => _.isNaN(Number(item)))
+    const searchTypeKeys = _(SearchType).keys().filter(item => _.isNaN(Number(item))).slice(0,5)
     const onSearch = (search) => {
         setPageState({ current: 1, searchType: 'All', search })
         setSearchBarOpen(false)
