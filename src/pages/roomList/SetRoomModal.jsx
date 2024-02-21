@@ -21,8 +21,8 @@ const SetRoomModal = (props) => {
         form.setFieldsValue(roomInfo)
     }, [roomInfo])
     const confirm = () => form.submit()
-    const closeModal = () => {
-        form.resetFields()
+    const closeModal = (values) => {
+        values && form.setFieldsValue(values)
         setEditingRoom?.({})
     }
     const { setRoom, isLoading } = useSetRoom()
@@ -33,7 +33,7 @@ const SetRoomModal = (props) => {
             return
         }
         messageApi.success('√')
-        closeModal()
+        closeModal(values)
         refreshPage()
     }
     const { deleteRoom } = useDelRoom()
@@ -43,7 +43,11 @@ const SetRoomModal = (props) => {
             messageApi.error(err?.message)
             return
         }
-        closeModal()
+        closeModal({
+            IsRecDanmu: false,
+            IsAutoRec: false,
+            IsRemind: false
+        })
         refreshPage()
     }
 
@@ -86,7 +90,6 @@ const SetRoomModal = (props) => {
     ]
 
     const modalWrapper = (content) => <Modal
-        destroyOnClose
         closeIcon={null}
         open={isOpen}
         footer={footer}
