@@ -3,4 +3,27 @@
         height: calc(100vh - 36px);
         margin: 8px;
     }
+
+    .file-browser {
+        .file-list {
+            .ant-list-header {
+                padding: 0px;
+                border-block-end: none;
+            }
+
+            .ant-spin-container {
+                height: calc(98vh - 50px);
+                overflow-y: auto;
+                overflow-x: hidden;
+                padding: 15px 0px 0px 0px;
+
+                .ant-list-item {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                }
+            }
+        }
+    }
 }

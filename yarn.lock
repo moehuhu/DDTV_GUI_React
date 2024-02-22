@@ -5378,6 +5378,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mime@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "mime@npm:4.0.1"
+  bin:
+    mime: bin/cli.js
+  checksum: 10c0/8b89fb8d93dca1ce068d072c09faa8e04e85fb1e763197cbf8adaba0aa05eb795197cca332309f724cc2239d99c9c127eccb777d97efddb11aa9e9bcb9538818
+  languageName: node
+  linkType: hard
+
 "minimatch@npm:^3.0.5, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
   version: 3.1.2
   resolution: "minimatch@npm:3.1.2"
@@ -7615,6 +7624,7 @@ __metadata:
     i18next: "npm:^23.7.19"
     i18next-browser-languagedetector: "npm:^7.2.0"
     lodash: "npm:^4.17.21"
+    mime: "npm:^4.0.1"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-i18next: "npm:^14.0.1"
