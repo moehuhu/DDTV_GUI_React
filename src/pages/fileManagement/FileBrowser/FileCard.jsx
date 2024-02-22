@@ -14,7 +14,7 @@ const FileCard = (props) => {
     const { token } = theme.useToken()
     const color = token.colorText
     const style = { color }
-    const fileName = <div className="name" style={style}>{name}</div>
+    const fileName = <span title={name} className="file-name" style={style}>{name}</span>
     const fileCard = <>
         {fileIcon}
         {fileName}

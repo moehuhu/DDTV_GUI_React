@@ -51,13 +51,14 @@ const RoomActions = (item) => {
     <Button icon={<UnorderedListOutlined />} shape="circle" />
   </Popover>
   const blinkState = isDownload && blink
+  const buttonState = appointmentRecord && isDownload ? blinkState : (isDownload ? blinkState : appointmentRecord)
   const cameraButton = <Tooltip title={t(taskActionType)}>
     <Button
       onClick={onClick}
       icon={willOrRecording ? <VideoCameraOutlined spin={taskActions?.isLoading} /> : <VideoCameraAddOutlined />}
       loading={taskActions?.isLoading}
       shape="circle"
-      type={((appointmentRecord || blinkState) && 'primary') || 'default'} />
+      type={((buttonState) && 'primary') || 'default'} />
   </Tooltip>
   const buttons = <div className='buttons'>
     {settingButton}
