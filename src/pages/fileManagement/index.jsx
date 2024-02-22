@@ -2,11 +2,7 @@ import { useMemo, useState } from 'react';
 import { useMount } from "ahooks"
 import { message } from 'antd';
 import useFileTree from "../../hooks/useFileTree"
-import { setChonkyDefaults, } from 'chonky';
-import ChonkyFileBrowser from './Chonky'
 import FileBrowser from './FileBrowser';
-import { ChonkyIconFA } from 'chonky-icon-fontawesome';
-setChonkyDefaults({ iconComponent: ChonkyIconFA });
 import './style.css'
 const FileManagement = () => {
   const { getTree, treeMap } = useFileTree()
@@ -42,7 +38,6 @@ const FileManagement = () => {
   return <div className="file-management">
     {contextHolder}
     <FileBrowser files={files} folderChain={folderChain} setCurrentFolderId={setCurrentFolderId} />
-    {/* <ChonkyFileBrowser files={files} folderChain={folderChain} setCurrentFolderId={setCurrentFolderId} /> */}
   </div>
 }
 export default FileManagement

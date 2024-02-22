@@ -17,8 +17,6 @@
     "antd": "^5.13.2",
     "await-to-js": "^3.0.0",
     "axios": "^1.6.5",
-    "chonky": "^2.3.2",
-    "chonky-icon-fontawesome": "^2.3.2",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
     "i18next": "^23.7.19",
