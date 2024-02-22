@@ -9,6 +9,7 @@ const FileBrowser = (props) => {
         const items = (folderChain || []).map?.(node => ({
             icon: <FolderOutlined />,
             label: node?.name,
+            key: node?.id,
             onClick: () => setCurrentFolderId(node?.id)
         }))
         if (_.size(items) <= 5) { return items }
