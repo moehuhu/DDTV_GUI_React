@@ -4,7 +4,8 @@ const FileCard = (props) => {
     const { file, setCurrentFolderId } = props
     const { id, name, ext, isDir, size, childrenCount } = file
     const onDoubleClick = () => {
-        if (isDir) { setCurrentFolderId(id) }
+        if (isDir) { setCurrentFolderId(id); return; }
+        window.open(id)
     }
     const fileIcon = <div onDoubleClick={onDoubleClick}>
         <Badge offset={[-21, 35]} count={childrenCount || 0}>
