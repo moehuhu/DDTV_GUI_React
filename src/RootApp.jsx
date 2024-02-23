@@ -47,8 +47,8 @@ const App = () => {
         {languageButton}
     </FloatButton.Group>
 
-    const isLoggedIn = useIsLoggedIn()
-    const loginPage = <Login />
+    const [isLoggedIn, setIsLoggedIn] = useIsLoggedIn()
+    const loginPage = <Login setIsLoggedIn={setIsLoggedIn} />
     const mainPages = <Routes />
     const router = <BrowserRouter basename='/webui'>
         {isLoggedIn ? mainPages : loginPage}
