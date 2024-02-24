@@ -2,11 +2,11 @@ import RoomList from './pages/roomList'
 import FileManagement from './pages/fileManagement'
 import SystemSettings from './pages/systemSettings'
 import { useState } from "react";
-import { useMount } from 'ahooks';
+import { useMount, useBoolean, useRafInterval } from 'ahooks';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
-import { Layout, Menu, theme, Modal, Typography } from 'antd';
+import { Layout, Menu, theme, Modal, Typography, Badge } from 'antd';
 const { Paragraph, Title } = Typography
-import { DesktopOutlined, HddOutlined, SettingOutlined, MenuFoldOutlined, ColumnWidthOutlined } from "@ant-design/icons";
+import { DesktopOutlined, HddOutlined, SettingOutlined, MenuFoldOutlined, ColumnWidthOutlined, CloudOutlined } from "@ant-design/icons";
 import { useTranslation } from 'react-i18next';
 import _ from 'lodash'
 import useLoginBiliBili from './hooks/useLoginBiliBili';
@@ -36,8 +36,9 @@ const App = ({ setIsLoggedIn }) => {
     navigate(key)
   }
 
-  const { checkLoginStatus } = useLoginBiliBili()
+  const { checkLoginStatus, loginStatus, getQrcode, loginURL } = useLoginBiliBili()
   const { agree, checkAgreementState, isAgreed } = useUserAgreement()
+  useMount(checkLoginStatus)
   useMount(checkAgreementState)
   const onConfirm = () => agree('y')
   const onCancel = () => setIsLoggedIn(false)
@@ -60,12 +61,23 @@ const App = ({ setIsLoggedIn }) => {
       <Paragraph>如果您了解且同意以上内容，请按{t('Confirm')}进入登陆流程，按{t('Cancel')}退出。</Paragraph>
     </Typography>
   </Modal>
+
+  const [blink, { toggle }] = useBoolean(false)
+  useRafInterval(toggle, 1000)
+  const blinkColor = blink ? 'red' : 'gray'
+  const connectedColor = 'green'
+  const siderHeader = <Badge.Ribbon
+    style={{ cursor: 'pointer' }}
+    text={<CloudOutlined />}
+    color={loginStatus ? connectedColor : blinkColor}>
+    <img src={ddtv} height={48} style={{ margin: 16 }} />
+  </Badge.Ribbon>
+
   const sider = <Sider
     collapsed={collapsed}
     theme="light"
-    style={{ height: '100vh' }}
-  >
-    <img src={ddtv} height={48} style={{ margin: 16 }} />
+    style={{ height: '100vh' }}>
+    {siderHeader}
     <Menu
       theme="light"
       onClick={onClick}

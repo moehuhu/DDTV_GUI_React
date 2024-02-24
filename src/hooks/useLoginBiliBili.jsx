@@ -2,6 +2,8 @@ import { useState } from "react"
 import to from "await-to-js"
 import { useBoolean } from 'ahooks'
 import { getLoginUrl, doReLogin, getLoginStatus } from "../api/login"
+import LoginStatus from "../enums/login_state"
+console.log(LoginStatus);
 
 const useLoginBiliBili = () => {
   const [isLoading, { setTrue, setFalse }] = useBoolean(false)
@@ -30,9 +32,9 @@ const useLoginBiliBili = () => {
     const [err, res] = await to(getLoginStatus())
     if (err) { console.error(err) }
     setError(err)
-    setLoginStatus(res?.code)
+    setLoginStatus(res?.data?.data)
     setFalse()
-    return [err, res]
+    return [err, res?.data?.data]
   }
 
   return { err, isLoading, loginURL, loginStatus, getQrcode, relogin, checkLoginStatus }
