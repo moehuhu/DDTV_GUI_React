@@ -49,7 +49,7 @@ const App = () => {
 
     const [isLoggedIn, setIsLoggedIn] = useIsLoggedIn()
     const loginPage = <Login setIsLoggedIn={setIsLoggedIn} />
-    const mainPages = <Routes />
+    const mainPages = <Routes setIsLoggedIn={setIsLoggedIn} />
     const router = <BrowserRouter basename='/webui'>
         {isLoggedIn ? mainPages : loginPage}
     </BrowserRouter>

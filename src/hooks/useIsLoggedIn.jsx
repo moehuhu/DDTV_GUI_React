@@ -5,8 +5,15 @@ import { useInterval } from "ahooks";
 
 const useIsLoggedIn = () => {
   const { accessKeyid, accessKeySecret } = useLocalAccessToken()
-  const [isLoggedIn, setIsLoggedIn] = useState(accessKeyid && accessKeySecret)
+  const [isCliLoggedIn, setIsCliLoggedIn] = useState(accessKeyid && accessKeySecret)
   const { heartBeat } = useDokiDoki()
+  const setIsLoggedIn = (state) => {
+    if (!state) {
+      localStorage.removeItem('AccessKeyId')
+      localStorage.removeItem('AccessKeySecret')
+    }
+    setIsCliLoggedIn(state)
+  }
   useInterval(async () => {
     const [err, res] = await heartBeat()
     if (res) { setIsLoggedIn(true) }
@@ -16,6 +23,6 @@ const useIsLoggedIn = () => {
       setIsLoggedIn(false)
     }
   }, 15000)
-  return [isLoggedIn, setIsLoggedIn]
+  return [isCliLoggedIn, setIsLoggedIn]
 }
 export default useIsLoggedIn
