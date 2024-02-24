@@ -1,6 +1,6 @@
 import Routes from './Routes.jsx'
 import Login from './pages/login/index.jsx'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import { useTitle, useMount, useUpdateEffect } from 'ahooks'
 import { useTranslation } from 'react-i18next'
 import { ConfigProvider, theme, FloatButton, Popover, Menu } from 'antd'
@@ -50,9 +50,9 @@ const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useIsLoggedIn()
     const loginPage = <Login setIsLoggedIn={setIsLoggedIn} />
     const mainPages = <Routes setIsLoggedIn={setIsLoggedIn} />
-    const router = <BrowserRouter basename='/webui'>
+    const router = <HashRouter>
         {isLoggedIn ? mainPages : loginPage}
-    </BrowserRouter>
+    </HashRouter>
     const app = <ConfigProvider
         theme={{
             algorithm: theme[themeMode],
