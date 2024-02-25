@@ -92,7 +92,7 @@ const App = ({ setIsLoggedIn, systemState }) => {
     {ddtvLogo}
   </Tooltip >
   const onClickLogo = async (open) => {
-    if (loginStatus) {
+    if (loginStatus || loginStatus === null) {
       setDisplayQrcode(false)
       return
     }
