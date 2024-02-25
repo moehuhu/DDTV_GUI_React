@@ -69,7 +69,11 @@ const App = ({ setIsLoggedIn, systemState }) => {
   useRafInterval(toggle, 1000)
   const disconnectedSrc = blink ? ddtv : ddtvGrayscale
   const connectedSrc = ddtv
-  const ddtvLogo = <img src={loginStatus ? connectedSrc : disconnectedSrc} height={48} style={{ margin: 16 }} />
+  const ddtvLogo = <img
+    src={loginStatus ? connectedSrc : disconnectedSrc}
+    style={{ cursor: loginStatus ? 'default' : 'pointer', margin: token.margin }}
+    height={48}
+  />
 
   const [displayStatus, setDisplayStatus] = useState(false)
   const [displayQrcode, setDisplayQrcode] = useState(false)
