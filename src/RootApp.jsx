@@ -47,9 +47,9 @@ const App = () => {
         {languageButton}
     </FloatButton.Group>
 
-    const [isLoggedIn, setIsLoggedIn] = useIsLoggedIn()
+    const [isLoggedIn, setIsLoggedIn, systemState] = useIsLoggedIn()
     const loginPage = <Login setIsLoggedIn={setIsLoggedIn} />
-    const mainPages = <Routes setIsLoggedIn={setIsLoggedIn} />
+    const mainPages = <Routes setIsLoggedIn={setIsLoggedIn} systemState={systemState} />
     const router = <HashRouter>
         {isLoggedIn ? mainPages : loginPage}
     </HashRouter>

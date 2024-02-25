@@ -3,10 +3,15 @@
 
   .add-btn {
     background-color: #1677ff;
-    color: white;
+
+    span {
+      color: white;
+    }
 
     &.ant-menu-submenu-active {
-      color: #1677ff !important;
+      span {
+        color: #1677ff !important;
+      }
     }
   }
 

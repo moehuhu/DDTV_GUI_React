@@ -2,11 +2,11 @@ import RoomList from './pages/roomList'
 import FileManagement from './pages/fileManagement'
 import SystemSettings from './pages/systemSettings'
 import { useState } from "react";
-import { useMount, useBoolean, useRafInterval } from 'ahooks';
+import { useMount, useBoolean, useRafInterval, useInterval } from 'ahooks';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
-import { Layout, Menu, theme, Modal, Typography, Badge } from 'antd';
+import { Layout, Menu, theme, Modal, Typography, Popover, Tooltip, Spin } from 'antd';
 const { Paragraph, Title } = Typography
-import { DesktopOutlined, HddOutlined, SettingOutlined, MenuFoldOutlined, ColumnWidthOutlined, CloudOutlined } from "@ant-design/icons";
+import { DesktopOutlined, HddOutlined, SettingOutlined, MenuFoldOutlined, ColumnWidthOutlined } from "@ant-design/icons";
 import { useTranslation } from 'react-i18next';
 import _ from 'lodash'
 import useLoginBiliBili from './hooks/useLoginBiliBili';
@@ -14,12 +14,13 @@ import useUserAgreement from './hooks/useUserAgreement';
 
 const { Sider, Content } = Layout;
 const ddtv = new URL('../public/DDTV.png', import.meta.url).href
+const ddtvGrayscale = new URL('../public/DDTV-grayscale.png', import.meta.url).href
 
-const App = ({ setIsLoggedIn }) => {
+const App = ({ setIsLoggedIn, systemState }) => {
   const [collapsed, setCollapsed] = useState(false);
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
+  const { token } = theme.useToken()
   const { t } = useTranslation()
 
   const items = [
@@ -36,9 +37,11 @@ const App = ({ setIsLoggedIn }) => {
     navigate(key)
   }
 
-  const { checkLoginStatus, loginStatus, getQrcode, loginURL } = useLoginBiliBili()
+  const { checkLoginStatus, loginStatus, getQrcode, loginQrcodeImageURL, relogin } = useLoginBiliBili({
+    loginSuccess: () => window.location.reload()
+  })
   const { agree, checkAgreementState, isAgreed } = useUserAgreement()
-  useMount(checkLoginStatus)
+  useInterval(checkLoginStatus, loginStatus ? 15000 : 5000, { immediate: true })
   useMount(checkAgreementState)
   const onConfirm = () => agree('y')
   const onCancel = () => setIsLoggedIn(false)
@@ -50,7 +53,7 @@ const App = ({ setIsLoggedIn }) => {
     onCancel={onCancel}
     open={!isAgreed}>
     <Typography>
-      <Title>使用须知</Title>
+      <Title level={5}>使用须知</Title>
       <Paragraph>
         <ol>
           <li>在使用本软件的过程中的产生的任何资料、数据等所有数据都归属原所有者。</li>
@@ -64,15 +67,49 @@ const App = ({ setIsLoggedIn }) => {
 
   const [blink, { toggle }] = useBoolean(false)
   useRafInterval(toggle, 1000)
-  const blinkColor = blink ? 'red' : 'gray'
-  const connectedColor = 'green'
-  const siderHeader = <Badge.Ribbon
-    style={{ cursor: 'pointer' }}
-    text={<CloudOutlined />}
-    color={loginStatus ? connectedColor : blinkColor}>
-    <img src={ddtv} height={48} style={{ margin: 16 }} />
-  </Badge.Ribbon>
+  const disconnectedSrc = blink ? ddtv : ddtvGrayscale
+  const connectedSrc = ddtv
+  const ddtvLogo = <img src={loginStatus ? connectedSrc : disconnectedSrc} height={48} style={{ margin: 16 }} />
 
+  const [displayStatus, setDisplayStatus] = useState(false)
+  const [displayQrcode, setDisplayQrcode] = useState(false)
+
+  const tipsDisplay = () => {
+    if (loginStatus) { return displayStatus }
+    if (displayQrcode) { return false }
+    return displayStatus || (loginStatus === false)
+  }
+  const tipsLogo = <Tooltip
+    placement='right'
+    title={loginStatus === null ? t('Loading') : (loginStatus ? t('LoggedIn') : t('NotLoggedIn'))}
+    open={tipsDisplay()}
+    onOpenChange={setDisplayStatus}
+  >
+    {ddtvLogo}
+  </Tooltip >
+  const onClickLogo = async (open) => {
+    if (loginStatus) {
+      setDisplayQrcode(false)
+      return
+    }
+    setDisplayQrcode(open)
+    setDisplayStatus(false)
+    if (open) {
+      await relogin()
+      await getQrcode()
+    }
+  }
+
+  const QRcode = loginQrcodeImageURL ? <img src={loginQrcodeImageURL} /> : <Spin />
+  const siderHeader = <Popover
+    content={QRcode}
+    placement='rightTop'
+    open={(!loginStatus) && displayQrcode}
+    onOpenChange={onClickLogo}
+    trigger='click'
+  >
+    {tipsLogo}
+  </Popover>
   const sider = <Sider
     collapsed={collapsed}
     theme="light"
@@ -89,11 +126,11 @@ const App = ({ setIsLoggedIn }) => {
 
   const contentWrapper = (content) => <Content
     style={{
-      background: colorBgContainer,
+      background: token.colorBgContainer,
       margin: '1vh',
       height: '98vh',
       overflow: 'hidden',
-      borderRadius: borderRadiusLG
+      borderRadius: token.borderRadiusLG
     }}>
     {content}
   </Content>
@@ -105,8 +142,8 @@ const App = ({ setIsLoggedIn }) => {
   </Routes>
 
   return <Layout>
-    {sider}
     {agreeModal}
+    {sider}
     {contentWrapper(routes)}
   </Layout>
 }
