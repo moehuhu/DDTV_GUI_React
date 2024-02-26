@@ -62,7 +62,7 @@ const Rooms = () => {
     showSizeChanger
     showQuickJumper
   />
-  const grid = { xs: 1, sm: 1, md: 1, lg: 2, xl: 3, xxl: 4, }
+  const grid = { xs: 1, sm: 1, md: 1, lg: 2, xl: 3, xxl: 4, gutter: 16 }
   const list = <List
     grid={grid}
     header={header}

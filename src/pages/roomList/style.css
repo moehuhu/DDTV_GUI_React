@@ -45,8 +45,8 @@
     align-items: center;
 
     .ant-card-cover>.ant-image>img {
-      width: 320px;
-      height: 180px;
+      width: max(320px, 16vw);
+      height: max(180px, 9vw);
     }
 
     .ant-card-body {
