@@ -37,8 +37,7 @@
   }
 
   .room-card {
-    width: 34vh;
-    min-width: 320px;
+    width: max(320px, 16vw);
     padding: 0px 10px;
     display: flex;
     justify-content: center;
