@@ -13,6 +13,7 @@
     "Please input your Password!": "パスワードを入力してください",
     "titleText": "DDTV",
     "overview": "概要",
+    "batchOperation": "Batch Operation",
     "fileManagement": "ファイル管理",
     "systemSettings": "システム設定",
     "frontend": "frontend",

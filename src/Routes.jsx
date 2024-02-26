@@ -1,4 +1,5 @@
 import RoomList from './pages/roomList'
+import BatchOperation from './pages/batchOperation';
 import FileManagement from './pages/fileManagement'
 import SystemSettings from './pages/systemSettings'
 import { useState } from "react";
@@ -6,7 +7,7 @@ import { useMount, useBoolean, useRafInterval, useInterval } from 'ahooks';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import { Layout, Menu, theme, Modal, Typography, Popover, Tooltip, Spin } from 'antd';
 const { Paragraph, Title } = Typography
-import { DesktopOutlined, HddOutlined, SettingOutlined, MenuFoldOutlined, ColumnWidthOutlined } from "@ant-design/icons";
+import { DesktopOutlined, BlockOutlined, HddOutlined, SettingOutlined, MenuFoldOutlined, ColumnWidthOutlined } from "@ant-design/icons";
 import { useTranslation } from 'react-i18next';
 import _ from 'lodash'
 import useLoginBiliBili from './hooks/useLoginBiliBili';
@@ -25,6 +26,7 @@ const App = ({ setIsLoggedIn, systemState }) => {
 
   const items = [
     { label: t('overview'), key: '/', icon: <DesktopOutlined /> },
+    { label: t('batchOperation'), key: '/batchOperation', icon: <BlockOutlined /> },
     { label: t('fileManagement'), key: '/fileManagement', icon: <HddOutlined /> },
     { label: t('systemSettings'), key: '/systemSettings', icon: <SettingOutlined /> },
     { label: t('collapseTheSidebar'), key: 'collapse', icon: collapsed ? <ColumnWidthOutlined /> : <MenuFoldOutlined /> }
@@ -141,6 +143,7 @@ const App = ({ setIsLoggedIn, systemState }) => {
 
   const routes = <Routes>
     <Route path="/" element={<RoomList />} />
+    <Route path='/batchOperation' element={<BatchOperation />} />
     <Route path="/fileManagement" element={<FileManagement />} />
     <Route path="/systemSettings" element={<SystemSettings />} />
   </Routes>
