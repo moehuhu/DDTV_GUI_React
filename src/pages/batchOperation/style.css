@@ -1,0 +1,20 @@
+.batch-operation {
+    .origin-list {
+        width: 40vw;
+        height: calc(98vh - 32px);
+        margin: 16px;
+
+        .ant-spin-container {
+            height: calc(96vh - 120px);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .ant-list-footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+}
