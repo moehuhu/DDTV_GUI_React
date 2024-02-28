@@ -15,6 +15,7 @@
     "overview": "概览",
     "Total": "总计",
     "Selected": "已选",
+    "Apply": "应用",
     "batchOperation": "批量操作",
     "fileManagement": "文件管理",
     "systemSettings": "系统设置",
@@ -51,6 +52,7 @@
     "recDanmu": "录制弹幕",
     "autoRec": "监听录制",
     "remind": "开播提醒",
+    "Delete": "删除",
     "Delete the room": "删除房间",
     "Are you sure to delete this room?": "确定要删除这个房间?",
     "Are you sure to reset these settings?": "确定要重置这些设置?"

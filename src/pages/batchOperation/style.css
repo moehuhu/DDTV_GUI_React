@@ -47,11 +47,11 @@
         margin: 16px;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: flex-start;
 
         .target-list {
-            height: calc(48vh);
+            height: calc(48%);
             width: calc(100%);
 
             .header {
@@ -63,7 +63,7 @@
             }
 
             .list {
-                height: calc(48vh - 70px);
+                height: calc(45% - 70px);
                 overflow-y: auto;
                 overflow-x: hidden;
             }
@@ -98,6 +98,47 @@
                         flex: 1 0;
                         width: 0;
                         color: rgba(0, 0, 0, 0.88);
+                    }
+                }
+            }
+        }
+
+        .actions {
+            height: calc(48%);
+            width: calc(100%);
+
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 60px;
+                padding-inline: 24px;
+            }
+
+            .set-rooms {
+                height: calc(100% - 60px);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                .item {
+                    width: 240px;
+                    height: 60px;
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+
+
+                    label {
+                        flex-grow: 0;
+                        max-width: 100%;
+                        font-size: 14px;
+                    }
+
+                    .action {
+                        flex: 1 1 0;
+                        min-width: 0;
                     }
                 }
             }

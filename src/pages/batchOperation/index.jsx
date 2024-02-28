@@ -2,6 +2,7 @@ import './style.css'
 import useDetailedRoomInfoList from "../../hooks/useDetailedRoomInfoList"
 import OriginList from "./OriginList"
 import TargetList from "./TargetList"
+import Actions from "./actions.jsx"
 import { useMemo, useState } from "react"
 import { useSetState, useAsyncEffect } from "ahooks"
 import _ from 'lodash'
@@ -54,8 +55,10 @@ const BatchOperation = () => {
         stagedUID={stagedUID}
         stagedMap={stagedMap}
     />
+    const actions = <Actions stagedUID={stagedUID} />
     const operationArea = <div className="operation-area">
         {targetList}
+        {actions}
     </div>
     return <div className="batch-operation">
         {originList}

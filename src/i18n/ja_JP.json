@@ -15,6 +15,7 @@
     "overview": "概要",
     "Total": "Total",
     "Selected": "Selected",
+    "Apply": "Apply",
     "batchOperation": "Batch Operation",
     "fileManagement": "ファイル管理",
     "systemSettings": "システム設定",
@@ -51,6 +52,7 @@
     "recDanmu": "Recording Danmakus",
     "autoRec": "Subscribe Recording",
     "remind": "Remind Me",
+    "Delete": "Delete",
     "Delete the room": "Delete the room",
     "Are you sure to delete this room?": "Are you sure to delete this room?",
     "Are you sure to reset these settings?": "Are you sure to reset these settings?"
