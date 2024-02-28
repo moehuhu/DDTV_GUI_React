@@ -2,16 +2,39 @@
 import RoomInfo from "./roomInfo"
 import { List, Pagination, Spin } from "antd"
 import { useTranslation } from "react-i18next"
-import { useKeyPress } from "ahooks"
+import { useKeyPress, useBoolean } from "ahooks"
+import { useState, useMemo } from "react"
+import _ from 'lodash'
 const OriginList = (props) => {
-    const { pageState, isLoading, total, roomInfoList = [] } = props
-    const { setPageState, setSelectedItems, setStagedItems } = props
-    const { selectedUID = [], stagedUID = [], stagedMap = {} } = props
+    const { setPageState, pageState, isLoading, total, roomInfoList = [] } = props
+    const { setStagedItems, stagedUID = [], stagedMap = {} } = props
+    const [selectedItems, setSelectedItems] = useState([]);
+    const uidMapper = item => item?.userInfo?.uid
+    const { selectedUID, selectedMap } = useMemo(() => {
+        const selectedUID = []
+        const selectedMap = _(selectedItems)
+            .map(item => {
+                const uid = uidMapper(item)
+                selectedUID.push(uid)
+                return [uid, item]
+            })
+            .fromPairs()
+            .value()
+        return { selectedUID, selectedMap }
+    }, [selectedItems])
 
+    const [ctrlPressed, { setTrue: pressCtrl, setFalse: releaseCtrl }] = useBoolean()
+    const [shiftPressed, { setTrue: pressShift, setFalse: releaseShift }] = useBoolean()
+    useKeyPress('ctrl', pressCtrl)
+    useKeyPress('ctrl', releaseCtrl, { events: ['keyup'] })
+    useKeyPress('shift', pressShift)
+    useKeyPress('shift', releaseShift, { events: ['keyup'] })
     useKeyPress('ctrl.a', e => {
         e.preventDefault()
         setSelectedItems(roomInfoList)
     })
+
+    const selected = item => selectedMap[item?.userInfo?.uid]
     const select = (item, index) => {
         setSelectedItems([item])
     }
@@ -24,7 +47,7 @@ const OriginList = (props) => {
         onClick={() => select(item, index)}
         onDoubleClick={() => stage(item)}
         item={item}
-        selected={selectedUID.includes(item?.userInfo?.uid)}
+        selected={selected(item)}
         staged={staged(item)}
     />
     const { t } = useTranslation()
