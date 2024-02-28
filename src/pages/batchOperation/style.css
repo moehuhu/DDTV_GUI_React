@@ -28,6 +28,10 @@
             height: calc(100vh - 170px);
             overflow-y: auto;
             overflow-x: hidden;
+
+            .ant-list-item {
+                height: 75px;
+            }
         }
 
         .ant-list-footer {
@@ -68,6 +72,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                height: 75px;
                 padding: 12px 0;
                 padding-inline: 24px;
                 border-block-end: 1px solid rgba(5, 5, 5, 0.06);
