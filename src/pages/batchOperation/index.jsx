@@ -1,12 +1,7 @@
-import useAutoRec from "../../hooks/useAutoRec"
-import useDanmuRec from "../../hooks/useDanmuRec"
-import useRemindMe from "../../hooks/useRemindMe"
-import useDelRoom from "../../hooks/useDelRoom"
-import RoomInfo from "./roomInfo"
 import './style.css'
 import useDetailedRoomInfoList from "../../hooks/useDetailedRoomInfoList"
-import OriginList from "./originList"
-import TargetList from "./targetList"
+import OriginList from "./OriginList"
+import TargetList from "./TargetList"
 import { useMemo, useState } from "react"
 import { useSetState, useAsyncEffect } from "ahooks"
 import _ from 'lodash'

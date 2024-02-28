@@ -1,10 +1,9 @@
 
 import RoomInfo from "./roomInfo"
-import useHotkey from "../../hooks/useHotkey"
+import useHotkey from "../../../hooks/useHotkey"
 import { List, Pagination, Spin, Button } from "antd"
 import { RightOutlined, CheckOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
-import { useKeyPress, useBoolean, useEventListener } from "ahooks"
 import { useState, useMemo } from "react"
 import _ from 'lodash'
 const OriginList = (props) => {
