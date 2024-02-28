@@ -2,17 +2,19 @@
     width: calc(100%);
     height: calc(100%);
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 
     .origin-list {
         height: calc(96%);
         width: 40vw;
+        margin: 16px;
 
         .ant-list-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 60px;
 
             .header-bar {
                 width: 300px;
@@ -20,8 +22,6 @@
                 justify-content: space-between;
                 align-items: center;
             }
-
-            .add-to-stage {}
         }
 
         .ant-spin-container {
@@ -40,6 +40,7 @@
     .operation-area {
         height: calc(96%);
         width: 40vw;
+        margin: 16px;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -49,10 +50,51 @@
             height: calc(48vh);
             width: calc(100%);
 
-            .ant-spin-container {
-                height: calc(48vh - 54px);
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 60px;
+                padding-inline: 24px;
+            }
+
+            .list {
+                height: calc(48vh - 70px);
                 overflow-y: auto;
                 overflow-x: hidden;
+            }
+
+            .room-info {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 12px 0;
+                padding-inline: 24px;
+                border-block-end: 1px solid rgba(5, 5, 5, 0.06);
+                color: rgba(0, 0, 0, 0.88);
+
+                .user {
+                    display: flex;
+                    flex: 1;
+                    align-items: flex-start;
+                    max-width: 100%;
+
+                    .avatar {
+                        margin-inline-end: 16px;
+                    }
+
+                    .info {
+                        .name {
+                            margin: 0 0 4px 0;
+                            color: rgba(0, 0, 0, 0.88);
+                            font-size: 14px;
+                        }
+
+                        flex: 1 0;
+                        width: 0;
+                        color: rgba(0, 0, 0, 0.88);
+                    }
+                }
             }
         }
     }
