@@ -46,11 +46,11 @@
         align-items: flex-start;
 
         .target-list {
-            height: calc(48%);
+            height: calc(48vh);
             width: calc(100%);
 
             .ant-spin-container {
-                height: calc(40vh);
+                height: calc(48vh - 54px);
                 overflow-y: auto;
                 overflow-x: hidden;
             }
