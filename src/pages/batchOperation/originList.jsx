@@ -2,10 +2,17 @@
 import RoomInfo from "./roomInfo"
 import { List, Pagination, Spin } from "antd"
 import { useTranslation } from "react-i18next"
+import { useKeyPress } from "ahooks"
 const OriginList = (props) => {
     const { pageState, isLoading, total, roomInfoList = [] } = props
     const { setPageState, setSelectedItems, setStagedItems } = props
     const { selectedUID = [], stagedUID = [] } = props
+
+    useKeyPress('ctrl.a', e => {
+        e.preventDefault()
+        setSelectedItems(roomInfoList)
+    })
+
     const select = (item, index) => {
         setSelectedItems([item])
     }
