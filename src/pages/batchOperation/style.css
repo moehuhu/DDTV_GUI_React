@@ -9,8 +9,21 @@
         height: calc(96%);
         width: 40vw;
 
+        .ant-list-header {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            .header-bar {
+                width: 300px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
         .ant-spin-container {
-            height: 80vh;
+            height: calc(100vh - 160px);
             overflow-y: auto;
             overflow-x: hidden;
         }
