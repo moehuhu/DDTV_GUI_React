@@ -50,6 +50,7 @@ const BatchOperation = () => {
         setStagedItems={setStagedItems}
         stagedItems={stagedItems}
         stagedUID={stagedUID}
+        stagedMap={stagedMap}
     />
     const operationArea = <div className="operation-area">
         {targetList}
