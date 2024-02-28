@@ -6,10 +6,10 @@ import RoomInfo from "./roomInfo"
 import './style.css'
 import useDetailedRoomInfoList from "../../hooks/useDetailedRoomInfoList"
 import OriginList from "./originList"
+import TargetList from "./targetList"
 import { useMemo, useState } from "react"
 import { useSetState, useAsyncEffect } from "ahooks"
-import { List } from "antd"
-import TargetList from "./targetList"
+import _ from 'lodash'
 const BatchOperation = () => {
     const [pageState, setPageState] = useSetState({
         current: 1,
@@ -24,8 +24,20 @@ const BatchOperation = () => {
     const uidMapper = item => item?.userInfo?.uid
     const [selectedItems, setSelectedItems] = useState([]);
     const selectedUID = useMemo(() => selectedItems?.map(uidMapper), [selectedItems])
+
     const [stagedItems, setStagedItems] = useState([])
-    const stagedUID = useMemo(() => stagedItems?.map(uidMapper), [stagedItems])
+    const { stagedUID, stagedMap } = useMemo(() => {
+        const stagedUID = []
+        const stagedMap = _(stagedItems)
+            .map(item => {
+                const uid = uidMapper(item)
+                stagedUID.push(uid)
+                return [uid, item]
+            })
+            .fromPairs()
+            .value()
+        return { stagedUID, stagedMap }
+    }, [stagedItems])
 
     const originList = <OriginList
         pageState={pageState}
@@ -37,6 +49,7 @@ const BatchOperation = () => {
         setStagedItems={setStagedItems}
         selectedUID={selectedUID}
         stagedUID={stagedUID}
+        stagedMap={stagedMap}
     />
     const targetList = <TargetList
         setStagedItems={setStagedItems}

@@ -6,18 +6,18 @@ import { useKeyPress } from "ahooks"
 const OriginList = (props) => {
     const { pageState, isLoading, total, roomInfoList = [] } = props
     const { setPageState, setSelectedItems, setStagedItems } = props
-    const { selectedUID = [], stagedUID = [] } = props
+    const { selectedUID = [], stagedUID = [], stagedMap = {} } = props
 
     useKeyPress('ctrl.a', e => {
         e.preventDefault()
         setSelectedItems(roomInfoList)
     })
-
     const select = (item, index) => {
         setSelectedItems([item])
     }
+    const staged = item => stagedMap[item?.userInfo?.uid]
     const stage = (item) => {
-        if (stagedUID.includes(item?.userInfo?.uid)) { return }
+        if (staged(item)) { return }
         setStagedItems(items => [...items, item])
     }
     const renderOriginListItem = (item, index) => <RoomInfo
@@ -25,7 +25,7 @@ const OriginList = (props) => {
         onDoubleClick={() => stage(item)}
         item={item}
         selected={selectedUID.includes(item?.userInfo?.uid)}
-        staged={stagedUID.includes(item?.userInfo?.uid)}
+        staged={staged(item)}
     />
     const { t } = useTranslation()
     const header = isLoading ? <Spin spinning={isLoading} /> : `${t('Total')}: ${total || 0}`
