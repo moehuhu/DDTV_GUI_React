@@ -1,5 +1,6 @@
 
 import RoomInfo from "./roomInfo"
+import useHotkey from "../../hooks/useHotkey"
 import { List, Pagination, Spin, Button } from "antd"
 import { useTranslation } from "react-i18next"
 import { useKeyPress, useBoolean, useEventListener } from "ahooks"
@@ -25,33 +26,9 @@ const OriginList = (props) => {
         return { selectedUID, selectedMap }
     }, [selectedItems])
 
-    const [ctrlPressed, {
-        setTrue: pressCtrl,
-        setFalse: releaseCtrl,
-        toggle: toggleCtrl }
-    ] = useBoolean()
-    const [shiftPressed, {
-        setTrue: pressShift,
-        setFalse: releaseShift,
-        toggle: toggleShift }
-    ] = useBoolean()
-    useKeyPress('ctrl', pressCtrl)
-    useKeyPress('ctrl', releaseCtrl, { events: ['keyup'] })
-    useKeyPress('shift', e => { e.preventDefault(); pressShift(); })
-    useKeyPress('shift', e => { e.preventDefault(); releaseShift(); }, { events: ['keyup'] })
-    useEventListener('selectstart', e => { if (shiftPressed) { e.preventDefault() } })
-
-    const [ctrlAllPressed, { setTrue: pressCtrlAll, setFalse: releaseCtrlAll }] = useBoolean()
-    useKeyPress('ctrl.a', e => {
-        e.preventDefault();
-        pressCtrlAll();
-        setSelectedItems(roomInfoList)
-    })
-    useKeyPress('ctrl.a', e => {
-        e.preventDefault();
-        releaseCtrlAll();
-        setSelectedItems(roomInfoList)
-    }, { events: ['keyup'] })
+    const { ctrlPressed, shiftPressed, aPressed,
+        toggleCtrl, toggleShift, pressA, releaseA }
+        = useHotkey(() => setSelectedItems(roomInfoList))
     const selected = item => selectedMap[item?.userInfo?.uid]
     const select = (item, index) => {
         if (ctrlPressed) {
@@ -102,21 +79,23 @@ const OriginList = (props) => {
             type={ctrlPressed ? 'primary' : 'default'}>
             Ctrl
         </Button>
+        const aButton = <Button
+            onMouseDown={pressA}
+            onMouseUp={releaseA}
+            type={aPressed ? 'primary' : 'default'}>
+            A
+        </Button>
         const shiftButton = <Button
             onClick={toggleShift}
             type={shiftPressed ? 'primary' : 'default'}>
             Shift
         </Button>
-        const selectAllButton = <Button
-            onClick={() => setSelectedItems(roomInfoList)}
-            type={ctrlAllPressed ? 'primary' : 'default'}>
-            Ctrl + A
-        </Button>
+
         return <div className="header-bar">
             {totalItems}
             {ctrlButton}
+            {aButton}
             {shiftButton}
-            {selectAllButton}
         </div>
     }
     const footer = <Pagination
