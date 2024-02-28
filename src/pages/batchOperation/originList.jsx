@@ -2,13 +2,14 @@
 import RoomInfo from "./roomInfo"
 import useHotkey from "../../hooks/useHotkey"
 import { List, Pagination, Spin, Button } from "antd"
+import { RightOutlined, CheckOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useKeyPress, useBoolean, useEventListener } from "ahooks"
 import { useState, useMemo } from "react"
 import _ from 'lodash'
 const OriginList = (props) => {
     const { setPageState, pageState, isLoading, total, roomInfoList = [] } = props
-    const { setStagedItems, stagedMap = {} } = props
+    const { addToStage, stagedMap = {} } = props
     const [selectedItems, setSelectedItems] = useState([]);
     const [lastSelectedItem, setLastSelectedItem] = useState({})
     const removeItem = item => items => items?.filter(({ userInfo }) => userInfo?.uid != item?.userInfo?.uid)
@@ -42,7 +43,8 @@ const OriginList = (props) => {
             return
         }
         if (shiftPressed) {
-            const lastSelectedIndex = _(roomInfoList).findIndex(item => _.isEqual(item, lastSelectedItem))
+            const lastSelectedIndex = _(roomInfoList)
+                .findIndex(item => _.isEqual(item, lastSelectedItem))
             if (lastSelectedIndex < 0) {
                 setSelectedItems([item]);
                 setLastSelectedItem(item)
@@ -58,18 +60,7 @@ const OriginList = (props) => {
         setLastSelectedItem(item)
         setSelectedItems([item])
     }
-    const staged = item => stagedMap[item?.userInfo?.uid]
-    const stage = (item) => {
-        if (staged(item)) { return }
-        setStagedItems(items => [...items, item])
-    }
-    const renderOriginListItem = (item, index) => <RoomInfo
-        onClick={() => select(item, index)}
-        onDoubleClick={() => stage(item)}
-        item={item}
-        selected={selected(item)}
-        staged={staged(item)}
-    />
+
     const { t } = useTranslation()
     const header = () => {
         if (isLoading) { return <Spin spinning={isLoading} /> }
@@ -90,13 +81,26 @@ const OriginList = (props) => {
             type={shiftPressed ? 'primary' : 'default'}>
             Shift
         </Button>
+        const addToStageButton = <Button
+            onClick={() => {
+                addToStage(selectedItems)
+                setSelectedItems([])
+            }}
+            type={_.isEmpty(selectedItems) ? 'default' : 'primary'}
+            icon={<RightOutlined />}
+        />
 
-        return <div className="header-bar">
-            {totalItems}
-            {ctrlButton}
-            {aButton}
-            {shiftButton}
-        </div>
+        return <>
+            <div className="header-bar">
+                {totalItems}
+                {ctrlButton}
+                {aButton}
+                {shiftButton}
+            </div>
+            <div className="add-to-stage">
+                {addToStageButton}
+            </div>
+        </>
     }
     const footer = <Pagination
         current={pageState.current}
@@ -104,6 +108,15 @@ const OriginList = (props) => {
         total={total}
         showSizeChanger={false}
         onChange={(current) => { setPageState({ current }) }}
+    />
+
+    const staged = item => stagedMap[item?.userInfo?.uid]
+    const renderOriginListItem = (item, index) => <RoomInfo
+        onClick={() => select(item, index)}
+        onDoubleClick={() => addToStage([item])}
+        item={item}
+        selected={selected(item)}
+        extra={staged(item) ? <CheckOutlined /> : null}
     />
     const originList = <List bordered
         header={header()}

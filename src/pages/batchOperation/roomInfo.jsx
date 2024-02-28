@@ -1,8 +1,7 @@
 import { Avatar, List, theme } from "antd"
-import { CheckOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 const { Item } = List
-const RoomInfo = ({ item, selected, staged, onClick, onDoubleClick }) => {
+const RoomInfo = ({ item, selected, extra, onClick, onDoubleClick }) => {
     const { roomInfo, userInfo } = item
     const { t } = useTranslation()
     const noAvatar = 'https://i0.hdslb.com/bfs/face/member/noface.jpg@52w_52h_1c_1s.webp'
@@ -15,7 +14,7 @@ const RoomInfo = ({ item, selected, staged, onClick, onDoubleClick }) => {
         onClick={onClick}
         onDoubleClick={onDoubleClick}
         className={`room-info`}
-        extra={staged ? <CheckOutlined /> : null}>
+        extra={extra}>
         <Item.Meta avatar={avatar} title={title} description={description} />
     </Item>
 }

@@ -11,7 +11,7 @@
 
         .ant-list-header {
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
 
             .header-bar {
@@ -20,6 +20,8 @@
                 justify-content: space-between;
                 align-items: center;
             }
+
+            .add-to-stage {}
         }
 
         .ant-spin-container {

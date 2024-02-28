@@ -35,6 +35,13 @@ const BatchOperation = () => {
             .value()
         return { stagedUID, stagedMap }
     }, [stagedItems])
+    const addToStage = (selectedItems = []) => {
+        const removedStagedItems = selectedItems?.filter?.(item => {
+            const uid = uidMapper(item)
+            return !stagedMap[uid]
+        })
+        setStagedItems(items => [...items, ...removedStagedItems])
+    }
 
     const originList = <OriginList
         pageState={pageState}
@@ -42,7 +49,7 @@ const BatchOperation = () => {
         total={total}
         roomInfoList={roomInfoList}
         setPageState={setPageState}
-        setStagedItems={setStagedItems}
+        addToStage={addToStage}
         stagedUID={stagedUID}
         stagedMap={stagedMap}
     />
