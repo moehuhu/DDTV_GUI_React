@@ -55,7 +55,11 @@ const OriginList = (props) => {
     const selected = item => selectedMap[item?.userInfo?.uid]
     const select = (item, index) => {
         if (ctrlPressed) {
-            if (selected(item)) { setSelectedItems(removeItem(item)); return }
+            if (selected(item)) {
+                setSelectedItems(removeItem(item));
+                setLastSelectedItem(item);
+                return
+            }
             setSelectedItems(items => [...items, item])
             setLastSelectedItem(item)
             return
@@ -67,7 +71,7 @@ const OriginList = (props) => {
                 setLastSelectedItem(item)
                 return
             }
-            const start = _.min([lastSelectedIndex, index, 0])
+            const start = lastSelectedIndex > 0 ? _.min([lastSelectedIndex, index]) : 0
             const end = _.max([lastSelectedIndex, index]) + 1
             const selectedSlice = _(roomInfoList).slice(start, end)
             setSelectedItems(selectedSlice)
