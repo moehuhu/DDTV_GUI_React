@@ -5,10 +5,11 @@ import useDelRoom from "../../hooks/useDelRoom"
 import RoomInfo from "./roomInfo"
 import './style.css'
 import useDetailedRoomInfoList from "../../hooks/useDetailedRoomInfoList"
-import { useState } from "react"
+import OriginList from "./originList"
+import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { useSetState, useAsyncEffect } from "ahooks"
-import { List, Pagination, Spin } from "antd"
+import { useSetState, useAsyncEffect, useKeyPress } from "ahooks"
+import { List } from "antd"
 const BatchOperation = () => {
     const [pageState, setPageState] = useSetState({
         current: 1,
@@ -19,24 +20,38 @@ const BatchOperation = () => {
     const { isLoading, total, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
     const refreshPage = () => refreshRoomInfoList(pageState)
     useAsyncEffect(refreshPage, [pageState])
-    const { t } = useTranslation()
-    const header = isLoading ? <Spin spinning={isLoading} /> : `${t('Total')}: ${total || 0}`
-    const footer = <Pagination
-        current={pageState.current}
-        pageSize={pageState.pageSize}
-        total={total}
-        showSizeChanger={false}
-        onChange={(current) => { setPageState({ current }) }}
-    />
 
-    const [targetKeys, setTargetKeys] = useState([]);
+    const uidMapper = item => item?.userInfo?.uid
+    const [selectedItems, setSelectedItems] = useState([]);
+    const selectedUID = useMemo(() => selectedItems?.map(uidMapper), [selectedItems])
+    const [stagedItems, setStagedItems] = useState([])
+    const stagedUID = useMemo(() => stagedItems?.map(uidMapper), [stagedItems])
+    const removeItem = item => items => items?.filter(({ userInfo }) => userInfo?.uid != item?.userInfo?.uid)
+    const removeStaged = (item) => {
+        if (!stagedUID.includes(item?.userInfo?.uid)) { return }
+        setStagedItems(removeItem(item))
+    }
+    const originList = <OriginList
+        pageState={pageState}
+        isLoading={isLoading}
+        total={total}
+        roomInfoList={roomInfoList}
+        setPageState={setPageState}
+        setSelectedItems={setSelectedItems}
+        setStagedItems={setStagedItems}
+        selectedUID={selectedUID}
+        stagedUID={stagedUID}
+    />
+    const targetList = <List bordered
+        className="target-list"
+        dataSource={stagedItems}
+        renderItem={item => <RoomInfo onDoubleClick={() => removeStaged(item)} item={item} />} />
+    const operationArea = <div className="operation-area">
+        {targetList}
+    </div>
     return <div className="batch-operation">
-        <List bordered
-            header={header}
-            className="origin-list"
-            dataSource={roomInfoList}
-            footer={footer}
-            renderItem={item => <RoomInfo item={item} />} />
+        {originList}
+        {operationArea}
     </div>
 }
 export default BatchOperation

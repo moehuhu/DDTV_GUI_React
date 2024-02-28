@@ -1,11 +1,16 @@
 .batch-operation {
+    width: calc(100%);
+    height: calc(100%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
     .origin-list {
+        height: calc(96%);
         width: 40vw;
-        height: calc(98vh - 32px);
-        margin: 16px;
 
         .ant-spin-container {
-            height: calc(96vh - 120px);
+            height: 80vh;
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -17,4 +22,23 @@
         }
     }
 
+    .operation-area {
+        height: calc(96%);
+        width: 40vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .target-list {
+            height: calc(48%);
+            width: calc(100%);
+
+            .ant-spin-container {
+                height: calc(40vh);
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+        }
+    }
 }
