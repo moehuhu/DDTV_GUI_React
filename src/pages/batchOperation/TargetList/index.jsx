@@ -3,7 +3,7 @@ import { theme } from "antd"
 import { CloseOutlined } from "@ant-design/icons"
 import { useVirtualList } from "ahooks"
 import { useTranslation } from "react-i18next"
-import StagedRoomInfo from "./stagedRoomInfo"
+import RoomInfo from "../RoomInfo"
 import _ from 'lodash'
 const TargetList = (props) => {
     const { token } = theme.useToken()
@@ -17,7 +17,7 @@ const TargetList = (props) => {
         setStagedItems(removeItem(item))
     }
     const removeIcon = item => <CloseOutlined onClick={() => removeStaged(item)} />
-    const renderItem = item => <StagedRoomInfo
+    const renderItem = item => <RoomInfo
         key={item?.userInfo?.uid}
         onDoubleClick={() => removeStaged(item)}
         item={item}
@@ -31,7 +31,7 @@ const TargetList = (props) => {
         containerTarget: containerRef,
         wrapperTarget: wrapperRef,
         itemHeight: 75,
-        overscan: 10,
+        overscan: 20,
     })
     const targetList = <div
         className="target-list"

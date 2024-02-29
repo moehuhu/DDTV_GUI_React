@@ -1,147 +1,131 @@
 .batch-operation {
-    width: calc(100%);
-    height: calc(100%);
+  width: calc(100%);
+  height: calc(100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding-inline: 24px;
+  }
+
+  .list {
+    overflow-y: auto;
+    overflow-x: hidden;
+    overflow-anchor: none;
+  }
+
+  .footer {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 60px;
+  }
 
-    .origin-list {
-        height: calc(96%);
-        width: 40vw;
-        margin: 16px;
+  .room-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 75px;
+    padding: 12px 0;
+    padding-inline: 24px;
+    border-block-end: 1px solid rgba(5, 5, 5, 0.06);
+    color: rgba(0, 0, 0, 0.88);
 
-        .ant-list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 60px;
-
-            .header-bar {
-                width: 300px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+    .user {
+      display: flex;
+      flex: 1;
+      align-items: flex-start;
+      .avatar {
+        margin-inline-end: 16px;
+      }
+      .info {
+        flex: 1 0;
+        .name {
+          margin: 0 0 4px 0;
+          font-size: 14px;
         }
+      }
+    }
+  }
+}
 
-        .ant-spin-container {
-            height: calc(100vh - 170px);
-            overflow-y: auto;
-            overflow-x: hidden;
+.origin-list {
+  height: calc(96%);
+  width: 40vw;
+  margin: 16px;
 
-            .ant-list-item {
-                height: 75px;
-            }
-        }
+  .header-bar {
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-        .ant-list-footer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+  .list {
+    height: calc(100% - 120px);
+  }
+}
+
+.operation-area {
+  height: calc(96%);
+  width: 40vw;
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  .target-list {
+    height: calc(48%);
+    width: calc(100%);
+
+    .list {
+      height: calc(100% - 70px);
     }
 
-    .operation-area {
-        height: calc(96%);
-        width: 40vw;
-        margin: 16px;
+    .actions {
+      height: calc(48%);
+      width: calc(100%);
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+        padding-inline: 24px;
+      }
+
+      .set-rooms {
+        height: calc(100% - 60px);
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-start;
+        justify-content: center;
+        align-items: center;
 
-        .target-list {
-            height: calc(48%);
-            width: calc(100%);
+        .item {
+          width: 240px;
+          height: 60px;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
 
-            .header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                height: 60px;
-                padding-inline: 24px;
-            }
+          label {
+            flex-grow: 0;
+            max-width: 100%;
+            font-size: 14px;
+          }
 
-            .list {
-                height: calc(45% - 70px);
-                overflow-y: auto;
-                overflow-x: hidden;
-            }
-
-            .room-info {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                height: 75px;
-                padding: 12px 0;
-                padding-inline: 24px;
-                border-block-end: 1px solid rgba(5, 5, 5, 0.06);
-                color: rgba(0, 0, 0, 0.88);
-
-                .user {
-                    display: flex;
-                    flex: 1;
-                    align-items: flex-start;
-                    max-width: 100%;
-
-                    .avatar {
-                        margin-inline-end: 16px;
-                    }
-
-                    .info {
-                        .name {
-                            margin: 0 0 4px 0;
-                            color: rgba(0, 0, 0, 0.88);
-                            font-size: 14px;
-                        }
-
-                        flex: 1 0;
-                        width: 0;
-                        color: rgba(0, 0, 0, 0.88);
-                    }
-                }
-            }
+          .action {
+            flex: 1 1 0;
+            min-width: 0;
+          }
         }
-
-        .actions {
-            height: calc(48%);
-            width: calc(100%);
-
-            .header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                height: 60px;
-                padding-inline: 24px;
-            }
-
-            .set-rooms {
-                height: calc(100% - 60px);
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-
-                .item {
-                    width: 240px;
-                    height: 60px;
-                    display: flex;
-                    justify-content: space-around;
-                    align-items: center;
-
-
-                    label {
-                        flex-grow: 0;
-                        max-width: 100%;
-                        font-size: 14px;
-                    }
-
-                    .action {
-                        flex: 1 1 0;
-                        min-width: 0;
-                    }
-                }
-            }
-        }
+      }
     }
+  }
 }

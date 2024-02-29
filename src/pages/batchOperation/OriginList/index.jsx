@@ -1,12 +1,14 @@
 
-import RoomInfo from "./roomInfo"
+import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
-import { List, Pagination, Spin, Button } from "antd"
+import { theme, Pagination, Spin, Button } from "antd"
+import { useVirtualList } from "ahooks"
 import { RightOutlined, CheckOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useRef } from "react"
 import _ from 'lodash'
 const OriginList = (props) => {
+    const { token } = theme.useToken()
     const { setPageState, pageState, isLoading, total, roomInfoList = [] } = props
     const { addToStage, stagedMap = {} } = props
     const [selectedItems, setSelectedItems] = useState([]);
@@ -62,7 +64,8 @@ const OriginList = (props) => {
 
     const { t } = useTranslation()
     const header = () => {
-        if (isLoading) { return <Spin spinning={isLoading} /> }
+        const wrapper = content => <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>{content}</div>
+        if (isLoading) { return wrapper(<Spin spinning={isLoading} />) }
         const totalItems = <span>{`${t('Total')}: ${total || 0}`}</span>
         const ctrlButton = <Button
             onClick={toggleCtrl}
@@ -89,7 +92,7 @@ const OriginList = (props) => {
             icon={<RightOutlined />}
         />
 
-        return <>
+        return wrapper(<>
             <div className="header-bar">
                 {totalItems}
                 {ctrlButton}
@@ -99,30 +102,47 @@ const OriginList = (props) => {
             <div className="add-to-stage">
                 {addToStageButton}
             </div>
-        </>
+        </>)
     }
-    const footer = <Pagination
-        current={pageState.current}
-        pageSize={pageState.pageSize}
-        total={total}
-        showSizeChanger={false}
-        onChange={(current) => { setPageState({ current }) }}
-    />
+    const footer = <div className="footer" style={{ borderBlockStart: `1px solid ${token.colorBorderSecondary}` }}>
+        <Pagination
+            current={pageState.current}
+            pageSize={pageState.pageSize}
+            total={total}
+            showSizeChanger={false}
+            onChange={(current) => { setPageState({ current }) }}
+        />
+    </div>
 
     const staged = item => stagedMap[item?.userInfo?.uid]
+    const containerRef = useRef(null);
+    const wrapperRef = useRef(null);
+    const [list] = useVirtualList(roomInfoList, {
+        containerTarget: containerRef,
+        wrapperTarget: wrapperRef,
+        itemHeight: 75,
+        overscan: 20,
+    })
     const renderOriginListItem = (item, index) => <RoomInfo
+        key={uidMapper(item)}
         onClick={() => select(item, index)}
         onDoubleClick={() => addToStage([item])}
         item={item}
         selected={selected(item)}
         extra={staged(item) ? <CheckOutlined /> : null}
     />
-    const originList = <List bordered
-        header={header()}
+    const originList = <div
         className="origin-list"
-        dataSource={roomInfoList}
-        footer={footer}
-        renderItem={renderOriginListItem} />
+        style={{
+            border: `1px solid ${token.colorBorder}`,
+            borderRadius: token.borderRadiusLG
+        }}>
+        {header()}
+        <div ref={containerRef} className="list">
+            <div ref={wrapperRef}>{list.map(ele => renderOriginListItem(ele.data))}</div>
+        </div>
+        {footer}
+    </div>
     return originList
 }
 export default OriginList
