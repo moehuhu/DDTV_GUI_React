@@ -123,7 +123,7 @@ const OriginList = (props) => {
         itemHeight: 75,
         overscan: 20,
     })
-    useUpdateEffect(() => scrollTo(0), [roomInfoList])
+    useUpdateEffect(() => { setSelectedItems([]); scrollTo(0); }, [roomInfoList])
     const renderOriginListItem = (item, index) => <RoomInfo
         key={uidMapper(item)}
         onClick={() => select(item, index)}
