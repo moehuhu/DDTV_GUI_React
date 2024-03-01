@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useAsyncEffect, useInterval } from 'ahooks';
+import { useMemo, useState } from 'react';
+import { useAsyncEffect, useInterval, configResponsive, useResponsive } from 'ahooks';
 import useUrlState from '@ahooksjs/use-url-state';
-import { List, Pagination, message, ConfigProvider } from 'antd';
+import { theme, Pagination, message } from 'antd';
 import RoomCard from './RoomCard/index';
 import AddRoomModal from './AddRoomModal';
 import SetRoomModal from './SetRoomModal';
@@ -9,8 +9,18 @@ import useDetailedRoomInfoList from '../../hooks/useDetailedRoomInfoList';
 import './style.css'
 import RoomListHeader from './RoomListHeader';
 import { useSystemSettingsStore } from '../../SystemSettingsStore';
+import _ from 'lodash'
+
+configResponsive({
+  sm: 768,
+  md: 992,
+  lg: 1280,
+  xl: 1600,
+  xxl: 2000
+});
 
 const Rooms = () => {
+  const { token } = theme.useToken()
   const { isLoading, total, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
   const [pageState, setPageState] = useUrlState({ current: 1, searchType: 'All', search: undefined })
   const { current, searchType, search } = pageState
@@ -24,13 +34,15 @@ const Rooms = () => {
   const [addingRoom, setAddingRoom] = useState({})
   const [editingRoom, setEditingRoom] = useState({})
 
-  const header = <RoomListHeader
-    isLoading={isLoading}
-    setPageState={setPageState}
-    searchType={searchType}
-    search={search}
-    setAddingRoom={setAddingRoom}
-  />
+  const header = <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>
+    <RoomListHeader
+      isLoading={isLoading}
+      setPageState={setPageState}
+      searchType={searchType}
+      search={search}
+      setAddingRoom={setAddingRoom}
+    />
+  </div>
   const [messageApi, contextHolder] = message.useMessage();
   const addRoomModal = <AddRoomModal
     messageApi={messageApi}
@@ -44,61 +56,46 @@ const Rooms = () => {
     setEditingRoom={setEditingRoom}
     refreshPage={refreshPage}
   />
-  const renderItem = (item) => <List.Item>
+  const uidMapper = item => item?.userInfo?.uid
+  const responsive = useResponsive();
+  const columnCount = useMemo(() => _(responsive).countBy(value => value == true).value()['true'] || 1, [responsive])
+  const renderItem = (item) => <div
+    className="card-container"
+    style={{ width: `${100.0 / columnCount}%`, maxWidth: `${100.0 / columnCount}%` }}
+    key={uidMapper(item)}>
     <RoomCard
       {...item}
       messageApi={messageApi}
       refreshPage={refreshPage}
       setEditingRoom={setEditingRoom}
     />
-  </List.Item>
-  const footer = <Pagination
-    current={current}
-    pageSize={pageSize}
-    total={total}
-    onChange={(current) => { setPageState({ current }) }}
-    pageSizeOptions={[8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80]}
-    onShowSizeChange={(current, size) => { setPageSize(size); setPageState({ current }) }}
-    showSizeChanger
-    showQuickJumper
-  />
-  const grid = { xs: 1, sm: 1, md: 2, lg: 3, xl: 4, xxl: 5, gutter: 16 }
-  const list = <ConfigProvider
-    theme={{
-      token: {
-        screenXXL: 2000,
-        screenXXLMin: 2000,
-        screenXLMax: 1999,
-        screenXL: 1600,
-        screenXLMin: 1600,
-        screenLGMax: 1599,
-        screenLG: 1200,
-        screenLGMin: 1200,
-        screenMDMax: 1199,
-        screenMD: 992,
-        screenMDMin: 992,
-        screenSMMax: 991,
-        screenSM: 768,
-        screenSMMin: 768,
-        screenXSMax: 767,
-        screenXS: 576,
-        screenXSMin: 576,
-      },
-    }}
-  >
-    <List
-      grid={grid}
-      header={header}
-      renderItem={renderItem}
-      footer={footer}
-      bordered={false}
-      dataSource={roomInfoList}
+  </div>
+  const footer = <div className="footer" style={{ borderBlockStart: `1px solid ${token.colorBorderSecondary}` }}>
+    <Pagination
+      current={current}
+      pageSize={pageSize}
+      total={total}
+      onChange={(current) => { setPageState({ current }) }}
+      pageSizeOptions={[8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80]}
+      onShowSizeChange={(current, size) => { setPageSize(size); setPageState({ current }) }}
+      showSizeChanger
+      showQuickJumper
     />
-  </ConfigProvider>
+  </div>
 
   return <div className='room-list'>
     {contextHolder}
-    {list}
+    <div
+      style={{
+        border: `1px solid ${token.colorBorder}`,
+        borderRadius: token.borderRadiusLG
+      }}>
+      {header}
+      <div className="list">
+        {roomInfoList?.map(renderItem)}
+      </div>
+      {footer}
+    </div>
     {addRoomModal}
     {setRoomModal}
   </div>

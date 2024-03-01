@@ -11,10 +11,10 @@ const BatchOperation = () => {
         current: 1,
         searchType: 'Originonal',
         search: undefined,
-        pageSize: 100,
+        pageSize: 200,
     })
     const { isLoading, total, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
-    const refreshPage = () => refreshRoomInfoList(pageState)
+    const refreshPage = async () => { await refreshRoomInfoList(pageState) }
     useAsyncEffect(refreshPage, [pageState])
 
     const uidMapper = item => item?.userInfo?.uid

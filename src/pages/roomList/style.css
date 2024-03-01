@@ -1,90 +1,98 @@
 .room-list {
   height: 98vh;
 
-  .add-btn {
-    background-color: #1677ff;
-
-    span {
-      color: white;
-    }
-
-    &.ant-menu-submenu-active {
-      span {
-        color: #1677ff !important;
-      }
-    }
-  }
-
-  .search-btn {
-    outline: none !important;
-  }
-
-  .ant-list-header {
-    padding: 0px;
-    border-block-end: none;
-  }
-
-  .ant-spin-container {
-    height: calc(98vh - 100px);
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 15px 0px 0px 0px;
-  }
-
-  .ant-list-split .ant-list-item:last-child {
+  .header {
     display: flex;
-    justify-content: center;
-  }
-
-  .room-card {
-    width: max(320px, 16vw);
-    padding: 0px 10px;
-    display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-
-    .ant-card-cover>.ant-image>img {
-      width: max(320px, 16vw);
-      height: max(180px, 9vw);
+    .ant-menu {
+      height: 48px;
+      border-bottom: none;
     }
 
-    .ant-card-body {
-      height: 100px;
-      padding: 0px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+    .add-btn {
+      background-color: #1677ff;
 
-      .buttons {
-        display: flex;
-        margin: 12px 16px;
-        height: 72px;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: stretch;
+      span {
+        color: white;
       }
 
-      .ant-card-meta {
-        margin: 12px 0px 8px 16px;
-        flex: 1 1;
-
-        .link:hover {
-          cursor: pointer;
-          color: dodgerblue;
+      &.ant-menu-submenu-active {
+        span {
+          color: #1677ff !important;
         }
       }
     }
+
+    .search-btn {
+      outline: none !important;
+    }
   }
 
-  .ant-list-footer {
+  .list {
+    height: calc(98vh - 110px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-flow: wrap;
+    .card-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0px 16px;
+    }
+  }
+
+  .footer {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 60px;
   }
-
 }
 
-.set-room-modal>.ant-modal-content {
+.room-card {
+  width: max(320px, 16vw);
+  padding: 0px 10px;
+  margin: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .ant-card-cover > .ant-image > img {
+    width: max(320px, 16vw);
+    height: max(180px, 9vw);
+  }
+
+  .ant-card-body {
+    height: 100px;
+    padding: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .buttons {
+      display: flex;
+      margin: 12px 16px;
+      height: 72px;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: stretch;
+    }
+
+    .ant-card-meta {
+      margin: 12px 0px 8px 16px;
+      flex: 1 1;
+
+      .link:hover {
+        cursor: pointer;
+        color: dodgerblue;
+      }
+    }
+  }
+}
+
+.set-room-modal > .ant-modal-content {
   background: rgba(255, 255, 255, 0);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(6.5px);

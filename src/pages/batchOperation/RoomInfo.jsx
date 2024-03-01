@@ -1,6 +1,6 @@
 import { Avatar, theme } from "antd"
 import { useTranslation } from "react-i18next"
-const StagedRoomInfo = ({ key, item, selected, extra, onClick, onDoubleClick }) => {
+const StagedRoomInfo = ({ item, selected, extra, onClick, onDoubleClick }) => {
     const { token } = theme.useToken()
     const { roomInfo, userInfo } = item
     const { t } = useTranslation()
@@ -23,7 +23,7 @@ const StagedRoomInfo = ({ key, item, selected, extra, onClick, onDoubleClick }) 
             {description}
         </div>
     </div>
-    return <div key={key}
+    return <div
         style={{ background: selected ? token.colorBgTextHover : undefined }}
         onClick={onClick}
         onDoubleClick={onDoubleClick}

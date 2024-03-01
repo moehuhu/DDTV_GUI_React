@@ -2,7 +2,7 @@
 import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
 import { theme, Pagination, Spin, Button } from "antd"
-import { useVirtualList } from "ahooks"
+import { useUpdateEffect, useVirtualList } from "ahooks"
 import { RightOutlined, CheckOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState, useMemo, useRef } from "react"
@@ -117,12 +117,13 @@ const OriginList = (props) => {
     const staged = item => stagedMap[item?.userInfo?.uid]
     const containerRef = useRef(null);
     const wrapperRef = useRef(null);
-    const [list] = useVirtualList(roomInfoList, {
+    const [list, scrollTo] = useVirtualList(roomInfoList, {
         containerTarget: containerRef,
         wrapperTarget: wrapperRef,
         itemHeight: 75,
         overscan: 20,
     })
+    useUpdateEffect(() => scrollTo(0), [roomInfoList])
     const renderOriginListItem = (item, index) => <RoomInfo
         key={uidMapper(item)}
         onClick={() => select(item, index)}
@@ -139,7 +140,7 @@ const OriginList = (props) => {
         }}>
         {header()}
         <div ref={containerRef} className="list">
-            <div ref={wrapperRef}>{list.map(ele => renderOriginListItem(ele.data))}</div>
+            <div ref={wrapperRef}>{list.map(ele => renderOriginListItem(ele.data, ele.index))}</div>
         </div>
         {footer}
     </div>
