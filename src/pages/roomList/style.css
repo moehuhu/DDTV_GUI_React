@@ -32,6 +32,7 @@
   .list {
     height: calc(98vh - 110px);
     overflow-y: auto;
+    will-change: scroll-position;
     overflow-x: hidden;
     display: flex;
     flex-flow: wrap;
