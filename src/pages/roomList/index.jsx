@@ -83,21 +83,18 @@ const Rooms = () => {
     />
   </div>
 
-  return <div className='room-list'>
+  return <div className='room-list'
+    style={{ borderRadius: token.borderRadiusLG }}>
     {contextHolder}
-    <div
-      style={{
-        border: `1px solid ${token.colorBorder}`,
-        borderRadius: token.borderRadiusLG
-      }}>
-      {header}
-      <div className="list">
-        {roomInfoList?.map(renderItem)}
-      </div>
-      {footer}
-    </div>
     {addRoomModal}
     {setRoomModal}
+    {header}
+    <div className="list">
+      {roomInfoList?.map(renderItem)}
+    </div>
+    {footer}
   </div>
+
+
 }
 export default Rooms
