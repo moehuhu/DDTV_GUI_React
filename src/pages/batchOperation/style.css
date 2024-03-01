@@ -17,6 +17,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     overflow-anchor: none;
+    will-change: scroll-position;
   }
 
   .footer {
