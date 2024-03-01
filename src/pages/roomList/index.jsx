@@ -59,9 +59,10 @@ const Rooms = () => {
   const uidMapper = item => item?.userInfo?.uid
   const responsive = useResponsive();
   const columnCount = useMemo(() => _(responsive).countBy(value => value == true).value()['true'] || 1, [responsive])
+  const widthPercent = `${100.0 / columnCount}%`
   const renderItem = (item) => <div
     className="card-container"
-    style={{ width: `${100.0 / columnCount}%`, maxWidth: `${100.0 / columnCount}%` }}
+    style={{ width: widthPercent, maxWidth: widthPercent }}
     key={uidMapper(item)}>
     <RoomCard
       {...item}
