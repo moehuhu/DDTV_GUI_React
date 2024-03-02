@@ -8,13 +8,13 @@ const useAutoRec = () => {
         setTrue()
         const [err, res] = await to(setRoomsRecordState({ uid, state: true }))
         setFalse()
-        return [err, res]
+        return [err, res?.data]
     }
     const closeAutoRec = async (uid) => {
         setTrue()
         const [err, res] = await to(setRoomsRecordState({ uid, state: false }))
         setFalse()
-        return [err, res]
+        return [err, res?.data]
     }
     return { isLoading, openAutoRec, closeAutoRec }
 }

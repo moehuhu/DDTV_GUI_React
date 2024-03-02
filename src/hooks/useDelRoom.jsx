@@ -14,7 +14,7 @@ const useDelRoom = () => {
         setFalse()
         setError(err)
         setRes(res)
-        return [err, res]
+        return [err, res?.data]
     }
 
     const deleteRooms = async (uid) => {
@@ -24,7 +24,7 @@ const useDelRoom = () => {
         setFalse()
         setError(err)
         setRes(res)
-        return [err, res]
+        return [err, res?.data]
     }
     return { err, res, isLoading, deleteRoom, deleteRooms }
 }

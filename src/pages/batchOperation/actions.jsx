@@ -6,9 +6,16 @@ import { Switch, Button, Popconfirm, theme } from "antd"
 import { DeleteOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
-import to from "await-to-js"
 const Actions = (props) => {
     const { stagedUID, setStagedItems, refreshPage } = props
+    const { messageApi } = props
+    const messager = (err, res) => {
+        if (err) {
+            messageApi('error')?.(err)
+            return
+        }
+        if (res) { messageApi('success')?.(res) }
+    }
     const { token } = theme.useToken()
     const { t } = useTranslation()
     const header = <div
@@ -23,7 +30,8 @@ const Actions = (props) => {
     const { openAutoRec, closeAutoRec, isLoading: setRecLoading } = useAutoRec()
     const [autoRec, setAutoRec] = useState(false)
     const applyAutoRec = async () => {
-        const [err, res] = await to((autoRec ? openAutoRec : closeAutoRec)?.(stagedUID))
+        const [err, res] = await (autoRec ? openAutoRec : closeAutoRec)(stagedUID)
+        messager(err, res)
     }
     const setAutoRecItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('autoRec')}:</label>
@@ -34,7 +42,8 @@ const Actions = (props) => {
     const { openDanmuRec, closeDanmuRec, isLoading: setDanmuRecLoading } = useDanmuRec()
     const [recDanmu, setRecDanmu] = useState(false)
     const applyRecDanmu = async () => {
-        const [err, res] = await to((recDanmu ? openDanmuRec : closeDanmuRec)?.(stagedUID))
+        const [err, res] = await (recDanmu ? openDanmuRec : closeDanmuRec)(stagedUID)
+        messager(err, res)
     }
     const setRecDanmuItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('recDanmu')}:</label>
@@ -45,17 +54,22 @@ const Actions = (props) => {
     const { openRemindMe, closeRemindMe, isLoading: setRemindLoading } = useRemindMe()
     const [remind, setRemind] = useState(false)
     const applyRemind = async () => {
-        const [err, res] = await to((remind ? openRemindMe : closeRemindMe)?.(stagedUID))
+        const [err, res] = await (remind ? openRemindMe : closeRemindMe)(stagedUID)
+        messager(err, res)
     }
     const setRemindItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('remind')}:</label>
         <Switch onChange={setRemind} value={remind} />
         <Button loading={setRemindLoading} onClick={applyRemind}>{t('Apply')}</Button>
     </div>
-    const { deleteRooms, isLoading: deleting } = useDelRoom()
+    const { deleteRooms } = useDelRoom()
     const applyDelete = async () => {
-        const [err, res] = await to(deleteRooms(stagedUID))
-        if (err) { return }
+        const [err, res] = await deleteRooms(stagedUID)
+        if (err) {
+            messager(err, res)
+            return
+        }
+        messager(err, res)
         setStagedItems([])
         refreshPage()
     }

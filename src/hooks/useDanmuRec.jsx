@@ -8,13 +8,13 @@ const useDanmuRec = () => {
         setTrue()
         const [err, res] = await to(setRoomsDMState({ uid, state: true }))
         setFalse()
-        return [err, res]
+        return [err, res?.data]
     }
     const closeDanmuRec = async (uid) => {
         setTrue()
         const [err, res] = await to(setRoomsDMState({ uid, state: false }))
         setFalse()
-        return [err, res]
+        return [err, res?.data]
     }
     return { isLoading, openDanmuRec, closeDanmuRec }
 }

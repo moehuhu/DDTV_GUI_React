@@ -8,13 +8,13 @@ const useRemindMe = () => {
         setTrue()
         const [err, res] = await to(setRoomsPromptState({ uid, state: true }))
         setFalse()
-        return [err, res]
+        return [err, res?.data]
     }
     const closeRemindMe = async (uid) => {
         setTrue()
         const [err, res] = await to(setRoomsPromptState({ uid, state: false }))
         setFalse()
-        return [err, res]
+        return [err, res?.data]
     }
     return { isLoading, openRemindMe, closeRemindMe }
 }
