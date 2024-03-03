@@ -3,8 +3,10 @@
 
   .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    width: calc(100%);
+
     .ant-menu {
       height: 48px;
       border-bottom: none;

@@ -3,7 +3,6 @@ import to from "await-to-js"
 import { useBoolean } from 'ahooks'
 import { getLoginUrl, doReLogin, getLoginStatus } from "../api/login"
 import QRCode from 'qrcode'
-import LoginStatus from "../enums/login_state"
 
 const useLoginBiliBili = ({ loginSuccess }) => {
   const [isLoading, { setTrue, setFalse }] = useBoolean(false)
