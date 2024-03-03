@@ -43,7 +43,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 0px 16px;
+      padding: 16px;
+      height: calc(max(180px, 9vw) + 160px);
 
       .room-card {
         width: max(320px, 16vw);
