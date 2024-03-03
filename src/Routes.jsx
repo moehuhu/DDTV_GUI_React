@@ -2,6 +2,7 @@ import RoomList from './pages/roomList'
 import BatchOperation from './pages/batchOperation';
 import FileManagement from './pages/fileManagement'
 import SystemSettings from './pages/systemSettings'
+import NoMatch from './pages/noMatch';
 import { useState } from "react";
 import { useMount, useBoolean, useRafInterval, useInterval } from 'ahooks';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
@@ -146,6 +147,7 @@ const App = ({ setIsLoggedIn, systemState }) => {
     <Route path='/batchOperation' element={<BatchOperation />} />
     <Route path="/fileManagement" element={<FileManagement />} />
     <Route path="/systemSettings" element={<SystemSettings />} />
+    <Route path="*" element={<NoMatch />} />
   </Routes>
 
   return <Layout>

@@ -1,6 +1,7 @@
-import Routes from './Routes.jsx'
+import MainRoutes from './Routes.jsx'
 import Login from './pages/login/index.jsx'
-import { HashRouter } from 'react-router-dom'
+import NoMatch from './pages/noMatch/index.jsx'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { useTitle, useMount, useUpdateEffect } from 'ahooks'
 import { useTranslation } from 'react-i18next'
 import { ConfigProvider, theme, FloatButton, Popover, Menu } from 'antd'
@@ -48,10 +49,13 @@ const App = () => {
     </FloatButton.Group>
 
     const [isLoggedIn, setIsLoggedIn, systemState] = useIsLoggedIn()
-    const loginPage = <Login setIsLoggedIn={setIsLoggedIn} />
-    const mainPages = <Routes setIsLoggedIn={setIsLoggedIn} systemState={systemState} />
+    const unauthenticatedPages = <Routes>
+        <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="*" element={<NoMatch />} />
+    </Routes>
+    const mainPages = <MainRoutes setIsLoggedIn={setIsLoggedIn} systemState={systemState} />
     const router = <HashRouter>
-        {isLoggedIn ? mainPages : loginPage}
+        {isLoggedIn ? mainPages : unauthenticatedPages}
     </HashRouter>
     const app = <ConfigProvider
         theme={{
