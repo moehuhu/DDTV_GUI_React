@@ -26,6 +26,7 @@
     "RefreshInterval": "刷新间隔",
     "s": "秒",
     "PageSize": "分页容量",
+    "Path": "路径",
     "DefaultRoomConfig": "默认房间设置",
     "collapseTheSidebar": "折叠侧边栏",
     "Add": "添加",
@@ -55,6 +56,7 @@
     "Delete": "删除",
     "Delete the room": "删除房间",
     "Are you sure to delete this room?": "确定要删除这个房间?",
+    "Are you sure to delete selected rooms?": "确定要删选择的房间?",
     "Are you sure to reset these settings?": "确定要重置这些设置?"
   }
 }

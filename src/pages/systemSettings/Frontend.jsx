@@ -3,9 +3,8 @@ import config from '../../../package.json'
 import { useTranslation } from "react-i18next";
 import { Button, Checkbox, Space, InputNumber, Col, Row, Popconfirm, theme } from 'antd';
 import _ from 'lodash'
-
+const FullRow = ({ children }) => <Col span={24}><Space size={24}>{children}</Space></Col>
 const FrontEnd = () => {
-  const FullRow = ({ children }) => <Col span={24}><Space size={24}>{children}</Space></Col>
   const { t } = useTranslation()
   const {
     isAutoRefresh,
@@ -25,7 +24,7 @@ const FrontEnd = () => {
   const { token } = theme.useToken()
   const color = token.colorText
   const style = { color }
-  const overviewSettings = <Row align="middle" gutter={[16, 16]}>
+  const overviewSettings = <Row className="frontend-settings" align="middle" gutter={[16, 16]}>
     <FullRow>
       <span style={style}>{t('frontend')}: {config?.version}</span>
     </FullRow>

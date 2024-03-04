@@ -77,7 +77,7 @@ const Actions = (props) => {
         <Popconfirm
             key={'delete'}
             title={t('Delete the room')}
-            description={t('Are you sure to delete this room?')}
+            description={t('Are you sure to delete selected rooms?')}
             onConfirm={applyDelete}
             okText={t('Confirm')}
             okButtonProps={{ danger: true }}

@@ -10,5 +10,5 @@ export function setRecordingPath(data: { path?: string; check?: string }) {
 }
 
 export function getRecordingPath() {
-  return instance.post<Response<any>>('config/get_recording_path')
+  return instance.get<Response<any>>('config/get_recording_path')
 }

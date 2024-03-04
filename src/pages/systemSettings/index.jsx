@@ -1,4 +1,5 @@
 import FrontEnd from './Frontend';
+import BackEnd from './Backend';
 import './style.css'
 import { Divider, theme } from 'antd';
 import { useTranslation } from "react-i18next";
@@ -13,6 +14,7 @@ const Settings = () => {
     <Divider />
     <FrontEnd />
     <Divider />
+    <BackEnd />
   </div>
 }
 export default Settings
