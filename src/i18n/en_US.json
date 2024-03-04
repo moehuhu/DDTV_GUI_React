@@ -29,6 +29,7 @@
     "Path": "Path",
     "File": "File",
     "Folder": "Folder",
+    "case-sensitive": "case-sensitive",
     "Format": "Format",
     "Tag": "Tag",
     "Effect": "Effect",
