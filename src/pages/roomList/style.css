@@ -37,7 +37,9 @@
     will-change: scroll-position;
     overflow-x: hidden;
     display: flex;
-    flex-flow: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-flow: row wrap;
 
     .card-container {
       display: flex;
