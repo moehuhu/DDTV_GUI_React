@@ -5,11 +5,11 @@ import { useBoolean } from 'ahooks'
 
 const useRecordingPath = () => {
   const [isLoading, { setTrue, setFalse }] = useBoolean(false)
-  const [check, setCheckKey] = useState('')
+  const [checkData, setCheckData] = useState(null)
   const [path, setPath] = useState('')
   const [err, setErr] = useState(null)
   const editPath = (path) => {
-    setCheckKey('')
+    setCheckData(null)
     setErr(null)
     setPath(path)
   }
@@ -24,37 +24,22 @@ const useRecordingPath = () => {
   const checkPath = async () => {
     setTrue()
     const [err, res] = await to(setRecordingPath({ path }))
-    const checkKey = res?.data?.data
-    if (checkKey && checkKey != '错误') {
-      setCheckKey(checkKey)
-    }
+    setCheckData(res?.data)
     setFalse()
     return [err, res?.data]
   }
 
   const applyPath = async () => {
+    const checkKey = checkData?.data
+    if (!checkKey || checkKey == "错误") { return }
     setTrue()
-    const [err, res] = await to(setRecordingPath({ path, check }))
+    const [err, res] = await to(setRecordingPath({ path, check: checkKey }))
+    setCheckData(null)
     setFalse()
     return [err, res?.data]
   }
 
-  const checkAndApplyPath = async () => {
-    if (!path) { return }
-    setTrue()
-    const [checkErr, checkRes] = await checkPath()
-    if (checkErr || checkRes?.data == '错误') {
-      setErr(checkErr);
-      setFalse();
-      return [checkErr,]
-    }
-    const { data: check } = checkRes
-    const [err, res] = await to(setRecordingPath({ path, check }))
-    setFalse()
-    return [err, res?.data]
-  }
-
-  return { getPath, checkPath, applyPath, checkAndApplyPath, isLoading, err, path, editPath }
+  return { getPath, checkPath, checkPathData: checkData, applyPath, isLoading, err, path, editPath }
 
 }
 export default useRecordingPath

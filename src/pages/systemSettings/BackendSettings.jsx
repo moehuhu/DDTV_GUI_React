@@ -4,16 +4,16 @@ import useFileNameAndPath from "../../hooks/useFileNameAndPath"
 import { useTranslation } from "react-i18next";
 import { useMount } from "ahooks";
 import _ from "lodash"
-import { Input, Space, Col, Row, Button, theme, Table } from "antd";
+import { Input, Space, Col, Row, Button, theme, Table, Popconfirm, message } from "antd";
 const FullRow = ({ children }) => <Col span={24}><Space size={24}>{children}</Space></Col>
 const BackEnd = () => {
   const { token } = theme.useToken()
   const color = token.colorText
   const style = { color }
   const { t } = useTranslation()
-  const { isLoading, getPath, checkAndApplyPath, path, editPath } = useRecordingPath()
+  const { isLoading, getPath, checkPath, checkPathData, applyPath, path, editPath } = useRecordingPath()
   useMount(getPath)
-  const { isLoading: isLoadingPathName, getPathName, checkAndApplyPathName, pathName, editPathName } = useFileNameAndPath()
+  const { isLoading: isLoadingPathName, getPathName, checkPathName, checkNameData, pathName, editPathName } = useFileNameAndPath()
   useMount(getPathName)
   const now = dayjs()
   const tagList = [
@@ -49,20 +49,37 @@ const BackEnd = () => {
     scroll={{ y: 400 }}
     pagination={false}
   />
+  const applyRecordingPathButton = <Popconfirm
+    okText={t('Confirm')}
+    onConfirm={applyPath}
+    showCancel={false}
+    description={<div style={{ width: 300 }}>{checkPathData?.message}</div>}
+  >
+    <Button onClick={checkPath}>{t('Apply')}</Button>
+  </Popconfirm>
+
+  const applyFileNameAndPathButton = <Popconfirm
+    okText={t('Confirm')}
+    onConfirm={applyPath}
+    showCancel={false}
+    description={<div style={{ width: 300 }}>{checkNameData?.message}</div>}
+  >
+    <Button onClick={checkPathName}>{t('Apply')}</Button>
+  </Popconfirm>
 
   return <Row className="backtend-settings" align="middle" gutter={[16, 16]}>
     <FullRow>
       <span style={style}>{`${t('Path')}:`}</span>
       <Space>
         <Input style={{ width: '25vw' }} disabled={isLoading} value={path} onChange={e => editPath(e.target.value)} />
-        <Button onClick={checkAndApplyPath}>{t('Apply')}</Button>
+        {applyRecordingPathButton}
       </Space>
     </FullRow>
     <FullRow>
       <span style={style}>{`${t('File') + t('name')}:`}</span>
       <Space>
         <Input style={{ width: '25vw' }} disabled={isLoadingPathName} value={pathName} onChange={e => editPathName(e.target.value)} />
-        <Button onClick={checkAndApplyPathName}>{t('Apply')}</Button>
+        {applyFileNameAndPathButton}
       </Space>
     </FullRow>
     <FullRow>{nameTable}</FullRow>
