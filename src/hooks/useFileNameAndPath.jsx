@@ -1,4 +1,4 @@
-import { getRecordingPath, setRecordingPath } from "../api/config"
+import { getFileNameAndPath, setFileNameAndPath } from "../api/config"
 import { useState } from "react"
 import to from "await-to-js"
 import { useBoolean } from 'ahooks'
@@ -6,24 +6,24 @@ import { useBoolean } from 'ahooks'
 const useRecordingPath = () => {
   const [isLoading, { setTrue, setFalse }] = useBoolean(false)
   const [check, setCheckKey] = useState('')
-  const [path, setPath] = useState('')
+  const [pathName, setPathName] = useState('')
   const [err, setErr] = useState(null)
-  const editPath = (path) => {
+  const editPath = (pathName) => {
     setCheckKey('')
     setErr(null)
-    setPath(path)
+    setPathName(pathName)
   }
   const getPath = async () => {
     setTrue()
-    const [err, res] = await to(getRecordingPath())
-    setPath(res?.data?.data)
+    const [err, res] = await to(getFileNameAndPath())
+    setPathName(res?.data?.data)
     setFalse()
     return [err, res]
   }
 
   const checkPath = async () => {
     setTrue()
-    const [err, res] = await to(setRecordingPath({ path }))
+    const [err, res] = await to(setFileNameAndPath({ path_and_format: pathName }))
     const checkKey = res?.data?.data
     if (checkKey && checkKey != '错误') {
       setCheckKey(checkKey)
@@ -34,13 +34,13 @@ const useRecordingPath = () => {
 
   const applyPath = async () => {
     setTrue()
-    const [err, res] = await to(setRecordingPath({ path, check }))
+    const [err, res] = await to(setFileNameAndPath({ path_and_format: pathName, check }))
     setFalse()
     return [err, res?.data]
   }
 
   const checkAndApplyPath = async () => {
-    if (!path) { return }
+    if (!pathName) { return }
     setTrue()
     const [checkErr, checkRes] = await checkPath()
     if (checkErr || checkRes?.data == '错误') {
@@ -49,12 +49,12 @@ const useRecordingPath = () => {
       return [checkErr,]
     }
     const { data: check } = checkRes
-    const [err, res] = await to(setRecordingPath({ path, check }))
+    const [err, res] = await to(setFileNameAndPath({ path_and_format: pathName, check }))
     setFalse()
     return [err, res?.data]
   }
 
-  return { getPath, checkPath, applyPath, checkAndApplyPath, isLoading, err, path, editPath }
+  return { getPath, checkPath, applyPath, checkAndApplyPath, isLoading, err, pathName, editPath }
 
 }
 export default useRecordingPath
