@@ -22,6 +22,5 @@ const BackEnd = () => {
     </FullRow>
     <FullRow></FullRow>
   </Row>
-
 }
 export default BackEnd

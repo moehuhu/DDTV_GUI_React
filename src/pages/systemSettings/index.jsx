@@ -1,5 +1,5 @@
-import FrontEnd from './Frontend';
-import BackEnd from './Backend';
+import FrontEnd from './FrontendSettings';
+import BackEnd from './BackendSettings';
 import './style.css'
 import { Divider, theme } from 'antd';
 import { useTranslation } from "react-i18next";
