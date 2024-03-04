@@ -1,5 +1,6 @@
 {
   "translation": {
+    "name": "name",
     "username": "Username",
     "password": "Password",
     "login": "Login",
@@ -25,6 +26,13 @@
     "AutoRefresh": "Auto Refresh",
     "RefreshInterval": "Refresh Interval",
     "PageSize": "Page Size",
+    "Path": "Path",
+    "File": "File",
+    "Folder": "Folder",
+    "Format": "Format",
+    "Tag": "Tag",
+    "Effect": "Effect",
+    "randomNumber": "Random Number",
     "s": "s",
     "DefaultRoomConfig": "Default Room Config",
     "collapseTheSidebar": "Collapse the Sidebar",
@@ -44,6 +52,7 @@
     "addByUID": "Add by UID",
     "addByRoomID": "Add by Room ID",
     "displayName": "display name",
+    "roomTitle": "Room Title",
     "roomID": "Room ID",
     "uid": "UID",
     "Search": "Search",

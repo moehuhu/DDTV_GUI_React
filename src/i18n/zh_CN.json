@@ -1,5 +1,6 @@
 {
   "translation": {
+    "name": "名",
     "username": "用户名",
     "password": "密码",
     "login": "登录",
@@ -27,6 +28,12 @@
     "s": "秒",
     "PageSize": "分页容量",
     "Path": "路径",
+    "File": "文件",
+    "Folder": "文件夹",
+    "Format": "格式",
+    "Tag": "标签",
+    "Effect": "效果",
+    "randomNumber": "随机数",
     "DefaultRoomConfig": "默认房间设置",
     "collapseTheSidebar": "折叠侧边栏",
     "Add": "添加",
@@ -45,6 +52,7 @@
     "addByUID": "以UID添加",
     "addByRoomID": "以房间号添加",
     "displayName": "昵称",
+    "roomTitle": "直播间标题",
     "roomID": "房间号",
     "uid": "UID",
     "Search": "查找",

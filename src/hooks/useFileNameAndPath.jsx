@@ -8,12 +8,12 @@ const useRecordingPath = () => {
   const [check, setCheckKey] = useState('')
   const [pathName, setPathName] = useState('')
   const [err, setErr] = useState(null)
-  const editPath = (pathName) => {
+  const editPathName = (pathName) => {
     setCheckKey('')
     setErr(null)
     setPathName(pathName)
   }
-  const getPath = async () => {
+  const getPathName = async () => {
     setTrue()
     const [err, res] = await to(getFileNameAndPath())
     setPathName(res?.data?.data)
@@ -21,7 +21,7 @@ const useRecordingPath = () => {
     return [err, res]
   }
 
-  const checkPath = async () => {
+  const checkPathName = async () => {
     setTrue()
     const [err, res] = await to(setFileNameAndPath({ path_and_format: pathName }))
     const checkKey = res?.data?.data
@@ -32,17 +32,17 @@ const useRecordingPath = () => {
     return [err, res?.data]
   }
 
-  const applyPath = async () => {
+  const applyPathName = async () => {
     setTrue()
     const [err, res] = await to(setFileNameAndPath({ path_and_format: pathName, check }))
     setFalse()
     return [err, res?.data]
   }
 
-  const checkAndApplyPath = async () => {
+  const checkAndApplyPathName = async () => {
     if (!pathName) { return }
     setTrue()
-    const [checkErr, checkRes] = await checkPath()
+    const [checkErr, checkRes] = await checkPathName()
     if (checkErr || checkRes?.data == '错误') {
       setErr(checkErr);
       setFalse();
@@ -54,7 +54,7 @@ const useRecordingPath = () => {
     return [err, res?.data]
   }
 
-  return { getPath, checkPath, applyPath, checkAndApplyPath, isLoading, err, pathName, editPath }
+  return { getPathName, checkPathName, applyPathName, checkAndApplyPathName, isLoading, err, pathName, editPathName }
 
 }
 export default useRecordingPath
