@@ -39,7 +39,7 @@ const BackEnd = () => {
   const nameTable = <Table
     columns={[
       {
-        title: t('Tag'),
+        title: `${t('File')}${t('name')}`,
         dataIndex: 'tag'
       },
       {
@@ -88,7 +88,7 @@ const BackEnd = () => {
       </Space>
     </FullRow>
     <FullRow>
-      <span style={style}>{`${t('File') + t('name')}:`}</span>
+      <span style={style}>{`${t('File')}${t('name')}:`}</span>
       <Space>
         <Input style={{ width: '25vw' }} disabled={isLoadingPathName} value={pathName} onChange={e => editPathName(e.target.value)} />
         {applyFileNameAndPathButton}

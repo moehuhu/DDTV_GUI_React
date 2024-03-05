@@ -8,7 +8,6 @@ const useRecordingPath = () => {
   const { t } = useTranslation()
   const [isLoading, { setTrue, setFalse }] = useBoolean(false)
   const [checkData, setCheckData] = useState(null)
-  console.log(checkData);
   const [path, setPath] = useState('')
   const editPath = (path) => {
     setCheckData(null)
