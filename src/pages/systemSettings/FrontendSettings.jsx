@@ -25,9 +25,13 @@ const FrontEnd = () => {
   const color = token.colorText
   const style = { color }
   const overviewSettings = <Row className="frontend-settings" align="middle" gutter={[16, 16]}>
-    <FullRow>
-      <span style={style}>{t('frontend')}: {config?.version}</span>
-    </FullRow>
+    <Col span={16}>
+      <span style={style}>{t('frontend')}: </span>
+      <a onClick={() => window.open("https://github.com/moehuhu/DDTV_GUI_React")}
+        style={{ ...style, textDecoration: 'underline' }}>
+        {config?.version}
+      </a>
+    </Col>
     <FullRow>
       <span style={style}>{`${t('AutoRefresh')}:`}</span>
       <Space>
