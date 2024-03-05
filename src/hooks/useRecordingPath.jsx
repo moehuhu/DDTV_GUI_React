@@ -8,6 +8,7 @@ const useRecordingPath = () => {
   const { t } = useTranslation()
   const [isLoading, { setTrue, setFalse }] = useBoolean(false)
   const [checkData, setCheckData] = useState(null)
+  console.log(checkData);
   const [path, setPath] = useState('')
   const editPath = (path) => {
     setCheckData(null)
@@ -44,7 +45,7 @@ const useRecordingPath = () => {
     return [err, res?.data]
   }
 
-  return { getPath, checkPath, checkPathData: checkData, applyPath, isLoading, path, editPath }
+  return { getPath, checkPath, checkPathData: checkData, setCheckData, applyPath, isLoading, path, editPath }
 
 }
 export default useRecordingPath

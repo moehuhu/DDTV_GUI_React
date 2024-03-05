@@ -5,15 +5,18 @@ import { useTranslation } from "react-i18next";
 import { useMount } from "ahooks";
 import { Input, Space, Col, Row, Button, theme, Table, Popconfirm } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
+import _ from "lodash"
 const FullRow = ({ children }) => <Col span={24}><Space size={24}>{children}</Space></Col>
 const BackEnd = () => {
   const { token } = theme.useToken()
   const color = token.colorText
   const style = { color }
   const { t } = useTranslation()
-  const { isLoading, getPath, checkPath, checkPathData, applyPath, path, editPath } = useRecordingPath()
+  const { isLoading, getPath, checkPath,
+    checkPathData, setCheckData, applyPath, path, editPath } = useRecordingPath()
   useMount(getPath)
-  const { isLoading: isLoadingPathName, getPathName, checkPathName, checkNameData, pathName, editPathName } = useFileNameAndPath()
+  const { isLoading: isLoadingPathName, getPathName, checkPathName,
+    checkNameData, setCheckNameData, applyPathName, pathName, editPathName } = useFileNameAndPath()
   useMount(getPathName)
   const now = dayjs()
   const tagList = [
@@ -54,22 +57,26 @@ const BackEnd = () => {
     okText={t('Confirm')}
     icon={checkPathData?.checkFailed ? failedIcon : undefined}
     onConfirm={applyPath}
+    onOpenChange={open => !open && setCheckData(null)}
+    open={!_.isEmpty(checkPathData)}
     showCancel={false}
     title={checkPathData?.title}
     description={<div style={{ width: 300 }}>{checkPathData?.message}</div>}
   >
-    <Button onClick={checkPath}>{t('Apply')}</Button>
+    <Button loading={isLoading} onClick={checkPath}>{t('Apply')}</Button>
   </Popconfirm>
 
   const applyFileNameAndPathButton = <Popconfirm
     okText={t('Confirm')}
     icon={checkNameData?.checkFailed ? failedIcon : undefined}
-    onConfirm={applyPath}
+    onConfirm={applyPathName}
+    onOpenChange={open => !open && setCheckNameData(null)}
+    open={!_.isEmpty(checkNameData)}
     showCancel={false}
     title={checkNameData?.title}
     description={<div style={{ width: 300 }}>{checkNameData?.message}</div>}
   >
-    <Button onClick={checkPathName}>{t('Apply')}</Button>
+    <Button loading={isLoadingPathName} onClick={checkPathName}>{t('Apply')}</Button>
   </Popconfirm>
 
   return <Row className="backtend-settings" align="middle" gutter={[16, 16]}>

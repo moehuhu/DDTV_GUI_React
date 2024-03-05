@@ -44,7 +44,7 @@ const useRecordingPath = () => {
     return [err, res?.data]
   }
 
-  return { getPathName, checkPathName, checkNameData, applyPathName, isLoading, pathName, editPathName }
+  return { getPathName, checkPathName, checkNameData, setCheckNameData, applyPathName, isLoading, pathName, editPathName }
 
 }
 export default useRecordingPath
