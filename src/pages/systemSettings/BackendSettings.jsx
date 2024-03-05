@@ -3,8 +3,8 @@ import useRecordingPath from "../../hooks/useRecordingPath"
 import useFileNameAndPath from "../../hooks/useFileNameAndPath"
 import { useTranslation } from "react-i18next";
 import { useMount } from "ahooks";
-import _ from "lodash"
-import { Input, Space, Col, Row, Button, theme, Table, Popconfirm, message } from "antd";
+import { Input, Space, Col, Row, Button, theme, Table, Popconfirm } from "antd";
+import { CloseCircleFilled } from "@ant-design/icons";
 const FullRow = ({ children }) => <Col span={24}><Space size={24}>{children}</Space></Col>
 const BackEnd = () => {
   const { token } = theme.useToken()
@@ -49,10 +49,13 @@ const BackEnd = () => {
     scroll={{ y: 400 }}
     pagination={false}
   />
+  const failedIcon = <CloseCircleFilled style={{ color: token.colorError }} />
   const applyRecordingPathButton = <Popconfirm
     okText={t('Confirm')}
+    icon={checkPathData?.checkFailed ? failedIcon : undefined}
     onConfirm={applyPath}
     showCancel={false}
+    title={checkPathData?.title}
     description={<div style={{ width: 300 }}>{checkPathData?.message}</div>}
   >
     <Button onClick={checkPath}>{t('Apply')}</Button>
@@ -60,8 +63,10 @@ const BackEnd = () => {
 
   const applyFileNameAndPathButton = <Popconfirm
     okText={t('Confirm')}
+    icon={checkNameData?.checkFailed ? failedIcon : undefined}
     onConfirm={applyPath}
     showCancel={false}
+    title={checkNameData?.title}
     description={<div style={{ width: 300 }}>{checkNameData?.message}</div>}
   >
     <Button onClick={checkPathName}>{t('Apply')}</Button>

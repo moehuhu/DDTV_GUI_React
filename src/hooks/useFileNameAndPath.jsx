@@ -1,9 +1,11 @@
 import { getFileNameAndPath, setFileNameAndPath } from "../api/config"
 import { useState } from "react"
-import to from "await-to-js"
 import { useBoolean } from 'ahooks'
+import { useTranslation } from "react-i18next"
+import to from "await-to-js"
 
 const useRecordingPath = () => {
+  const { t } = useTranslation()
   const [isLoading, { setTrue, setFalse }] = useBoolean(false)
   const [checkNameData, setCheckNameData] = useState(null)
   const [pathName, setPathName] = useState('')
@@ -22,7 +24,12 @@ const useRecordingPath = () => {
   const checkPathName = async () => {
     setTrue()
     const [err, res] = await to(setFileNameAndPath({ path_and_format: pathName }))
-    setCheckNameData(res?.data)
+    const checkKey = res?.data?.data
+    const checkFailed = !checkKey || checkKey == "错误"
+    const title = checkFailed ? t('Error') : t('Warning')
+    const message = checkFailed ? t('Verification failed, please check the filename format')
+      : t('Are you sure to modify the filename format?')
+    setCheckNameData({ ...(res?.data || {}), title, message, checkFailed })
     setFalse()
     return [err, res?.data]
   }
