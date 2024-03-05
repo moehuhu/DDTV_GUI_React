@@ -9,7 +9,7 @@ import useDelRoom from "../../hooks/useDelRoom"
 const errorImg = new URL('../../../public/error.png', import.meta.url).href
 
 const SetRoomModal = (props) => {
-    const { editingRoom, setEditingRoom, messageApi, refreshPage } = props
+    const { editingRoom, setEditingRoom, message, refreshPage } = props
     const isOpen = !_.isEmpty(editingRoom)
     const uid = editingRoom?.userInfo?.uid
     const { getRoomByUID, isLoading: isLoadingRoomInfo, roomInfo } = useRoomInfo()
@@ -29,10 +29,10 @@ const SetRoomModal = (props) => {
     const onFinish = async (values) => {
         const [err] = await setRoom({ ...values, uid })
         if (err) {
-            messageApi.error(err?.message)
+            message.error(err?.message)
             return
         }
-        messageApi.success('√')
+        message.success('√')
         closeModal(values)
         refreshPage()
     }
@@ -40,7 +40,7 @@ const SetRoomModal = (props) => {
     const handleDelete = async () => {
         const [err] = await deleteRoom(uid)
         if (err) {
-            messageApi.error(err?.message)
+            message.error(err?.message)
             return
         }
         closeModal({

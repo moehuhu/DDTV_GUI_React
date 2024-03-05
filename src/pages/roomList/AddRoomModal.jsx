@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next"
 import { useSystemSettingsStore } from "../../SystemSettingsStore"
 
 const AddRoomModal = (props) => {
-    const { addingRoom, setAddingRoom, messageApi, refreshPage } = props
+    const { addingRoom, setAddingRoom, message, refreshPage } = props
     const isOpen = !_.isEmpty(addingRoom)
     const idType = {
         addByUID: 'uid',
@@ -22,10 +22,10 @@ const AddRoomModal = (props) => {
     const onFinish = async (values) => {
         const [err] = await submitRoom(values)
         if (err) {
-            messageApi.error(err?.message)
+            message.error(err?.message)
             return
         }
-        messageApi.success('√')
+        message.success('√')
         closeModal()
         refreshPage()
     }

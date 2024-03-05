@@ -1,6 +1,6 @@
 
 import { LockOutlined, KeyOutlined } from '@ant-design/icons';
-import { Card, Button, Form, Input, Layout, message } from 'antd';
+import { Card, Button, Form, Input, Layout, App } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useMount } from 'ahooks';
 import useDokiDoki from '../../hooks/useDokiDoki';
@@ -50,7 +50,7 @@ const Login = ({ setIsLoggedIn }) => {
   </Form.Item>
 
   const { heartBeat } = useDokiDoki()
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const onFinish = async (values) => {
     const { AccessKeyId, AccessKeySecret } = values
     localStorage.setItem('AccessKeyId', AccessKeyId)
@@ -61,7 +61,7 @@ const Login = ({ setIsLoggedIn }) => {
       localStorage.removeItem('AccessKeyId')
       localStorage.removeItem('AccessKeySecret')
       setIsLoggedIn?.(false)
-      messageApi.error(err?.message)
+      message.error(err?.message)
     }
   }
 
@@ -80,7 +80,7 @@ const Login = ({ setIsLoggedIn }) => {
 
   const card = <Card className='login-card' style={{ width: 300, }} >{form}</Card>
 
-  return <Layout className="login">{contextHolder}{card}</Layout>
+  return <Layout className="login">{card}</Layout>
 
 };
 export default Login;

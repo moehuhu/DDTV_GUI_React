@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useAsyncEffect, useInterval, configResponsive, useResponsive } from 'ahooks';
 import useUrlState from '@ahooksjs/use-url-state';
-import { theme, Pagination, message } from 'antd';
+import { theme, Pagination, App } from 'antd';
 import RoomCard from './RoomCard/index';
 import AddRoomModal from './AddRoomModal';
 import SetRoomModal from './SetRoomModal';
@@ -43,15 +43,15 @@ const Rooms = () => {
       setAddingRoom={setAddingRoom}
     />
   </div>
-  const [messageApi, contextHolder] = message.useMessage();
+  const { message } = App.useApp
   const addRoomModal = <AddRoomModal
-    messageApi={messageApi}
+    message={message}
     addingRoom={addingRoom}
     setAddingRoom={setAddingRoom}
     refreshPage={refreshPage}
   />
   const setRoomModal = <SetRoomModal
-    messageApi={messageApi}
+    message={message}
     editingRoom={editingRoom}
     setEditingRoom={setEditingRoom}
     refreshPage={refreshPage}
@@ -66,7 +66,7 @@ const Rooms = () => {
     key={uidMapper(item)}>
     <RoomCard
       {...item}
-      messageApi={messageApi}
+      message={message}
       refreshPage={refreshPage}
       setEditingRoom={setEditingRoom}
     />
@@ -86,7 +86,6 @@ const Rooms = () => {
 
   return <div className='room-list'
     style={{ borderRadius: token.borderRadiusLG }}>
-    {contextHolder}
     {addRoomModal}
     {setRoomModal}
     {header}

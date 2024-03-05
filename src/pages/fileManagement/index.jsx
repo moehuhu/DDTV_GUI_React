@@ -1,17 +1,17 @@
 import { useMemo, useState } from 'react';
 import { useMount } from "ahooks"
-import { message } from 'antd';
+import { App } from 'antd';
 import useFileTree from "../../hooks/useFileTree"
 import FileBrowser from './FileBrowser';
 import './style.css'
 const FileManagement = () => {
   const { getTree, treeMap } = useFileTree()
   const [currentFolderId, setCurrentFolderId] = useState('')
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   useMount(async () => {
     const [err, tree] = await getTree()
     if (err) {
-      messageApi.error(err?.message)
+      message.error(err?.message)
       return
     }
     setCurrentFolderId(tree?.id)
@@ -36,7 +36,6 @@ const FileManagement = () => {
 
 
   return <div className="file-management">
-    {contextHolder}
     <FileBrowser files={files} folderChain={folderChain} setCurrentFolderId={setCurrentFolderId} />
   </div>
 }

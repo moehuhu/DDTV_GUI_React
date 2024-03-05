@@ -8,13 +8,13 @@ import { useTranslation } from "react-i18next"
 import { useState } from "react"
 const Actions = (props) => {
     const { stagedUID, setStagedItems, refreshPage } = props
-    const { messageApi } = props
+    const { message } = props
     const messager = (err, res) => {
         if (err) {
-            messageApi('error')?.(err)
+            message('error')?.(err)
             return
         }
-        if (res) { messageApi('success')?.(res) }
+        if (res) { message('success')?.(res) }
     }
     const { token } = theme.useToken()
     const { t } = useTranslation()

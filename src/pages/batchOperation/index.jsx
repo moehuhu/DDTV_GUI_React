@@ -5,7 +5,7 @@ import TargetList from "./TargetList"
 import Actions from "./actions.jsx"
 import { useMemo, useState } from "react"
 import { useSetState, useAsyncEffect } from "ahooks"
-import { notification } from 'antd'
+import { App } from 'antd'
 import _ from 'lodash'
 const BatchOperation = () => {
     const [pageState, setPageState] = useSetState({
@@ -39,8 +39,8 @@ const BatchOperation = () => {
         })
         setStagedItems(items => [...items, ...removedStagedItems])
     }
-    const [api, contextHolder] = notification.useNotification()
-    const messageApi = type => msg => api[type]({
+    const { notification } = App.useApp()
+    const message = type => msg => notification[type]({
         ...msg,
         placement: 'bottomRight',
         duration: 2
@@ -65,7 +65,7 @@ const BatchOperation = () => {
     />
     const actions = <Actions
         stagedUID={stagedUID}
-        messageApi={messageApi}
+        message={message}
         setStagedItems={setStagedItems}
         refreshPage={refreshPage}
     />
@@ -74,7 +74,6 @@ const BatchOperation = () => {
         {actions}
     </div>
     return <div className="batch-operation">
-        {contextHolder}
         {originList}
         {operationArea}
     </div>

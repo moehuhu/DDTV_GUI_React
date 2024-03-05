@@ -7,7 +7,7 @@ import useRecordTask from '../../../hooks/useRecordTask.jsx'
 import useAutoRec from '../../../hooks/useAutoRec.jsx';
 
 const RoomActions = (item) => {
-  const { userInfo, taskStatus, setEditingRoom, refreshPage, messageApi } = item
+  const { userInfo, taskStatus, setEditingRoom, refreshPage, message } = item
   const { t } = useTranslation()
 
   const { isDownload } = taskStatus
@@ -32,7 +32,7 @@ const RoomActions = (item) => {
     setMenuOpen(false)
     if (['openAutoRec', 'closeAutoRec'].includes(key)) {
       const [err] = await autoRecActions[key](userInfo?.uid)
-      if (err) { messageApi.err(err?.message) }
+      if (err) { message.err(err?.message) }
     }
     if (['settings'].includes(key)) {
       setEditingRoom(item)
