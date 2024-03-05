@@ -4,7 +4,7 @@ import NoMatch from './pages/noMatch/index.jsx'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { useTitle, useMount, useUpdateEffect } from 'ahooks'
 import { useTranslation } from 'react-i18next'
-import { ConfigProvider, theme, FloatButton, Popover, Menu } from 'antd'
+import { ConfigProvider, theme, FloatButton, Popover, Menu, App } from 'antd'
 import { BulbOutlined } from '@ant-design/icons'
 import './index.css'
 import './i18n/i18n.js'
@@ -12,7 +12,7 @@ import useIsLoggedIn from './hooks/useIsLoggedIn.jsx'
 import LanguageIcon from './assets/language.svg?react'
 import { useSystemSettingsStore } from './SystemSettingsStore.jsx'
 
-const App = () => {
+const RootApp = () => {
     const { t } = useTranslation()
     useTitle(t('titleText'))
     const { isDarkMode, toggleDarkMode } = useSystemSettingsStore(state => state)
@@ -57,13 +57,9 @@ const App = () => {
     const router = <HashRouter>
         {isLoggedIn ? mainPages : unauthenticatedPages}
     </HashRouter>
-    const app = <ConfigProvider
-        theme={{
-            algorithm: theme[themeMode],
-        }}>
-        {floatButtons}
-        {router}
+
+    return <ConfigProvider theme={{ algorithm: theme[themeMode] }}>
+        <App>{floatButtons}{router}</App>
     </ConfigProvider>
-    return app
 }
-export default App
+export default RootApp
