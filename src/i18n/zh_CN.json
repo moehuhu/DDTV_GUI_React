@@ -61,6 +61,8 @@
     "roomID": "房间号",
     "uid": "UID",
     "Search": "查找",
+    "Warning": "注意",
+    "Error": "错误",
     "Confirm": "确认",
     "Cancel": "取消",
     "recDanmu": "录制弹幕",

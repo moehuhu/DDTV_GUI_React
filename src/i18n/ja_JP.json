@@ -61,6 +61,8 @@
     "roomID": "Room ID",
     "uid": "UID",
     "Search": "Search",
+    "Warning": "Warning",
+    "Error": "Error",
     "Confirm": "Confirm",
     "Cancel": "Cancel",
     "recDanmu": "Recording Danmakus",
