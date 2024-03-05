@@ -7,6 +7,7 @@ import { DeleteOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
 const Actions = (props) => {
+    const { t } = useTranslation()
     const { stagedUID, setStagedItems, refreshPage } = props
     const { message } = props
     const messager = (err, res) => {
@@ -14,10 +15,9 @@ const Actions = (props) => {
             message('error')?.(err)
             return
         }
-        if (res) { message('success')?.(res) }
+        if (res) { message('success')?.({ message: t('Applied') }) }
     }
     const { token } = theme.useToken()
-    const { t } = useTranslation()
     const header = <div
         className="header"
         style={{
@@ -69,7 +69,7 @@ const Actions = (props) => {
             messager(err, res)
             return
         }
-        messager(err, res)
+        message('success')?.({ message: t('Deleted') })
         setStagedItems([])
         refreshPage()
     }

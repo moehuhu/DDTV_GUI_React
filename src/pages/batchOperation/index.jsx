@@ -8,16 +8,25 @@ import { useSetState, useAsyncEffect } from "ahooks"
 import { App } from 'antd'
 import _ from 'lodash'
 const BatchOperation = () => {
+    const { notification } = App.useApp()
     const [pageState, setPageState] = useSetState({
         current: 1,
         searchType: 'Originonal',
         search: undefined,
         pageSize: 200,
     })
-    const { isLoading, total, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
-    const refreshPage = async () => { await refreshRoomInfoList(pageState) }
+    const message = type => msg => notification[type]({
+        ...msg,
+        placement: 'bottomRight',
+        duration: 2
+    })
+    const refreshPage = async () => {
+        const [err, res] = await refreshRoomInfoList(pageState)
+        if (err) { message.error(err?.message) }
+        return [err, res]
+    }
     useAsyncEffect(refreshPage, [pageState])
-
+    const { isLoading, total, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
     const uidMapper = item => item?.userInfo?.uid
     const [stagedItems, setStagedItems] = useState([])
     const { stagedUID, stagedMap } = useMemo(() => {
@@ -39,13 +48,6 @@ const BatchOperation = () => {
         })
         setStagedItems(items => [...items, ...removedStagedItems])
     }
-    const { notification } = App.useApp()
-    const message = type => msg => notification[type]({
-        ...msg,
-        placement: 'bottomRight',
-        duration: 2
-    })
-
 
     const originList = <OriginList
         pageState={pageState}
