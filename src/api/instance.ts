@@ -67,8 +67,6 @@ instance.interceptors.request.use(
 // 定义响应拦截器
 instance.interceptors.response.use(
   (response) => {
-    const { massage } = response.data
-    response.data.message = massage || "OK"
     return response
   },
   (error) => {

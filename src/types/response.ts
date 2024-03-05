@@ -3,7 +3,7 @@ import type { Optional } from '@/types'
 export interface Response<T> {
   code: number
   cmd: string
-  massage: string
+  message: string
   data: T
 }
 
