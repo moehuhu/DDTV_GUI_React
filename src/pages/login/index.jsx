@@ -1,11 +1,12 @@
 
-import { LockOutlined, KeyOutlined } from '@ant-design/icons';
-import { Card, Button, Form, Input, Layout, App } from 'antd';
+import useDokiDoki from '../../hooks/useDokiDoki';
+import './style.css'
+import { LockOutlined, KeyOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { Card, Button, Form, Input, Layout, Popover, App } from 'antd';
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { useMount } from 'ahooks';
-import useDokiDoki from '../../hooks/useDokiDoki';
-import { useNavigate } from "react-router-dom";
-import './style.css'
+
 
 const Login = ({ setIsLoggedIn }) => {
   const { t } = useTranslation()
@@ -44,9 +45,14 @@ const Login = ({ setIsLoggedIn }) => {
   </Form.Item>
 
   const submitButtom = <Form.Item className='login-button-item'>
-    <Button type="primary" htmlType="submit" className="login-form-button">
-      {t('login')}
-    </Button>
+    <div className='login-bar'>
+      <Popover content={t('AccessKeyId and AccessKeySecret are configured in DDTV_Config.ini')}>
+        <QuestionCircleOutlined />
+      </Popover>
+      <Button type="primary" htmlType="submit" className="login-form-button">
+        {t('login')}
+      </Button>
+    </div>
   </Form.Item>
 
   const { heartBeat } = useDokiDoki()

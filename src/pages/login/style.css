@@ -5,8 +5,12 @@
   justify-content: center;
   align-items: center;
 
-  .login-button-item {
+  .login-bar {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    .login-form-button {
+      margin-left: 16px;
+    }
   }
 }

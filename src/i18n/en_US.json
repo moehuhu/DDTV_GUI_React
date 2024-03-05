@@ -70,6 +70,7 @@
     "remind": "Remind Me",
     "Delete": "Delete",
     "Delete the room": "Delete the room",
+    "AccessKeyId and AccessKeySecret are configured in DDTV_Config.ini": "AccessKeyId and AccessKeySecret are configured in DDTV_Config.ini",
     "Are you sure to delete this room?": "Are you sure to delete this room?",
     "Are you sure to delete selected rooms?": "Are you sure to delete selected rooms?",
     "Are you sure to reset these settings?": "Are you sure to reset these settings?",

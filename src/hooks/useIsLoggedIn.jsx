@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useInterval } from "ahooks";
 
 const useIsLoggedIn = () => {
-  const { accessKeyid, accessKeySecret } = useLocalAccessToken()
-  const [isCliLoggedIn, setIsCliLoggedIn] = useState(accessKeyid && accessKeySecret)
+  const { accessKeyId, accessKeySecret } = useLocalAccessToken()
+  const [isCliLoggedIn, setIsCliLoggedIn] = useState(accessKeyId && accessKeySecret)
   const [systemState, setSystemState] = useState({})
   const { heartBeat } = useDokiDoki()
   const setIsLoggedIn = (state) => {
