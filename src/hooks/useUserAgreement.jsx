@@ -4,15 +4,12 @@ import to from "await-to-js"
 import { getUserAgreement, getUserAgreementState } from "../api/login"
 
 const useUserAgreement = () => {
-    const [err, setError] = useState(null)
     const [res, setRes] = useState(null)
     const [isAgreed, setAgreementState] = useState(true)
     const [isLoading, { setTrue, setFalse }] = useBoolean(false)
     const agree = async (check) => {
         setTrue()
         const [err, res] = await to(getUserAgreement({ check }))
-        if (err) { console.error(err) }
-        setError(err)
         setAgreementState(res?.data?.data)
         setRes(res)
         setFalse()
@@ -22,11 +19,10 @@ const useUserAgreement = () => {
         setTrue()
         const [err, res] = await to(getUserAgreementState())
         if (err) { console.error(err) }
-        setError(err)
         setAgreementState(res?.data?.data)
         setFalse()
         return [err, res?.data?.data]
     }
-    return { err, res, isLoading, isAgreed, agree, checkAgreementState }
+    return { res, isLoading, isAgreed, agree, checkAgreementState }
 }
 export default useUserAgreement

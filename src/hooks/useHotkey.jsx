@@ -13,8 +13,7 @@ const useHotkey = (onCtrlAll) => {
     ] = useBoolean()
     const [aPressed, {
         setTrue: pressA,
-        setFalse: releaseA,
-        toggle: toggleA }
+        setFalse: releaseA, }
     ] = useBoolean()
     useKeyPress('ctrl', pressCtrl)
     useKeyPress('ctrl', releaseCtrl, { events: ['keyup'] })

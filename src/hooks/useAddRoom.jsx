@@ -12,7 +12,7 @@ const useAddRoom = () => {
     const { getRoomByUID, getRoomByRoomID } = useRoomInfo()
     const checkAddStatus = (params) => async () => {
         const { uid, room_id } = params
-        const [err, roomInfo] = await to(uid ? getRoomByUID(uid) : getRoomByRoomID(room_id))
+        const [err, roomInfo] = await (uid ? getRoomByUID(uid) : getRoomByRoomID(room_id))
         return (roomInfo?.Name) || err?.message
     }
     const polling = usePolling()

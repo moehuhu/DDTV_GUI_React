@@ -5,7 +5,6 @@ import { getFileTree } from '@/api/file'
 import _ from 'lodash'
 
 const useFileTree = () => {
-    const [err, setError] = useState(null)
     const [fileTree, setFileTree] = useState({})
     const [flattenTree, setFlattenTree] = useState([])
     const [treeMap, setTreeMap] = useState({})
@@ -65,9 +64,8 @@ const useFileTree = () => {
         setFlattenTree(treeArray)
         setTreeMap(treeMap)
         setFalse()
-        setError(err)
         return [err, newTree]
     }
-    return { err, fileTree, flattenTree, treeMap, isLoading, getTree }
+    return { fileTree, flattenTree, treeMap, isLoading, getTree }
 }
 export default useFileTree

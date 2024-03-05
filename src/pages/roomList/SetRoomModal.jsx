@@ -1,14 +1,15 @@
+import useRoomInfo from "../../hooks/useRoomInfo"
+import useDelRoom from "../../hooks/useDelRoom"
+const errorImg = new URL('../../../public/error.png', import.meta.url).href
+import useSetRoom from "../../hooks/useSetRoom"
 import { Modal, Switch, Form, Skeleton, Space, Card, Button, Popconfirm, Image } from "antd"
 import { DeleteOutlined } from "@ant-design/icons"
 import { useUpdateEffect } from "ahooks"
 import _ from 'lodash'
-import useSetRoom from "../../hooks/useSetRoom"
 import { useTranslation } from "react-i18next"
-import useRoomInfo from "../../hooks/useRoomInfo"
-import useDelRoom from "../../hooks/useDelRoom"
-const errorImg = new URL('../../../public/error.png', import.meta.url).href
 
 const SetRoomModal = (props) => {
+    const { t } = useTranslation()
     const { editingRoom, setEditingRoom, message, refreshPage } = props
     const isOpen = !_.isEmpty(editingRoom)
     const uid = editingRoom?.userInfo?.uid
@@ -32,7 +33,7 @@ const SetRoomModal = (props) => {
             message.error(err?.message)
             return
         }
-        message.success('√')
+        message.success(t('Applied'))
         closeModal(values)
         refreshPage()
     }
@@ -51,7 +52,6 @@ const SetRoomModal = (props) => {
         refreshPage()
     }
 
-    const { t } = useTranslation()
     const cover = <Card>
         <Image
             src={roomInfo?.cover_from_user?.Value || roomInfo?.keyframe?.Value}

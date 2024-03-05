@@ -7,10 +7,8 @@ const useRecordingPath = () => {
   const [isLoading, { setTrue, setFalse }] = useBoolean(false)
   const [checkNameData, setCheckNameData] = useState(null)
   const [pathName, setPathName] = useState('')
-  const [err, setErr] = useState(null)
   const editPathName = (pathName) => {
     setCheckNameData(null)
-    setErr(null)
     setPathName(pathName)
   }
   const getPathName = async () => {
@@ -39,7 +37,7 @@ const useRecordingPath = () => {
     return [err, res?.data]
   }
 
-  return { getPathName, checkPathName, checkNameData, applyPathName, isLoading, err, pathName, editPathName }
+  return { getPathName, checkPathName, checkNameData, applyPathName, isLoading, pathName, editPathName }
 
 }
 export default useRecordingPath

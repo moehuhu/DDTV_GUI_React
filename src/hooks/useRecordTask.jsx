@@ -8,7 +8,7 @@ const useRecordTask = () => {
     const [isLoading, { setTrue, setFalse }] = useBoolean()
     const { getRoomByUID } = useRoomInfo()
     const checkTaskStatus = (uid, IsDownload) => async () => {
-        const [err, roomInfo] = await to(getRoomByUID(uid))
+        const [err, roomInfo] = await getRoomByUID(uid)
         return (roomInfo?.DownInfo?.IsDownload == IsDownload) || err?.message
     }
     const polling = usePolling()

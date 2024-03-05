@@ -4,7 +4,6 @@ import { useBoolean } from 'ahooks'
 import { modifyRoomSettings } from "../api/set_room"
 
 const useSetRoom = () => {
-    const [err, setError] = useState(null)
     const [res, setRes] = useState(null)
     const [isLoading, { setTrue, setFalse }] = useBoolean(false)
     const setRoom = async (params) => {
@@ -14,10 +13,9 @@ const useSetRoom = () => {
         const [err, res] = await to(modifyRoomSettings(args))
         if (err) { console.error(err) }
         setFalse()
-        setError(err)
         setRes(res)
         return [err, res]
     }
-    return { err, res, isLoading, setRoom }
+    return { res, isLoading, setRoom }
 }
 export default useSetRoom

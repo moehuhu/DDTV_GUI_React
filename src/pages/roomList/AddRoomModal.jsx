@@ -1,10 +1,11 @@
-import { Modal, Input, Switch, Form } from "antd"
-import _ from 'lodash'
-import useAddRoom from "../../hooks/useAddRoom"
-import { useTranslation } from "react-i18next"
 import { useSystemSettingsStore } from "../../SystemSettingsStore"
+import useAddRoom from "../../hooks/useAddRoom"
+import { Modal, Input, Switch, Form } from "antd"
+import { useTranslation } from "react-i18next"
+import _ from 'lodash'
 
 const AddRoomModal = (props) => {
+    const { t } = useTranslation()
     const { addingRoom, setAddingRoom, message, refreshPage } = props
     const isOpen = !_.isEmpty(addingRoom)
     const idType = {
@@ -25,12 +26,11 @@ const AddRoomModal = (props) => {
             message.error(err?.message)
             return
         }
-        message.success('√')
+        message.success(t('Added'))
         closeModal()
         refreshPage()
     }
 
-    const { t } = useTranslation()
     const { recDanmu, autoRec, remind } = useSystemSettingsStore(state => state)
     const roomForm = <Form form={form} onFinish={onFinish}>
         <Form.Item label={t(idType)} name={idType} rules={[{ required: true, message: '' }]}>

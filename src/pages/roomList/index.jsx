@@ -1,7 +1,3 @@
-import { useMemo, useState } from 'react';
-import { useAsyncEffect, useInterval, configResponsive, useResponsive } from 'ahooks';
-import useUrlState from '@ahooksjs/use-url-state';
-import { theme, Pagination, App } from 'antd';
 import RoomCard from './RoomCard/index';
 import AddRoomModal from './AddRoomModal';
 import SetRoomModal from './SetRoomModal';
@@ -9,6 +5,12 @@ import useDetailedRoomInfoList from '../../hooks/useDetailedRoomInfoList';
 import './style.css'
 import RoomListHeader from './RoomListHeader';
 import { useSystemSettingsStore } from '../../SystemSettingsStore';
+import { useMemo, useState } from 'react';
+import { useAsyncEffect, useInterval, configResponsive, useResponsive } from 'ahooks';
+import { useTranslation } from 'react-i18next';
+import useUrlState from '@ahooksjs/use-url-state';
+import { theme, Pagination, App } from 'antd';
+import dayjs from 'dayjs';
 import _ from 'lodash'
 
 configResponsive({
@@ -21,14 +23,26 @@ configResponsive({
 
 const Rooms = () => {
   const { token } = theme.useToken()
+  const { message } = App.useApp()
+  const { t } = useTranslation()
   const { isLoading, total, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
   const [pageState, setPageState] = useUrlState({ current: 1, searchType: 'All', search: undefined })
   const { current, searchType, search } = pageState
   const { pageSize, setPageSize } = useSystemSettingsStore(state => state)
-  const refreshPage = () => refreshRoomInfoList({ ...pageState, pageSize })
-
+  const refreshPage = async () => {
+    const [err, res] = await refreshRoomInfoList({ ...pageState, pageSize })
+    if (err) { message.error(err?.message) }
+    return [err, res]
+  }
   const { isAutoRefresh, autoRefreshIntervalSeconds } = useSystemSettingsStore(state => state)
-  useInterval(() => isAutoRefresh && refreshPage?.(), autoRefreshIntervalSeconds * 1000)
+  const autoRefresh = async () => {
+    if (!isAutoRefresh) return;
+    const [, res] = await refreshPage()
+    if (res?.data) {
+      message.success(t(`${t('Refreshed')} ${dayjs().format('HH:mm:ss')}`))
+    }
+  }
+  useInterval(autoRefresh, autoRefreshIntervalSeconds * 1000)
   useAsyncEffect(refreshPage, [pageState, pageSize])
 
   const [addingRoom, setAddingRoom] = useState({})
@@ -43,7 +57,6 @@ const Rooms = () => {
       setAddingRoom={setAddingRoom}
     />
   </div>
-  const { message } = App.useApp
   const addRoomModal = <AddRoomModal
     message={message}
     addingRoom={addingRoom}

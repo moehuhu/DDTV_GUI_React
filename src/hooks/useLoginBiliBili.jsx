@@ -6,31 +6,25 @@ import QRCode from 'qrcode'
 
 const useLoginBiliBili = ({ loginSuccess }) => {
   const [isLoading, { setTrue, setFalse }] = useBoolean(false)
-  const [err, setError] = useState(null)
   const [loginStatus, setLoginStatus] = useState(null)
   const [loginQrcodeImageURL, setLoginURL] = useState('')
   const relogin = async () => {
     setTrue()
     setLoginURL('')
     const [err, res] = await to(doReLogin())
-    if (err) { console.error(err) }
-    setError(err)
     setFalse()
     return [err, res]
   }
   const getQrcode = async () => {
     setTrue()
     const [err, res] = await to(getLoginUrl())
-    if (err) { console.error(err) }
-    setError(err)
     if (!res?.data?.data) {
       setLoginURL(res?.data)
       setFalse()
       return [err, res]
     }
     const [qrcodeErr, imageDataURL] = await to(QRCode.toDataURL(res?.data?.data))
-    if (qrcodeErr) { console.error(qrcodeErr) }
-    setError({ err, qrcodeErr })
+    if (qrcodeErr) { return [qrcodeErr, imageDataURL] }
     setLoginURL(imageDataURL)
     setFalse()
     return [err, imageDataURL]
@@ -38,8 +32,6 @@ const useLoginBiliBili = ({ loginSuccess }) => {
   const checkLoginStatus = async () => {
     setTrue()
     const [err, res] = await to(getLoginStatus())
-    if (err) { console.error(err) }
-    setError(err)
     if (loginStatus === false && res?.data?.data === true) {
       loginSuccess?.()
     }
@@ -48,6 +40,6 @@ const useLoginBiliBili = ({ loginSuccess }) => {
     return [err, res?.data?.data]
   }
 
-  return { err, isLoading, loginQrcodeImageURL, loginStatus, getQrcode, relogin, checkLoginStatus }
+  return { isLoading, loginQrcodeImageURL, loginStatus, getQrcode, relogin, checkLoginStatus }
 }
 export default useLoginBiliBili
