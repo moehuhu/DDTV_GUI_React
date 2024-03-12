@@ -35,11 +35,12 @@ const Rooms = () => {
     return [err, res]
   }
   const { isAutoRefresh, autoRefreshIntervalSeconds } = useSystemSettingsStore(state => state)
+  const [refreshedTime, setRefreshedTime] = useState('')
   const autoRefresh = async () => {
     if (!isAutoRefresh) return;
     const [, res] = await refreshPage()
     if (res?.data) {
-      message.success(t(`${t('Refreshed')} ${dayjs().format('HH:mm:ss')}`))
+      setRefreshedTime(dayjs().format('HH:mm:ss'))
     }
   }
   useInterval(autoRefresh, autoRefreshIntervalSeconds * 1000)
@@ -50,6 +51,7 @@ const Rooms = () => {
 
   const header = <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>
     <RoomListHeader
+      refreshedTime={refreshedTime}
       isLoading={isLoading}
       setPageState={setPageState}
       searchType={searchType}

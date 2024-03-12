@@ -12,6 +12,10 @@
       border-bottom: none;
     }
 
+    .refreshed-text {
+      margin: auto 16px;
+    }
+
     .add-btn {
       background-color: #1677ff;
 

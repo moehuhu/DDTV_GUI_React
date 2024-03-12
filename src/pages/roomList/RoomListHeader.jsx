@@ -1,4 +1,4 @@
-import { Menu, Spin, Input, Modal } from 'antd';
+import { Menu, Spin, Input, Modal, theme } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import './style.css'
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,7 @@ import _ from 'lodash'
 import { useState } from 'react';
 
 const RoomListHeader = (props) => {
-    const { isLoading, setPageState, searchType, search, setAddingRoom } = props
+    const { isLoading, setPageState, searchType, search, setAddingRoom, refreshedTime } = props
     const [searchBarOpen, setSearchBarOpen] = useState(false)
 
     const { t } = useTranslation()
@@ -73,6 +73,11 @@ const RoomListHeader = (props) => {
         mode="horizontal"
     />
 
-    return <>{header}{searchBarModal}</>
+    const { token } = theme.useToken()
+    const refreshed = refreshedTime && <div className="refreshed-text" style={{ color: token.colorTextTertiary }}>
+        {t('Refreshed')} {refreshedTime}
+    </div>
+
+    return <>{header}{refreshed}{searchBarModal}</>
 }
 export default RoomListHeader
