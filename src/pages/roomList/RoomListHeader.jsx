@@ -75,7 +75,7 @@ const RoomListHeader = (props) => {
 
     const { token } = theme.useToken()
     const refreshed = refreshedTime && <div className="refreshed-text" style={{ color: token.colorTextTertiary }}>
-        {t('Refreshed')} {refreshedTime}
+        {refreshedTime} {t('Refreshed')}
     </div>
 
     return <>{header}{refreshed}{searchBarModal}</>
