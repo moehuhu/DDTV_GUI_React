@@ -108,6 +108,19 @@ const OriginList = (props) => {
         <Pagination
             current={pageState.current}
             pageSize={pageState.pageSize}
+            locale={{
+                items_per_page: t('itemsPerPage'),
+                jump_to: t('jumpTo'),
+                jump_to_confirm: t('jumpToConfirm'),
+                page: t('Page'),
+                prev_page: t('prevPage'),
+                next_page: t('nextPage'),
+                prev_5: t('prev5'),
+                next_5: t('next5'),
+                prev_3: t('prev3'),
+                next_3: t('next3'),
+                page_size: t('PageSize')
+            }}
             total={total}
             showSizeChanger={false}
             onChange={(current) => { setPageState({ current }) }}
