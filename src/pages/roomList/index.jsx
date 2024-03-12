@@ -91,6 +91,19 @@ const Rooms = () => {
       current={current}
       pageSize={pageSize}
       total={total}
+      locale={{
+        items_per_page: t('itemsPerPage'),
+        jump_to: t('jumpTo'),
+        jump_to_confirm: t('jumpToConfirm'),
+        page: t('Page'),
+        prev_page: t('prevPage'),
+        next_page: t('nextPage'),
+        prev_5: t('prev5'),
+        next_5: t('next5'),
+        prev_3: t('prev3'),
+        next_3: t('next3'),
+        page_size: t('PageSize')
+      }}
       onChange={(current) => { setPageState({ current }) }}
       pageSizeOptions={[8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80]}
       onShowSizeChange={(current, size) => { setPageSize(size); setPageState({ current }) }}
