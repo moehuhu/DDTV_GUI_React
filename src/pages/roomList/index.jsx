@@ -9,7 +9,7 @@ import { useMemo, useState } from 'react';
 import { useAsyncEffect, useInterval, configResponsive, useResponsive } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 import useUrlState from '@ahooksjs/use-url-state';
-import { theme, Pagination, App } from 'antd';
+import { theme, Pagination, Progress, App } from 'antd';
 import dayjs from 'dayjs';
 import _ from 'lodash'
 
@@ -35,20 +35,36 @@ const Rooms = () => {
     return [err, res]
   }
   const { isAutoRefresh, autoRefreshIntervalSeconds } = useSystemSettingsStore(state => state)
-  const [refreshedTime, setRefreshedTime] = useState('')
+  const [refreshedTime, setRefreshedTime] = useState(null)
+  const [timePercent, setTimePercent] = useState(0.0)
+  const calculatePercent = () => {
+    const percent = ((refreshedTime?.diff?.(dayjs(), 'second', true) || 0.0) / (autoRefreshIntervalSeconds - 1.0))
+    setTimePercent(percent * 100)
+  }
   const autoRefresh = async () => {
     if (!isAutoRefresh) return;
+    calculatePercent()
+    if (dayjs().diff(refreshedTime, 'second') < 0) { return }
     const [, res] = await refreshPage()
     if (res?.data) {
-      setRefreshedTime(dayjs().format('HH:mm:ss'))
+      setRefreshedTime(dayjs().add(autoRefreshIntervalSeconds, 'second'))
     }
   }
-  useInterval(autoRefresh, autoRefreshIntervalSeconds * 1000)
+  useInterval(autoRefresh, 1000)
   useAsyncEffect(refreshPage, [pageState, pageSize])
 
   const [addingRoom, setAddingRoom] = useState({})
   const [editingRoom, setEditingRoom] = useState({})
 
+  const progress = <Progress
+    type='circle'
+    percent={timePercent}
+    showInfo={false}
+    size={20}
+  />
+  const refreshed = isAutoRefresh && <div className="refreshed-text" style={{ color: token.colorTextTertiary }}>
+    {refreshedTime?.format?.('HH:mm:ss')} {t('Refreshed')} {progress}
+  </div>
   const header = <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>
     <RoomListHeader
       refreshedTime={refreshedTime}
@@ -58,6 +74,7 @@ const Rooms = () => {
       search={search}
       setAddingRoom={setAddingRoom}
     />
+    {refreshed}
   </div>
   const addRoomModal = <AddRoomModal
     message={message}

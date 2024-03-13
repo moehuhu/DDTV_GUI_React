@@ -13,7 +13,14 @@
     }
 
     .refreshed-text {
-      margin: auto 16px;
+      margin: auto 8px;
+      width: 160px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      .ant-progress {
+        margin: auto 8px;
+      }
     }
 
     .add-btn {

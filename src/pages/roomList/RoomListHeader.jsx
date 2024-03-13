@@ -7,7 +7,7 @@ import _ from 'lodash'
 import { useState } from 'react';
 
 const RoomListHeader = (props) => {
-    const { isLoading, setPageState, searchType, search, setAddingRoom, refreshedTime } = props
+    const { isLoading, setPageState, searchType, search, setAddingRoom } = props
     const [searchBarOpen, setSearchBarOpen] = useState(false)
 
     const { t } = useTranslation()
@@ -73,11 +73,6 @@ const RoomListHeader = (props) => {
         mode="horizontal"
     />
 
-    const { token } = theme.useToken()
-    const refreshed = refreshedTime && <div className="refreshed-text" style={{ color: token.colorTextTertiary }}>
-        {refreshedTime} {t('Refreshed')}
-    </div>
-
-    return <>{header}{refreshed}{searchBarModal}</>
+    return <>{header}{searchBarModal}</>
 }
 export default RoomListHeader
