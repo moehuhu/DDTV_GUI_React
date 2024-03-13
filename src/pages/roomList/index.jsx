@@ -5,8 +5,8 @@ import useDetailedRoomInfoList from '../../hooks/useDetailedRoomInfoList';
 import './style.css'
 import RoomListHeader from './RoomListHeader';
 import { useSystemSettingsStore } from '../../SystemSettingsStore';
-import { useMemo, useState } from 'react';
-import { useAsyncEffect, useInterval, configResponsive, useResponsive } from 'ahooks';
+import { useMemo, useState, useRef } from 'react';
+import { useAsyncEffect, useInterval, configResponsive, useResponsive, useUpdateEffect } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 import useUrlState from '@ahooksjs/use-url-state';
 import { theme, Pagination, Progress, App } from 'antd';
@@ -27,6 +27,11 @@ const Rooms = () => {
   const { t } = useTranslation()
   const { isLoading, total, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
   const [pageState, setPageState] = useUrlState({ current: 1, searchType: 'All', search: undefined })
+  const listRef = useRef(null)
+  useUpdateEffect(() => {
+    if (!listRef?.current?.scrollTop) { return }
+    listRef.current.scrollTop = '0px'
+  }, [pageState])
   const { current, searchType, search } = pageState
   const { pageSize, setPageSize } = useSystemSettingsStore(state => state)
   const refreshPage = async () => {
@@ -133,7 +138,7 @@ const Rooms = () => {
     {addRoomModal}
     {setRoomModal}
     {header}
-    <div className="list">
+    <div className="list" ref={listRef}>
       {roomInfoList?.map(renderItem)}
     </div>
     {footer}
