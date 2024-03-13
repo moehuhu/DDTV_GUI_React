@@ -35,19 +35,19 @@ const Rooms = () => {
     return [err, res]
   }
   const { isAutoRefresh, autoRefreshIntervalSeconds } = useSystemSettingsStore(state => state)
-  const [refreshedTime, setRefreshedTime] = useState(null)
+  const [willRefreshTime, setWillRefreshTime] = useState(null)
   const [timePercent, setTimePercent] = useState(0.0)
   const calculatePercent = () => {
-    const percent = ((refreshedTime?.diff?.(dayjs(), 'second', true) || 0.0) / (autoRefreshIntervalSeconds - 1.0))
+    const percent = ((willRefreshTime?.diff?.(dayjs(), 'second', true) || 0.0) / (autoRefreshIntervalSeconds - 1.0))
     setTimePercent(percent * 100)
   }
   const autoRefresh = async () => {
     if (!isAutoRefresh) return;
     calculatePercent()
-    if (dayjs().diff(refreshedTime, 'second') < 0) { return }
+    if (dayjs().diff(willRefreshTime, 'second') < 0) { return }
     const [, res] = await refreshPage()
     if (res?.data) {
-      setRefreshedTime(dayjs().add(autoRefreshIntervalSeconds, 'second'))
+      setWillRefreshTime(dayjs().add(autoRefreshIntervalSeconds, 'second'))
     }
   }
   useInterval(autoRefresh, 1000)
@@ -63,11 +63,10 @@ const Rooms = () => {
     size={20}
   />
   const refreshed = isAutoRefresh && <div className="refreshed-text" style={{ color: token.colorTextTertiary }}>
-    {refreshedTime?.format?.('HH:mm:ss')} {t('Refreshed')} {progress}
+    {willRefreshTime?.subtract(autoRefreshIntervalSeconds, 'second')?.format?.('HH:mm:ss')} {t('Refreshed')} {progress}
   </div>
   const header = <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>
     <RoomListHeader
-      refreshedTime={refreshedTime}
       isLoading={isLoading}
       setPageState={setPageState}
       searchType={searchType}
