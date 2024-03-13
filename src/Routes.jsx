@@ -6,7 +6,7 @@ import NoMatch from './pages/noMatch';
 import { useState } from "react";
 import { useMount, useBoolean, useRafInterval, useInterval } from 'ahooks';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
-import { Layout, Menu, theme, Modal, Typography, Popover, Tooltip, Spin } from 'antd';
+import { Layout, Menu, theme, Modal, Typography, Popover, Tooltip, QRCode, App } from 'antd';
 const { Paragraph, Title } = Typography
 import { DesktopOutlined, BlockOutlined, HddOutlined, SettingOutlined, MenuFoldOutlined, ColumnWidthOutlined } from "@ant-design/icons";
 import { useTranslation } from 'react-i18next';
@@ -18,12 +18,13 @@ const { Sider, Content } = Layout;
 const ddtv = new URL('../public/DDTV.png', import.meta.url).href
 const ddtvGrayscale = new URL('../public/DDTV-grayscale.png', import.meta.url).href
 
-const App = ({ setIsLoggedIn, systemState }) => {
+const AppRoutes = ({ setIsLoggedIn }) => {
   const [collapsed, setCollapsed] = useState(false);
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const { token } = theme.useToken()
   const { t } = useTranslation()
+  const { message } = App.useApp()
 
   const items = [
     { label: t('overview'), key: '/', icon: <DesktopOutlined /> },
@@ -40,7 +41,7 @@ const App = ({ setIsLoggedIn, systemState }) => {
     navigate(key)
   }
 
-  const { checkLoginStatus, loginStatus, getQrcode, loginQrcodeImageURL, relogin } = useLoginBiliBili({
+  const { checkLoginStatus, loginStatus, getLoginURL, loginURL, relogin } = useLoginBiliBili({
     loginSuccess: () => window.location.reload()
   })
   const { agree, checkAgreementState, isAgreed } = useUserAgreement()
@@ -101,15 +102,28 @@ const App = ({ setIsLoggedIn, systemState }) => {
     }
     setDisplayQrcode(open)
     setDisplayStatus(false)
-    if (open) {
-      await relogin()
-      await getQrcode()
+    if (!open) { return }
+    const [reloginErr] = await relogin()
+    if (reloginErr) {
+      message.error(reloginErr?.message)
+      setDisplayQrcode(false)
+      return
+    }
+    const [getUrlErr] = await getLoginURL()
+    if (getUrlErr) {
+      message.error(getUrlErr?.message)
+      setDisplayQrcode(false)
     }
   }
-
-  const QRcode = loginQrcodeImageURL ? <img src={loginQrcodeImageURL} /> : <Spin />
+  const QRcode = <QRCode
+    icon={ddtv}
+    bordered={false}
+    value={loginURL || 'https://www.bilibili.com'}
+    status={loginURL ? 'active' : 'loading'}
+  />
   const siderHeader = <Popover
     content={QRcode}
+    overlayInnerStyle={{ padding: 0 }}
     placement='rightTop'
     open={(!loginStatus) && displayQrcode}
     onOpenChange={onClickLogo}
@@ -157,4 +171,4 @@ const App = ({ setIsLoggedIn, systemState }) => {
   </Layout>
 }
 
-export default App
+export default AppRoutes
