@@ -11,7 +11,7 @@ const BatchOperation = () => {
     const { notification } = App.useApp()
     const [pageState, setPageState] = useSetState({
         current: 1,
-        searchType: 'Originonal',
+        searchType: 'Original',
         search: undefined,
         pageSize: 200,
     })

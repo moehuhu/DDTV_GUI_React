@@ -4,6 +4,6 @@ export enum SearchType {
   Live = 2,
   NotLive = 3,
   LiveButNotRecording = 4,
-  Originonal = 5
+  Original = 5
 }
 export default SearchType
