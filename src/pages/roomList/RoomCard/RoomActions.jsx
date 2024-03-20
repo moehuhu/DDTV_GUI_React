@@ -26,7 +26,7 @@ const RoomActions = (item) => {
   const autoRecActionType = isAutoRec ? 'closeAutoRec' : 'openAutoRec'
   const autoRecActions = useAutoRec()
   const actions = [
-    { label: t('cutSlice'), key: 'cutSlice' },
+    { label: t('cutSlice'), key: 'cutSlice', disabled: !isDownload },
     { label: t(autoRecActionType), key: autoRecActionType },
     { label: t('settings'), key: 'settings' },
   ]
