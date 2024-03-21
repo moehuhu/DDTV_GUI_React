@@ -27,6 +27,8 @@ const BatchOperation = () => {
     useAsyncEffect(refreshPage, [pageState])
     const { isLoading, total, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
     const uidMapper = item => item?.userInfo?.uid
+    const roomListMap = useMemo(() => _(roomInfoList).map(item => [uidMapper(item), item]).fromPairs().value(), [roomInfoList])
+
     const [stagedItems, setStagedItems] = useState([])
     const { stagedUID, stagedMap } = useMemo(() => {
         const stagedUID = []
@@ -53,6 +55,7 @@ const BatchOperation = () => {
         isLoading={isLoading}
         total={total}
         roomInfoList={roomInfoList}
+        roomListMap={roomListMap}
         setPageState={setPageState}
         addToStage={addToStage}
         stagedUID={stagedUID}
