@@ -1,7 +1,7 @@
 
 import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
-import { theme, Pagination, Spin, Button } from "antd"
+import { theme, Pagination, Spin, Button, Input } from "antd"
 import { useUpdateEffect, useVirtualList } from "ahooks"
 import { RightOutlined, CheckOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
@@ -91,7 +91,16 @@ const OriginList = (props) => {
             type={_.isEmpty(selectedItems) ? 'default' : 'primary'}
             icon={<RightOutlined />}
         />
-
+        const onSearch = (search) => setPageState({ current: 1, searchType: 'Original', search })
+        const searchBar = <Input.Search
+            defaultValue={pageState.search}
+            count={{ max: 16 }}
+            style={{ width: 200 }}
+            maxLength={16}
+            placeholder={t('displayName')}
+            allowClear={true}
+            onSearch={onSearch}
+        />
         return wrapper(<>
             <div className="header-bar">
                 {totalItems}
@@ -100,6 +109,7 @@ const OriginList = (props) => {
                 {shiftButton}
             </div>
             <div className="add-to-stage">
+                {searchBar}
                 {addToStageButton}
             </div>
         </>)
@@ -123,6 +133,7 @@ const OriginList = (props) => {
             }}
             total={total}
             showSizeChanger={false}
+            showQuickJumper
             onChange={(current) => { setPageState({ current }) }}
         />
     </div>
