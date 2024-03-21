@@ -114,29 +114,6 @@ const OriginList = (props) => {
             </div>
         </>)
     }
-    const footer = <div className="footer" style={{ borderBlockStart: `1px solid ${token.colorBorderSecondary}` }}>
-        <Pagination
-            current={pageState.current}
-            pageSize={pageState.pageSize}
-            locale={{
-                items_per_page: t('itemsPerPage'),
-                jump_to: t('jumpTo'),
-                jump_to_confirm: t('jumpToConfirm'),
-                page: t('Page'),
-                prev_page: t('prevPage'),
-                next_page: t('nextPage'),
-                prev_5: t('prev5'),
-                next_5: t('next5'),
-                prev_3: t('prev3'),
-                next_3: t('next3'),
-                page_size: t('PageSize')
-            }}
-            total={total}
-            showSizeChanger={false}
-            showQuickJumper
-            onChange={(current) => { setPageState({ current }) }}
-        />
-    </div>
 
     const staged = item => stagedMap[item?.userInfo?.uid]
     const containerRef = useRef(null);
@@ -166,7 +143,6 @@ const OriginList = (props) => {
         <div ref={containerRef} className="list">
             <div ref={wrapperRef}>{list.map(ele => renderOriginListItem(ele.data, ele.index))}</div>
         </div>
-        {footer}
     </div>
     return originList
 }

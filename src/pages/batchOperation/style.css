@@ -20,13 +20,6 @@
     will-change: scroll-position;
   }
 
-  .footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px;
-  }
-
   .room-info {
     display: flex;
     align-items: center;
@@ -68,7 +61,7 @@
   }
 
   .list {
-    height: calc(100% - 120px);
+    height: calc(100% - 60px);
   }
 }
 

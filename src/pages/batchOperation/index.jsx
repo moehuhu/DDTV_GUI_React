@@ -13,7 +13,6 @@ const BatchOperation = () => {
         current: 1,
         searchType: 'Original',
         search: undefined,
-        pageSize: 200,
     })
     const message = type => msg => notification[type]({
         ...msg,
