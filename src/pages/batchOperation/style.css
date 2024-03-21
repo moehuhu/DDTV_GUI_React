@@ -61,14 +61,7 @@
   margin: 16px;
 
   .header-bar {
-    width: 300px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .add-to-stage {
-    width: 240px;
+    width: 500px;
     display: flex;
     justify-content: space-between;
     align-items: center;

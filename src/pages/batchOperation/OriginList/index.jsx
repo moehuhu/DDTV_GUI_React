@@ -104,12 +104,12 @@ const OriginList = (props) => {
         return wrapper(<>
             <div className="header-bar">
                 {totalItems}
+                {searchBar}
                 {ctrlButton}
                 {aButton}
                 {shiftButton}
             </div>
             <div className="add-to-stage">
-                {searchBar}
                 {addToStageButton}
             </div>
         </>)
