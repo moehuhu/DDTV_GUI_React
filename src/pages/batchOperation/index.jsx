@@ -29,25 +29,13 @@ const BatchOperation = () => {
     const uidMapper = item => item?.userInfo?.uid
     const roomListMap = useMemo(() => _(roomInfoList).map(item => [uidMapper(item), item]).fromPairs().value(), [roomInfoList])
 
-    const [stagedItems, setStagedItems] = useState([])
-    const { stagedUID, stagedMap } = useMemo(() => {
-        const stagedUID = []
-        const stagedMap = _(stagedItems)
-            .map(item => {
-                const uid = uidMapper(item)
-                stagedUID.push(uid)
-                return [uid, item]
-            })
-            .fromPairs()
-            .value()
-        return { stagedUID, stagedMap }
-    }, [stagedItems])
+    const [stagedUIDs, setStagedUIDs] = useState([])
+    const stagedSet = useMemo(() => new Set(stagedUIDs), [stagedUIDs])
+    console.log(stagedUIDs);
+
     const addToStage = (selectedItems = []) => {
-        const removedStagedItems = selectedItems?.filter?.(item => {
-            const uid = uidMapper(item)
-            return !stagedMap[uid]
-        })
-        setStagedItems(items => [...items, ...removedStagedItems])
+        const removedstagedUIDs = selectedItems?.filter?.(uid => !stagedSet.has(uid))
+        setStagedUIDs(items => [...items, ...removedstagedUIDs])
     }
 
     const originList = <OriginList
@@ -58,19 +46,19 @@ const BatchOperation = () => {
         roomListMap={roomListMap}
         setPageState={setPageState}
         addToStage={addToStage}
-        stagedUID={stagedUID}
-        stagedMap={stagedMap}
+        stagedUIDs={stagedUIDs}
+        stagedSet={stagedSet}
     />
     const targetList = <TargetList
-        setStagedItems={setStagedItems}
-        stagedItems={stagedItems}
-        stagedUID={stagedUID}
-        stagedMap={stagedMap}
+        setStagedUIDs={setStagedUIDs}
+        stagedUIDs={stagedUIDs}
+        stagedSet={stagedSet}
+        roomListMap={roomListMap}
     />
     const actions = <Actions
-        stagedUID={stagedUID}
+        stagedUIDs={stagedUIDs}
         message={message}
-        setStagedItems={setStagedItems}
+        setStagedUIDs={setStagedUIDs}
         refreshPage={refreshPage}
     />
     const operationArea = <div className="operation-area">

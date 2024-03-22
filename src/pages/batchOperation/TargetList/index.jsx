@@ -7,27 +7,27 @@ import RoomInfo from "../RoomInfo"
 import _ from 'lodash'
 const TargetList = (props) => {
     const { token } = theme.useToken()
-    const { setStagedItems, stagedItems = [], stagedMap = {} } = props
+    const { setStagedUIDs, stagedUIDs = [], stagedSet = {}, roomListMap = {} } = props
     const containerRef = useRef(null);
     const wrapperRef = useRef(null);
-    const staged = item => stagedMap[item?.userInfo?.uid]
-    const removeItem = item => items => items?.filter(({ userInfo }) => userInfo?.uid != item?.userInfo?.uid)
-    const removeStaged = (item) => {
-        if (!staged(item)) { return }
-        setStagedItems(removeItem(item))
+    const staged = uid => stagedSet.has(uid)
+    const removeItem = uid => uids => uids?.filter(UID => uid != UID)
+    const removeStaged = (uid) => {
+        if (!staged(uid)) { return }
+        setStagedUIDs(removeItem(uid))
     }
-    const removeIcon = item => <CloseOutlined onClick={() => removeStaged(item)} />
-    const renderItem = item => <RoomInfo
-        key={item?.userInfo?.uid}
-        onDoubleClick={() => removeStaged(item)}
-        item={item}
-        extra={removeIcon(item)}
+    const removeIcon = uid => <CloseOutlined onClick={() => removeStaged(uid)} />
+    const renderItem = uid => <RoomInfo
+        key={uid}
+        onDoubleClick={() => removeStaged(uid)}
+        item={roomListMap[uid]}
+        extra={removeIcon(uid)}
     />
     const { t } = useTranslation()
     const header = <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>
-        <span>{`${t('Selected')}: ${_.size(stagedItems) || 0}`}</span>
+        <span>{`${t('Selected')}: ${_.size(stagedUIDs) || 0}`}</span>
     </div>
-    const [list] = useVirtualList(stagedItems, {
+    const [list] = useVirtualList(stagedUIDs, {
         containerTarget: containerRef,
         wrapperTarget: wrapperRef,
         itemHeight: 75,

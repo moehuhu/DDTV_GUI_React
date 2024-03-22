@@ -9,57 +9,45 @@ import { useState, useMemo, useRef } from "react"
 import _ from 'lodash'
 const OriginList = (props) => {
     const { token } = theme.useToken()
-    const { setPageState, pageState, isLoading, total, roomInfoList = [] } = props
-    const { addToStage, stagedMap = {} } = props
-    const [selectedItems, setSelectedItems] = useState([]);
-    const [lastSelectedItem, setLastSelectedItem] = useState({})
-    const removeItem = item => items => items?.filter(({ userInfo }) => userInfo?.uid != item?.userInfo?.uid)
-    const uidMapper = item => item?.userInfo?.uid
-    const { selectedMap } = useMemo(() => {
-        const selectedUID = []
-        const selectedMap = _(selectedItems)
-            .map(item => {
-                const uid = uidMapper(item)
-                selectedUID.push(uid)
-                return [uid, item]
-            })
-            .fromPairs()
-            .value()
-        return { selectedUID, selectedMap }
-    }, [selectedItems])
+    const { setPageState, pageState, isLoading, total, roomInfoList = [], roomListMap = {} } = props
+    const { addToStage, stagedSet = {} } = props
+    const [selectedUID, setSelectedUID] = useState([]);
+    const [lastSelectedUID, setlastSelectedUID] = useState({})
+    const removeItem = uid => uids => uids?.filter((UID) => uid != UID)
+    const selectedMap = useMemo(() => (new Set(selectedUID)), [selectedUID])
 
     const { ctrlPressed, shiftPressed, aPressed,
         toggleCtrl, toggleShift, pressA, releaseA }
-        = useHotkey(() => setSelectedItems(roomInfoList))
-    const selected = item => selectedMap[item?.userInfo?.uid]
+        = useHotkey(() => setSelectedUID(roomInfoList))
+    const selected = uid => selectedMap?.has(uid)
     const select = (item, index) => {
+        const uid = item?.userInfo?.uid
         if (ctrlPressed) {
-            if (selected(item)) {
-                setSelectedItems(removeItem(item));
-                setLastSelectedItem(item);
+            if (selected(uid)) {
+                setSelectedUID(removeItem(uid));
+                setlastSelectedUID(uid);
                 return
             }
-            setSelectedItems(items => [...items, item])
-            setLastSelectedItem(item)
+            setSelectedUID(uids => [...uids, uid])
+            setlastSelectedUID(uid)
             return
         }
         if (shiftPressed) {
-            const lastSelectedIndex = _(roomInfoList)
-                .findIndex(item => _.isEqual(item, lastSelectedItem))
+            const lastSelectedIndex = roomInfoList?.findIndex(item => _.isEqual(item, roomListMap[lastSelectedUID]))
             if (lastSelectedIndex < 0) {
-                setSelectedItems([item]);
-                setLastSelectedItem(item)
+                setSelectedUID([uid]);
+                setlastSelectedUID(uid)
                 return
             }
             const start = lastSelectedIndex > 0 ? _.min([lastSelectedIndex, index]) : 0
             const end = _.max([lastSelectedIndex, index]) + 1
-            const selectedSlice = _(roomInfoList).slice(start, end)
-            setSelectedItems(selectedSlice)
-            setLastSelectedItem(item)
+            const selectedSlice = _(roomInfoList).slice(start, end).map(({ uid }) => uid).value()
+            setSelectedUID(selectedSlice)
+            setlastSelectedUID(uid)
             return
         }
-        setLastSelectedItem(item)
-        setSelectedItems([item])
+        setlastSelectedUID(uid)
+        setSelectedUID([uid])
     }
 
     const { t } = useTranslation()
@@ -85,10 +73,10 @@ const OriginList = (props) => {
         </Button>
         const addToStageButton = <Button
             onClick={() => {
-                addToStage(selectedItems)
-                setSelectedItems([])
+                addToStage(selectedUID)
+                setSelectedUID([])
             }}
-            type={_.isEmpty(selectedItems) ? 'default' : 'primary'}
+            type={_.isEmpty(selectedUID) ? 'default' : 'primary'}
             icon={<RightOutlined />}
         />
         const onSearch = (search) => setPageState({ current: 1, searchType: 'Original', search })
@@ -115,24 +103,24 @@ const OriginList = (props) => {
         </>)
     }
 
-    const staged = item => stagedMap[item?.userInfo?.uid]
+    const staged = uid => stagedSet.has(uid)
     const containerRef = useRef(null);
     const wrapperRef = useRef(null);
-    const [list, scrollTo] = useVirtualList(roomInfoList, {
+    const [list] = useVirtualList(roomInfoList, {
         containerTarget: containerRef,
         wrapperTarget: wrapperRef,
         itemHeight: 75,
         overscan: 20,
     })
-    useUpdateEffect(() => { setSelectedItems([]); scrollTo(0); }, [roomInfoList])
     const renderOriginListItem = (item, index) => <RoomInfo
-        key={uidMapper(item)}
+        key={item?.uid}
         onClick={() => select(item, index)}
-        onDoubleClick={() => addToStage([item])}
+        onDoubleClick={() => addToStage([item?.uid])}
         item={item}
-        selected={selected(item)}
-        extra={staged(item) ? <CheckOutlined /> : null}
+        selected={selected(item?.uid)}
+        extra={staged(item?.uid) ? <CheckOutlined /> : null}
     />
+
     const originList = <div
         className="origin-list"
         style={{

@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next"
 import { useState } from "react"
 const Actions = (props) => {
     const { t } = useTranslation()
-    const { stagedUID, setStagedItems, refreshPage } = props
+    const { stagedUIDs, setstagedUIDs, refreshPage } = props
     const { message } = props
     const messager = (err, res) => {
         if (err) {
@@ -30,7 +30,7 @@ const Actions = (props) => {
     const { openAutoRec, closeAutoRec, isLoading: setRecLoading } = useAutoRec()
     const [autoRec, setAutoRec] = useState(false)
     const applyAutoRec = async () => {
-        const [err, res] = await (autoRec ? openAutoRec : closeAutoRec)(stagedUID)
+        const [err, res] = await (autoRec ? openAutoRec : closeAutoRec)(stagedUIDs)
         messager(err, res)
     }
     const setAutoRecItem = <div className="item">
@@ -42,7 +42,7 @@ const Actions = (props) => {
     const { openDanmuRec, closeDanmuRec, isLoading: setDanmuRecLoading } = useDanmuRec()
     const [recDanmu, setRecDanmu] = useState(false)
     const applyRecDanmu = async () => {
-        const [err, res] = await (recDanmu ? openDanmuRec : closeDanmuRec)(stagedUID)
+        const [err, res] = await (recDanmu ? openDanmuRec : closeDanmuRec)(stagedUIDs)
         messager(err, res)
     }
     const setRecDanmuItem = <div className="item">
@@ -54,7 +54,7 @@ const Actions = (props) => {
     const { openRemindMe, closeRemindMe, isLoading: setRemindLoading } = useRemindMe()
     const [remind, setRemind] = useState(false)
     const applyRemind = async () => {
-        const [err, res] = await (remind ? openRemindMe : closeRemindMe)(stagedUID)
+        const [err, res] = await (remind ? openRemindMe : closeRemindMe)(stagedUIDs)
         messager(err, res)
     }
     const setRemindItem = <div className="item">
@@ -64,13 +64,13 @@ const Actions = (props) => {
     </div>
     const { deleteRooms } = useDelRoom()
     const applyDelete = async () => {
-        const [err, res] = await deleteRooms(stagedUID)
+        const [err, res] = await deleteRooms(stagedUIDs)
         if (err) {
             messager(err, res)
             return
         }
         message('success')?.({ message: t('Deleted') })
-        setStagedItems([])
+        setstagedUIDs([])
         refreshPage()
     }
     const deleteItem = <div className="item" style={{ justifyContent: "center" }}>
