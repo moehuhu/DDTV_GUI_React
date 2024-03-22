@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next"
 import { useState } from "react"
 const Actions = (props) => {
     const { t } = useTranslation()
-    const { stagedUIDs, setstagedUIDs, refreshPage } = props
+    const { stagedUIDs, setStagedUIDs, refreshPage } = props
     const { message } = props
     const messager = (err, res) => {
         if (err) {
@@ -70,7 +70,7 @@ const Actions = (props) => {
             return
         }
         message('success')?.({ message: t('Deleted') })
-        setstagedUIDs([])
+        setStagedUIDs([])
         refreshPage()
     }
     const deleteItem = <div className="item" style={{ justifyContent: "center" }}>

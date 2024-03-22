@@ -13,18 +13,17 @@ const OriginList = (props) => {
     const { addToStage, stagedSet = {} } = props
     const [selectedUID, setSelectedUID] = useState([]);
     const [lastSelectedUID, setlastSelectedUID] = useState({})
-    const removeItem = uid => uids => uids?.filter((UID) => uid != UID)
-    const selectedMap = useMemo(() => (new Set(selectedUID)), [selectedUID])
+    const removeUID = uid => uids => uids?.filter((UID) => uid != UID)
+    const selectedSet = useMemo(() => (new Set(selectedUID)), [selectedUID])
 
     const { ctrlPressed, shiftPressed, aPressed,
         toggleCtrl, toggleShift, pressA, releaseA }
         = useHotkey(() => setSelectedUID(roomInfoList))
-    const selected = uid => selectedMap?.has(uid)
     const select = (item, index) => {
-        const uid = item?.userInfo?.uid
+        const uid = item?.uid
         if (ctrlPressed) {
-            if (selected(uid)) {
-                setSelectedUID(removeItem(uid));
+            if (selectedSet?.has(uid)) {
+                setSelectedUID(removeUID(uid));
                 setlastSelectedUID(uid);
                 return
             }
@@ -117,7 +116,7 @@ const OriginList = (props) => {
         onClick={() => select(item, index)}
         onDoubleClick={() => addToStage([item?.uid])}
         item={item}
-        selected={selected(item?.uid)}
+        selected={selectedSet?.has(item?.uid)}
         extra={staged(item?.uid) ? <CheckOutlined /> : null}
     />
 

@@ -10,11 +10,10 @@ const TargetList = (props) => {
     const { setStagedUIDs, stagedUIDs = [], stagedSet = {}, roomListMap = {} } = props
     const containerRef = useRef(null);
     const wrapperRef = useRef(null);
-    const staged = uid => stagedSet.has(uid)
-    const removeItem = uid => uids => uids?.filter(UID => uid != UID)
+    const removeUID = uid => uids => uids?.filter(UID => uid != UID)
     const removeStaged = (uid) => {
-        if (!staged(uid)) { return }
-        setStagedUIDs(removeItem(uid))
+        if (!stagedSet.has(uid)) { return }
+        setStagedUIDs(removeUID(uid))
     }
     const removeIcon = uid => <CloseOutlined onClick={() => removeStaged(uid)} />
     const renderItem = uid => <RoomInfo
