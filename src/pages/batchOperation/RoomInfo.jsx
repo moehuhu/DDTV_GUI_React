@@ -32,7 +32,9 @@ const StagedRoomInfo = ({ item, selected, extra, onClick, onDoubleClick }) => {
         <div className="state">{userInfo?.isRecDanmu && <Icon style={style} component={Danmakus} />}</div>
         <div className="state">{userInfo?.isRemind && <BellOutlined style={style} />}</div>
     </div>
-    const user = <div className="user">
+    const user = <div
+        title={selected ? undefined : t('Double Click')}
+        className="user">
         {avatar}
         <div className="info">
             {name}

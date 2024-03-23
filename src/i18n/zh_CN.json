@@ -87,6 +87,7 @@
     "Verification failed, please check the filename format": "校验不通过，请检查文件名格式",
     "Are you sure to modify the filename format?": "确定要修改文件名格式?",
     "Verification failed, please check the path format": "校验失败，请检查路径格式",
-    "Are you sure to modify the path?": "确定要修改路径?"
+    "Are you sure to modify the path?": "确定要修改路径?",
+    "Double Click": "双击"
   }
 }

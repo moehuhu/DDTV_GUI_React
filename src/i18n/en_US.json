@@ -87,6 +87,7 @@
     "Verification failed, please check the filename format": "Verification failed, please check the filename format",
     "Are you sure to modify the filename format?": "Are you sure to modify the path?",
     "Verification failed, please check the path format": "Verification failed, please check the filename format",
-    "Are you sure to modify the path?": "Are you sure to modify the path?"
+    "Are you sure to modify the path?": "Are you sure to modify the path?",
+    "Double Click": "Double Click"
   }
 }
