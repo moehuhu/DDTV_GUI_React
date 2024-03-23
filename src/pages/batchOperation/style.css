@@ -55,16 +55,10 @@
   margin: 16px;
 
   .actions {
-    width: 520px;
+    width: 560px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .hot-keys {
-      width: 180px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
   }
 
   .list {

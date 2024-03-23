@@ -3,7 +3,7 @@ import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
 import { theme, Spin, Button, Input } from "antd"
 import { useVirtualList, useUpdateEffect } from "ahooks"
-import { RightOutlined, CheckOutlined } from "@ant-design/icons"
+import { CheckOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState, useMemo, useRef } from "react"
 import _ from 'lodash'
@@ -79,18 +79,18 @@ const OriginList = (props) => {
             type={shiftPressed ? 'primary' : 'default'}>
             Shift
         </Button>
-        const hotKeys = <div className="hot-keys">
+        const hotKeys = <>
             {ctrlButton}
             {aButton}
             {shiftButton}
-        </div>
+        </>
         const addToStageButton = <Button
             onClick={() => {
                 addToStage(selectedUID)
                 setSelectedUID([])
             }}
             type={_.isEmpty(selectedUID) ? 'default' : 'primary'}
-            icon={<RightOutlined />}
+            icon={<CheckOutlined />}
         />
         const onSearch = (search) => setSearch(search)
         const searchBar = <Input.Search
@@ -102,16 +102,13 @@ const OriginList = (props) => {
             allowClear={true}
             onSearch={onSearch}
         />
-        return wrapper(<>
-            <div className="actions">
-                {totalItems}
-                {searchBar}
-                {hotKeys}
-            </div>
-            <div className="add-to-stage">
-                {addToStageButton}
-            </div>
-        </>)
+
+        return wrapper(<div className="actions">
+            {totalItems}
+            {searchBar}
+            {hotKeys}
+            {addToStageButton}
+        </div>)
     }
 
     const staged = uid => stagedSet.has(uid)
