@@ -32,6 +32,7 @@ const Actions = (props) => {
     const applyAutoRec = async () => {
         const [err, res] = await (autoRec ? openAutoRec : closeAutoRec)(stagedUIDs)
         messager(err, res)
+        refreshPage()
     }
     const setAutoRecItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('autoRec')}:</label>
@@ -44,6 +45,7 @@ const Actions = (props) => {
     const applyRecDanmu = async () => {
         const [err, res] = await (recDanmu ? openDanmuRec : closeDanmuRec)(stagedUIDs)
         messager(err, res)
+        refreshPage()
     }
     const setRecDanmuItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('recDanmu')}:</label>
@@ -56,6 +58,7 @@ const Actions = (props) => {
     const applyRemind = async () => {
         const [err, res] = await (remind ? openRemindMe : closeRemindMe)(stagedUIDs)
         messager(err, res)
+        refreshPage()
     }
     const setRemindItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('remind')}:</label>

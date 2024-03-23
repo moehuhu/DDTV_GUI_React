@@ -15,7 +15,7 @@ const TargetList = (props) => {
         if (!stagedSet.has(uid)) { return }
         setStagedUIDs(removeUID(uid))
     }
-    const removeIcon = uid => <CloseOutlined onClick={() => removeStaged(uid)} />
+    const removeIcon = uid => <CloseOutlined style={{ color: token.colorText }} onClick={() => removeStaged(uid)} />
     const renderItem = uid => <RoomInfo
         key={uid}
         onDoubleClick={() => removeStaged(uid)}

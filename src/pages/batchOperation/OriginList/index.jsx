@@ -121,7 +121,7 @@ const OriginList = (props) => {
         onDoubleClick={() => addToStage([item?.uid])}
         item={item}
         selected={selectedSet?.has(item?.uid)}
-        extra={staged(item?.uid) ? <CheckOutlined /> : null}
+        extra={staged(item?.uid) ? <CheckOutlined style={{ color: token.colorText }} /> : null}
     />
 
     const originList = <div
