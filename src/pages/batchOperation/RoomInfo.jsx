@@ -33,7 +33,7 @@ const StagedRoomInfo = ({ item, selected, extra, onClick, onDoubleClick }) => {
         <div className="state">{userInfo?.isRemind && <BellOutlined style={style} />}</div>
     </div>
     const user = <div
-        title={selected ? undefined : t('Double Click')}
+        title={t('Double Click')}
         className="user">
         {avatar}
         <div className="info">

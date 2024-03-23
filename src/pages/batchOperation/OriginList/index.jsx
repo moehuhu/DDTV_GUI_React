@@ -3,7 +3,7 @@ import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
 import { theme, Spin, Button, Input } from "antd"
 import { useVirtualList, useUpdateEffect } from "ahooks"
-import { CheckOutlined } from "@ant-design/icons"
+import { CheckOutlined, PlusOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState, useMemo, useRef } from "react"
 import _ from 'lodash'
@@ -90,7 +90,7 @@ const OriginList = (props) => {
                 setSelectedUID([])
             }}
             type={_.isEmpty(selectedUID) ? 'default' : 'primary'}
-            icon={<CheckOutlined />}
+            icon={<PlusOutlined />}
         />
         const onSearch = (search) => setSearch(search)
         const searchBar = <Input.Search
@@ -118,7 +118,9 @@ const OriginList = (props) => {
         onDoubleClick={() => addToStage([item?.uid])}
         item={item}
         selected={selectedSet?.has(item?.uid)}
-        extra={staged(item?.uid) ? <CheckOutlined style={{ color: token.colorText }} /> : null}
+        extra={staged(item?.uid) ?
+            <CheckOutlined style={{ color: token.colorText }} />
+            : <PlusOutlined onClick={() => addToStage([item?.uid])} style={{ color: token.colorText, cursor: 'pointer' }} />}
     />
 
     const originList = <div
