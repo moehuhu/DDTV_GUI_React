@@ -52,14 +52,10 @@ const BatchOperation = () => {
     }
 
     const originList = <OriginList
-        pageState={pageState}
         search={search}
         isLoading={isLoading}
-        total={total}
-        roomInfoList={roomInfoList}
         filteredList={filteredList}
         roomListMap={roomListMap}
-        setPageState={setPageState}
         setSearch={setSearch}
         addToStage={addToStage}
         stagedUIDs={stagedUIDs}
