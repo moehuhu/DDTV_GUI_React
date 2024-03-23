@@ -50,6 +50,14 @@ const OriginList = (props) => {
     }
 
     const { t } = useTranslation()
+    const containerRef = useRef(null);
+    const wrapperRef = useRef(null);
+    const [list, scrollTo] = useVirtualList(filteredList, {
+        containerTarget: containerRef,
+        wrapperTarget: wrapperRef,
+        itemHeight: 75,
+        overscan: 20,
+    })
     const header = () => {
         const wrapper = content => <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>{content}</div>
         if (isLoading) { return wrapper(<Spin spinning={isLoading} />) }
@@ -83,7 +91,7 @@ const OriginList = (props) => {
             type={_.isEmpty(selectedUID) ? 'default' : 'primary'}
             icon={<RightOutlined />}
         />
-        const onSearch = (search) => setSearch(search)
+        const onSearch = (search) => { setSearch(search); scrollTo(0); }
         const searchBar = <Input.Search
             defaultValue={search}
             count={{ max: 16 }}
@@ -106,14 +114,6 @@ const OriginList = (props) => {
     }
 
     const staged = uid => stagedSet.has(uid)
-    const containerRef = useRef(null);
-    const wrapperRef = useRef(null);
-    const [list] = useVirtualList(filteredList, {
-        containerTarget: containerRef,
-        wrapperTarget: wrapperRef,
-        itemHeight: 75,
-        overscan: 20,
-    })
     const renderOriginListItem = (item, index) => <RoomInfo
         key={item?.uid}
         onClick={() => select({ item, index }, filteredList)}
