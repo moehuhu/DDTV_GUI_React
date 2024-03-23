@@ -2,7 +2,7 @@
 import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
 import { theme, Spin, Button, Input } from "antd"
-import { useVirtualList } from "ahooks"
+import { useVirtualList, useUpdateEffect } from "ahooks"
 import { RightOutlined, CheckOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState, useMemo, useRef } from "react"
@@ -58,6 +58,7 @@ const OriginList = (props) => {
         itemHeight: 75,
         overscan: 20,
     })
+    useUpdateEffect(() => scrollTo(0), [filteredList])
     const header = () => {
         const wrapper = content => <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>{content}</div>
         if (isLoading) { return wrapper(<Spin spinning={isLoading} />) }
@@ -91,7 +92,7 @@ const OriginList = (props) => {
             type={_.isEmpty(selectedUID) ? 'default' : 'primary'}
             icon={<RightOutlined />}
         />
-        const onSearch = (search) => { setSearch(search); scrollTo(0); }
+        const onSearch = (search) => setSearch(search)
         const searchBar = <Input.Search
             defaultValue={search}
             count={{ max: 16 }}
