@@ -26,15 +26,14 @@
     align-items: center;
     justify-content: space-between;
     height: 75px;
-    padding: 12px 0;
-    padding-inline: 24px;
+    padding: 12px 8px 12px 0px;
     border-block-end: 1px solid rgba(5, 5, 5, 0.06);
     color: rgba(0, 0, 0, 0.88);
 
     .user {
       display: flex;
       flex: 1;
-      align-items: flex-start;
+      align-items: center;
       .avatar {
         margin-inline-end: 16px;
       }
@@ -45,6 +44,26 @@
           font-size: 14px;
         }
       }
+      .states {
+        .state {
+          width: 24px;
+          height: 24px;
+        }
+
+        width: 96px;
+        height: 75px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .extra {
+      width: 40px;
+      height: 75px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 }
