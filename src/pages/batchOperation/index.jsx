@@ -14,6 +14,7 @@ const BatchOperation = () => {
         searchType: 'Original',
         search: undefined,
     })
+
     const message = type => msg => notification[type]({
         ...msg,
         placement: 'bottomRight',
@@ -28,6 +29,19 @@ const BatchOperation = () => {
 
     const { isLoading, total, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
     const roomListMap = useMemo(() => _(roomInfoList).map(item => [item?.uid, item]).fromPairs().value(), [roomInfoList])
+    const [search, setSearch] = useState('')
+    const filteredList = useMemo(() => {
+        const getLower = (str) => ((str || '') + '').toLocaleLowerCase()
+        const searchWord = getLower(search)
+        return roomInfoList?.filter((item) => {
+            const name = getLower(item?.userInfo?.name)
+            const uid = getLower(item?.uid)
+            const roomId = getLower(item?.roomInfo?.roomId)
+            const shortId = getLower(item?.roomInfo?.shortId)
+            const isInSearch = (str) => _(str).includes(searchWord)
+            return isInSearch(name) || isInSearch(uid) || isInSearch(roomId) || isInSearch(shortId)
+        })
+    }, [roomInfoList, search])
 
     const [stagedUIDs, setStagedUIDs] = useState([])
     const stagedSet = useMemo(() => new Set(stagedUIDs), [stagedUIDs])
@@ -39,11 +53,14 @@ const BatchOperation = () => {
 
     const originList = <OriginList
         pageState={pageState}
+        search={search}
         isLoading={isLoading}
         total={total}
         roomInfoList={roomInfoList}
+        filteredList={filteredList}
         roomListMap={roomListMap}
         setPageState={setPageState}
+        setSearch={setSearch}
         addToStage={addToStage}
         stagedUIDs={stagedUIDs}
         stagedSet={stagedSet}

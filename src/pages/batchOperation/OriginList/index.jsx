@@ -9,7 +9,7 @@ import { useState, useMemo, useRef } from "react"
 import _ from 'lodash'
 const OriginList = (props) => {
     const { token } = theme.useToken()
-    const { setPageState, pageState, isLoading, total, roomInfoList = [], roomListMap = {} } = props
+    const { setSearch, search, isLoading, total, roomInfoList = [], filteredList = [], roomListMap = {} } = props
     const { addToStage, stagedSet = {} } = props
     const [selectedUID, setSelectedUID] = useState([]);
     const [lastSelectedUID, setlastSelectedUID] = useState({})
@@ -18,8 +18,8 @@ const OriginList = (props) => {
 
     const { ctrlPressed, shiftPressed, aPressed,
         toggleCtrl, toggleShift, pressA, releaseA }
-        = useHotkey(() => setSelectedUID(roomInfoList))
-    const select = (item, index) => {
+        = useHotkey(() => setSelectedUID(filteredList?.map(({ uid }) => uid)) | [])
+    const select = ({ item, index }, roomInfoList) => {
         const uid = item?.uid
         if (ctrlPressed) {
             if (selectedSet?.has(uid)) {
@@ -53,7 +53,7 @@ const OriginList = (props) => {
     const header = () => {
         const wrapper = content => <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>{content}</div>
         if (isLoading) { return wrapper(<Spin spinning={isLoading} />) }
-        const totalItems = <span>{`${t('Total')}: ${total || 0}`}</span>
+        const totalItems = <span>{`${t('Total')}: ${filteredList?.length || 0}`}</span>
         const ctrlButton = <Button
             onClick={toggleCtrl}
             type={ctrlPressed ? 'primary' : 'default'}>
@@ -70,6 +70,11 @@ const OriginList = (props) => {
             type={shiftPressed ? 'primary' : 'default'}>
             Shift
         </Button>
+        const hotKeys = <div className="hot-keys">
+            {ctrlButton}
+            {aButton}
+            {shiftButton}
+        </div>
         const addToStageButton = <Button
             onClick={() => {
                 addToStage(selectedUID)
@@ -78,23 +83,21 @@ const OriginList = (props) => {
             type={_.isEmpty(selectedUID) ? 'default' : 'primary'}
             icon={<RightOutlined />}
         />
-        const onSearch = (search) => setPageState({ current: 1, searchType: 'Original', search })
+        const onSearch = (search) => setSearch(search)
         const searchBar = <Input.Search
-            defaultValue={pageState.search}
+            defaultValue={search}
             count={{ max: 16 }}
-            style={{ width: 200 }}
+            style={{ width: 250 }}
             maxLength={16}
-            placeholder={t('displayName')}
+            placeholder={`${t('displayName')}/${t('uid')}/${t('roomID')}`}
             allowClear={true}
             onSearch={onSearch}
         />
         return wrapper(<>
-            <div className="header-bar">
+            <div className="actions">
                 {totalItems}
                 {searchBar}
-                {ctrlButton}
-                {aButton}
-                {shiftButton}
+                {hotKeys}
             </div>
             <div className="add-to-stage">
                 {addToStageButton}
@@ -105,7 +108,7 @@ const OriginList = (props) => {
     const staged = uid => stagedSet.has(uid)
     const containerRef = useRef(null);
     const wrapperRef = useRef(null);
-    const [list] = useVirtualList(roomInfoList, {
+    const [list] = useVirtualList(filteredList, {
         containerTarget: containerRef,
         wrapperTarget: wrapperRef,
         itemHeight: 75,
@@ -113,7 +116,7 @@ const OriginList = (props) => {
     })
     const renderOriginListItem = (item, index) => <RoomInfo
         key={item?.uid}
-        onClick={() => select(item, index)}
+        onClick={() => select({ item, index }, filteredList)}
         onDoubleClick={() => addToStage([item?.uid])}
         item={item}
         selected={selectedSet?.has(item?.uid)}
