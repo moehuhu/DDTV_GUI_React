@@ -84,14 +84,6 @@ const OriginList = (props) => {
             {aButton}
             {shiftButton}
         </>
-        const addToStageButton = <Button
-            onClick={() => {
-                addToStage(selectedUID)
-                setSelectedUID([])
-            }}
-            type={_.isEmpty(selectedUID) ? 'default' : 'primary'}
-            icon={<PlusOutlined />}
-        />
         const onSearch = (search) => setSearch(search)
         const searchBar = <Input.Search
             defaultValue={search}
@@ -107,7 +99,6 @@ const OriginList = (props) => {
             {totalItems}
             {searchBar}
             {hotKeys}
-            {addToStageButton}
         </div>)
     }
 
@@ -120,7 +111,13 @@ const OriginList = (props) => {
         selected={selectedSet?.has(item?.uid)}
         extra={staged(item?.uid) ?
             <CheckOutlined style={{ color: token.colorText }} />
-            : <PlusOutlined onClick={() => addToStage([item?.uid])} style={{ color: token.colorText, cursor: 'pointer' }} />}
+            : <PlusOutlined
+                onClick={() => {
+                    selectedSet.has(item?.uid) ? addToStage(selectedUID) : addToStage([item?.uid])
+                    setSelectedUID([])
+                }}
+                style={{ color: token.colorText, cursor: 'pointer' }}
+            />}
     />
 
     const originList = <div
