@@ -47,8 +47,8 @@ const BatchOperation = () => {
     const stagedSet = useMemo(() => new Set(stagedUIDs), [stagedUIDs])
 
     const addToStage = (selectedItems = []) => {
-        const removedstagedUIDs = selectedItems?.filter?.(uid => !stagedSet.has(uid))
-        setStagedUIDs(items => [...items, ...removedstagedUIDs])
+        const newUIDs = selectedItems?.filter?.(uid => !stagedSet.has(uid))
+        setStagedUIDs(uids => [...uids, ...newUIDs])
     }
 
     const originList = <OriginList
