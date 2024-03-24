@@ -65,6 +65,7 @@
     "cancelRecTask": "取消录制任务",
     "settings": "设置",
     "addByUID": "以UID添加",
+    "batchAdd": "批量添加",
     "addByRoomID": "以房间号添加",
     "displayName": "昵称",
     "roomTitle": "直播间标题",
@@ -88,6 +89,7 @@
     "Are you sure to modify the filename format?": "确定要修改文件名格式?",
     "Verification failed, please check the path format": "校验失败，请检查路径格式",
     "Are you sure to modify the path?": "确定要修改路径?",
+    "Multiple UIDs separated by ;": "输入多个UID时以英文逗号 , 分隔",
     "Double Click": "双击"
   }
 }

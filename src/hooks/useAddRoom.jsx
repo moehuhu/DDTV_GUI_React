@@ -1,7 +1,7 @@
 import to from "await-to-js"
 import { useState } from "react"
 import { useBoolean } from 'ahooks'
-import { addRoom } from '@/api/set_room'
+import { addRoom, addRooms } from '@/api/set_room'
 import usePolling from './usePolling'
 import useRoomInfo from './useRoomInfo'
 import _ from 'lodash'
@@ -9,21 +9,16 @@ const useAddRoom = () => {
     const [err, setError] = useState(null)
     const [res, setRes] = useState(null)
     const [isLoading, { setTrue, setFalse }] = useBoolean(false)
-    const { getRoomByUID, getRoomByRoomID } = useRoomInfo()
-    const checkAddStatus = (params) => async () => {
-        const { uid, room_id } = params
-        const [err, roomInfo] = await (uid ? getRoomByUID(uid) : getRoomByRoomID(room_id))
-        return (roomInfo?.Name) || err?.message
-    }
-    const polling = usePolling()
+
     const submitRoom = async (params) => {
         setTrue()
         const mappedParams = _(params)
             .mapKeys((item, key) => _.snakeCase(key))
             .value()
-        const [err, res] = await to(addRoom(mappedParams))
+        const { uid } = mappedParams
+        const isBatchAdd = _.isArray(uid)
+        const [err, res] = await to(isBatchAdd ? addRooms(mappedParams) : addRoom(mappedParams))
         if (err) { console.error(err) }
-        await to(polling(checkAddStatus(mappedParams), { interval: 1000, maxRetries: 59 }))
         setFalse()
         setError(err)
         setRes(res)

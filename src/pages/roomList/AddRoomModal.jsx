@@ -21,6 +21,11 @@ const AddRoomModal = (props) => {
         setAddingRoom?.({})
     }
     const onFinish = async (values) => {
+        const { uid } = values
+        if (!_.isEmpty(uid)) {
+            const isMulti = uid?.includes(';')
+            isMulti && (values.uid = uid?.split(';'))
+        }
         const [err] = await submitRoom(values)
         if (err) {
             message.error(err?.message)
@@ -34,7 +39,7 @@ const AddRoomModal = (props) => {
     const { recDanmu, autoRec, remind } = useSystemSettingsStore(state => state)
     const roomForm = <Form form={form} onFinish={onFinish}>
         <Form.Item label={t(idType)} name={idType} rules={[{ required: true, message: '' }]}>
-            <Input />
+            <Input placeholder={idType == 'uid' ? t("Multiple UIDs separated by ;") : ''} />
         </Form.Item>
         <Form.Item label={t('recDanmu')} name={'recDanmu'} initialValue={recDanmu}>
             <Switch />

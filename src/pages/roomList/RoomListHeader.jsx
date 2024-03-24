@@ -42,7 +42,7 @@ const RoomListHeader = (props) => {
             key: 'Add',
             className: 'add-btn',
             children: [
-                { label: t('addByUID'), key: 'addByUID' },
+                { label: `${t('addByUID')} / ${t('batchAdd')}`, key: 'addByUID' },
                 { label: t('addByRoomID'), key: 'addByRoomID' }
             ]
         },

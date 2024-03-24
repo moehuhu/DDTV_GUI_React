@@ -65,6 +65,7 @@
     "cancelRecTask": "Cancel Recording",
     "settings": "Settings",
     "addByUID": "Add by UID",
+    "batchAdd": "Batch Add",
     "addByRoomID": "Add by Room ID",
     "displayName": "display name",
     "roomTitle": "Room Title",
@@ -88,6 +89,7 @@
     "Are you sure to modify the filename format?": "Are you sure to modify the path?",
     "Verification failed, please check the path format": "Verification failed, please check the filename format",
     "Are you sure to modify the path?": "Are you sure to modify the path?",
+    "Multiple UIDs separated by ;": "Multiple UIDs separated by commas ,",
     "Double Click": "Double Click"
   }
 }
