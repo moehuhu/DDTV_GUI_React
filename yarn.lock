@@ -3978,6 +3978,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ini@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "ini@npm:4.1.2"
+  checksum: 10c0/e0ffe587038e26ca1debfece6f5e52fd17f4e65be59bb481bb24b89cd2be31a71f619465918da215916b4deba7d1134c228c58fe5e0db66a71a472dee9b8f99c
+  languageName: node
+  linkType: hard
+
 "internal-slot@npm:^1.0.5":
   version: 1.0.6
   resolution: "internal-slot@npm:1.0.6"
@@ -6498,6 +6505,7 @@ __metadata:
     eslint-plugin-react-refresh: "npm:^0.4.5"
     i18next: "npm:^23.7.19"
     i18next-browser-languagedetector: "npm:^7.2.0"
+    ini: "npm:^4.1.2"
     lodash: "npm:^4.17.21"
     mime: "npm:^4.0.1"
     react: "npm:^18.2.0"
