@@ -1,10 +1,15 @@
 import { useRef } from "react"
-import { theme } from "antd"
+import { theme, Button } from "antd"
 import { CloseOutlined } from "@ant-design/icons"
-import { useVirtualList } from "ahooks"
+import { useVirtualList, configResponsive, useResponsive, } from "ahooks"
 import { useTranslation } from "react-i18next"
 import RoomInfo from "../RoomInfo"
 import _ from 'lodash'
+
+configResponsive({
+    large: 500
+});
+
 const TargetList = (props) => {
     const { token } = theme.useToken()
     const { setStagedUIDs, stagedUIDs = [], stagedSet = {}, roomListMap = {} } = props
@@ -16,20 +21,24 @@ const TargetList = (props) => {
         setStagedUIDs(removeUID(uid))
     }
     const removeIcon = uid => <CloseOutlined style={{ color: token.colorText }} onClick={() => removeStaged(uid)} />
+    const responsive = useResponsive();
+
     const renderItem = uid => <RoomInfo
+        height={responsive.large ? 75 : 120}
         key={uid}
         onDoubleClick={() => removeStaged(uid)}
         item={roomListMap[uid]}
         extra={removeIcon(uid)}
     />
     const { t } = useTranslation()
-    const header = <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>
+    const header = <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}`, padding: '16px' }}>
         <span>{`${t('Selected')}: ${_.size(stagedUIDs) || 0}`}</span>
+        <Button onClick={() => setStagedUIDs([])} style={{ marginLeft: '16px' }}>{t('Clear')}</Button>
     </div>
     const [list] = useVirtualList(stagedUIDs, {
         containerTarget: containerRef,
         wrapperTarget: wrapperRef,
-        itemHeight: 75,
+        itemHeight: responsive.large ? 75 : 120,
         overscan: 20,
     })
     const targetList = <div

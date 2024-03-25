@@ -1,17 +1,18 @@
 .batch-operation {
   width: calc(100%);
   height: calc(100%);
+  overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 
   .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
     align-items: center;
-    min-height: 60px;
-    padding-inline: 24px;
   }
 
   .list {
@@ -25,7 +26,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 75px;
     padding: 12px 8px 12px 0px;
     border-block-end: 1px solid rgba(5, 5, 5, 0.06);
     color: rgba(0, 0, 0, 0.88);
@@ -70,24 +70,15 @@
 
 .origin-list {
   height: calc(96%);
-  width: 40vw;
+  min-width: max(300px, 40vw);
   margin: 16px;
-
-  .actions {
-    width: 560px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .list {
-    height: calc(100% - 60px);
-  }
+  display: flex;
+  flex-direction: column;
 }
 
 .operation-area {
   height: calc(96%);
-  width: 40vw;
+  min-width: max(300px, 40vw);
   margin: 16px;
   display: flex;
   flex-direction: column;
@@ -97,9 +88,12 @@
   .target-list {
     height: calc(48%);
     width: calc(100%);
+    display: flex;
+    flex-direction: column;
 
     .list {
-      height: calc(100% - 70px);
+      width: calc(100%);
+      height: calc(100%);
     }
   }
 
@@ -116,7 +110,6 @@
     }
 
     .set-rooms {
-      height: calc(100% - 60px);
       display: flex;
       flex-direction: column;
       justify-content: center;

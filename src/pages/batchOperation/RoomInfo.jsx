@@ -10,7 +10,7 @@ const Danmakus = () => <svg width="1em" height="1em" fill="currentColor" viewBox
         clipRule="evenodd"></path>
 </svg>
 
-const StagedRoomInfo = ({ item, selected, extra, onClick, onDoubleClick }) => {
+const StagedRoomInfo = ({ item, selected, extra, onClick, onDoubleClick, height }) => {
     const { token } = theme.useToken()
     const { roomInfo, userInfo } = item
     const { t } = useTranslation()
@@ -44,7 +44,7 @@ const StagedRoomInfo = ({ item, selected, extra, onClick, onDoubleClick }) => {
     </div>
 
     return <div
-        style={{ background: selected ? token.colorBgTextHover : undefined }}
+        style={{ background: selected ? token.colorBgTextHover : undefined, height }}
         onClick={onClick}
         onDoubleClick={onDoubleClick}
         className={`room-info`}>

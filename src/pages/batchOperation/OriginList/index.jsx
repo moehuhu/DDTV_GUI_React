@@ -2,11 +2,16 @@
 import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
 import { theme, Spin, Button, Input } from "antd"
-import { useVirtualList, useUpdateEffect } from "ahooks"
+import { useVirtualList, useUpdateEffect, configResponsive, useResponsive, } from "ahooks"
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState, useMemo, useRef } from "react"
 import _ from 'lodash'
+
+configResponsive({
+    large: 500
+});
+
 const OriginList = (props) => {
     const { token } = theme.useToken()
     const { setSearch, search, isLoading, filteredList = [], roomListMap = {} } = props
@@ -52,58 +57,65 @@ const OriginList = (props) => {
     const { t } = useTranslation()
     const containerRef = useRef(null);
     const wrapperRef = useRef(null);
+    const responsive = useResponsive();
     const [list, scrollTo] = useVirtualList(filteredList, {
         containerTarget: containerRef,
         wrapperTarget: wrapperRef,
-        itemHeight: 75,
+        itemHeight: responsive.large ? 75 : 120,
         overscan: 20,
     })
     useUpdateEffect(() => scrollTo(0), [filteredList])
     const header = () => {
         const wrapper = content => <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>{content}</div>
         if (isLoading) { return wrapper(<Spin spinning={isLoading} />) }
-        const totalItems = <span>{`${t('Total')}: ${filteredList?.length || 0}`}</span>
+        const onSearch = (search) => setSearch(search)
+        const searchBar = <Input.Search
+            defaultValue={search}
+            count={{ max: 16 }}
+            style={{ width: 250, margin: '0px 16px' }}
+            maxLength={16}
+            placeholder={`${t('displayName')}/${t('uid')}/${t('roomID')}`}
+            allowClear={true}
+            onSearch={onSearch}
+        />
+        const style = {
+            margin: '0px 16px 0px 0px'
+        }
         const ctrlButton = <Button
+            style={style}
             onClick={toggleCtrl}
             type={ctrlPressed ? 'primary' : 'default'}>
             Ctrl
         </Button>
         const aButton = <Button
+            style={style}
             onMouseDown={pressA}
             onMouseUp={releaseA}
             type={aPressed ? 'primary' : 'default'}>
             A
         </Button>
         const shiftButton = <Button
+            style={style}
             onClick={toggleShift}
             type={shiftPressed ? 'primary' : 'default'}>
             Shift
         </Button>
-        const hotKeys = <>
+        const hotKeys = <div className="hot-keys" style={{ margin: '16px' }}>
             {ctrlButton}
             {aButton}
             {shiftButton}
-        </>
-        const onSearch = (search) => setSearch(search)
-        const searchBar = <Input.Search
-            defaultValue={search}
-            count={{ max: 16 }}
-            style={{ width: 250 }}
-            maxLength={16}
-            placeholder={`${t('displayName')}/${t('uid')}/${t('roomID')}`}
-            allowClear={true}
-            onSearch={onSearch}
-        />
+        </div>
 
-        return wrapper(<div className="actions">
-            {totalItems}
+        return wrapper(<>
+            <span style={{ margin: '16px' }}>{t('Total')}:{` ${_.size(filteredList)}`}</span>
             {searchBar}
             {hotKeys}
-        </div>)
+        </>)
     }
 
     const staged = uid => stagedSet.has(uid)
     const renderOriginListItem = (item, index) => <RoomInfo
+        height={responsive.large ? 75 : 120}
         key={item?.uid}
         onClick={() => select({ item, index }, filteredList)}
         onDoubleClick={() => addToStage([item?.uid])}
