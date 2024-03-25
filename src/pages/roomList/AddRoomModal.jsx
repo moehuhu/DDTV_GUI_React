@@ -23,8 +23,8 @@ const AddRoomModal = (props) => {
     const onFinish = async (values) => {
         const { uid } = values
         if (!_.isEmpty(uid)) {
-            const isMulti = uid?.includes(';')
-            isMulti && (values.uid = uid?.split(';'))
+            const isMulti = uid?.includes(',')
+            isMulti && (values.uid = uid?.split(','))
         }
         const [err] = await submitRoom(values)
         if (err) {
