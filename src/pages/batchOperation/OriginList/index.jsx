@@ -9,7 +9,11 @@ import { useState, useMemo, useRef } from "react"
 import _ from 'lodash'
 
 configResponsive({
-    large: 500
+    sm: 768,
+    md: 992,
+    lg: 1280,
+    xl: 1600,
+    xxl: 2000
 });
 
 const OriginList = (props) => {
@@ -61,7 +65,7 @@ const OriginList = (props) => {
     const [list, scrollTo] = useVirtualList(filteredList, {
         containerTarget: containerRef,
         wrapperTarget: wrapperRef,
-        itemHeight: responsive.large ? 75 : 120,
+        itemHeight: responsive.sm ? 75 : 120,
         overscan: 20,
     })
     useUpdateEffect(() => scrollTo(0), [filteredList])
@@ -115,7 +119,7 @@ const OriginList = (props) => {
 
     const staged = uid => stagedSet.has(uid)
     const renderOriginListItem = (item, index) => <RoomInfo
-        height={responsive.large ? 75 : 120}
+        height={responsive.sm ? 75 : 120}
         key={item?.uid}
         onClick={() => select({ item, index }, filteredList)}
         onDoubleClick={() => addToStage([item?.uid])}
@@ -136,7 +140,9 @@ const OriginList = (props) => {
         className="origin-list"
         style={{
             border: `1px solid ${token.colorBorder}`,
-            borderRadius: token.borderRadiusLG
+            borderRadius: token.borderRadiusLG,
+            height: responsive.sm ? 'calc(96%)' : 'calc(48%)',
+            width: responsive.sm ? '40vw' : '80vw'
         }}>
         {header()}
         <div ref={containerRef} className="list">

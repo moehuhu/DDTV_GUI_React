@@ -7,8 +7,12 @@ import RoomInfo from "../RoomInfo"
 import _ from 'lodash'
 
 configResponsive({
-    large: 500
-});
+    sm: 768,
+    md: 992,
+    lg: 1280,
+    xl: 1600,
+    xxl: 2000
+  });
 
 const TargetList = (props) => {
     const { token } = theme.useToken()
@@ -24,7 +28,7 @@ const TargetList = (props) => {
     const responsive = useResponsive();
 
     const renderItem = uid => <RoomInfo
-        height={responsive.large ? 75 : 120}
+        height={responsive.sm ? 75 : 120}
         key={uid}
         onDoubleClick={() => removeStaged(uid)}
         item={roomListMap[uid]}
@@ -38,7 +42,7 @@ const TargetList = (props) => {
     const [list] = useVirtualList(stagedUIDs, {
         containerTarget: containerRef,
         wrapperTarget: wrapperRef,
-        itemHeight: responsive.large ? 75 : 120,
+        itemHeight: responsive.sm ? 75 : 120,
         overscan: 20,
     })
     const targetList = <div

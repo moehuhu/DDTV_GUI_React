@@ -45,16 +45,14 @@
         }
       }
       .states {
+        width: 96px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
         .state {
           width: 24px;
           height: 24px;
         }
-
-        width: 96px;
-        height: 75px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
       }
     }
 
@@ -69,8 +67,6 @@
 }
 
 .origin-list {
-  height: calc(96%);
-  min-width: max(300px, 40vw);
   margin: 16px;
   display: flex;
   flex-direction: column;
@@ -78,7 +74,6 @@
 
 .operation-area {
   height: calc(96%);
-  min-width: max(300px, 40vw);
   margin: 16px;
   display: flex;
   flex-direction: column;
