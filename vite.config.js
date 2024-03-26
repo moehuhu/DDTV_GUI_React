@@ -20,9 +20,8 @@ export default defineConfig({
       output: {
         manualChunks: {
           antd: ['antd'],
-          react: ['react', 'react-dom', 'react-router-dom', 'react-i18next', 'zustand'],
+          react: ['react', 'react-dom', 'react-router-dom', 'react-i18next', 'zustand', 'ahooks'],
           lodash: ['lodash'],
-          ahooks: ['ahooks'],
         }
       },
     }
