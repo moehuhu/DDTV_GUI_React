@@ -1,18 +1,10 @@
 import { useRef } from "react"
 import { theme, Button } from "antd"
 import { CloseOutlined } from "@ant-design/icons"
-import { useVirtualList, configResponsive, useResponsive, } from "ahooks"
+import { useVirtualList, useResponsive, } from "ahooks"
 import { useTranslation } from "react-i18next"
 import RoomInfo from "../RoomInfo"
 import _ from 'lodash'
-
-configResponsive({
-    sm: 768,
-    md: 992,
-    lg: 1280,
-    xl: 1600,
-    xxl: 2000
-  });
 
 const TargetList = (props) => {
     const { token } = theme.useToken()

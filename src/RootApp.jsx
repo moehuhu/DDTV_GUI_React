@@ -2,7 +2,7 @@ import MainRoutes from './Routes.jsx'
 import Login from './pages/login/index.jsx'
 import NoMatch from './pages/noMatch/index.jsx'
 import { HashRouter, Routes, Route } from 'react-router-dom'
-import { useTitle, useMount, useUpdateEffect } from 'ahooks'
+import { useTitle, useMount, useUpdateEffect, configResponsive } from 'ahooks'
 import { useTranslation } from 'react-i18next'
 import { ConfigProvider, theme, FloatButton, Popover, Menu, App } from 'antd'
 import { BulbOutlined } from '@ant-design/icons'
@@ -11,6 +11,14 @@ import './i18n/i18n.js'
 import useIsLoggedIn from './hooks/useIsLoggedIn.jsx'
 import LanguageIcon from './assets/language.svg?react'
 import { useSystemSettingsStore } from './SystemSettingsStore.jsx'
+
+configResponsive({
+    sm: 768,
+    md: 960,
+    lg: 1280,
+    xl: 1600,
+    xxl: 1920
+});
 
 const RootApp = () => {
     const { t } = useTranslation()

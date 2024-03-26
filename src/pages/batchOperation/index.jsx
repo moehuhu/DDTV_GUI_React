@@ -4,17 +4,9 @@ import OriginList from "./OriginList"
 import TargetList from "./TargetList"
 import Actions from "./actions.jsx"
 import { useMemo, useState } from "react"
-import { useSetState, useAsyncEffect, configResponsive, useResponsive, } from "ahooks"
+import { useSetState, useAsyncEffect, useResponsive, } from "ahooks"
 import { App } from 'antd'
 import _ from 'lodash'
-
-configResponsive({
-    sm: 768,
-    md: 992,
-    lg: 1280,
-    xl: 1600,
-    xxl: 2000
-});
 
 const BatchOperation = () => {
     const { notification } = App.useApp()

@@ -2,19 +2,11 @@
 import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
 import { theme, Spin, Button, Input } from "antd"
-import { useVirtualList, useUpdateEffect, configResponsive, useResponsive, } from "ahooks"
+import { useVirtualList, useUpdateEffect, useResponsive, } from "ahooks"
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState, useMemo, useRef } from "react"
 import _ from 'lodash'
-
-configResponsive({
-    sm: 768,
-    md: 992,
-    lg: 1280,
-    xl: 1600,
-    xxl: 2000
-});
 
 const OriginList = (props) => {
     const { token } = theme.useToken()

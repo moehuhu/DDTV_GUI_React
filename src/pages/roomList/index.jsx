@@ -6,20 +6,13 @@ import './style.css'
 import RoomListHeader from './RoomListHeader';
 import { useSystemSettingsStore } from '../../SystemSettingsStore';
 import { useMemo, useState, useRef } from 'react';
-import { useAsyncEffect, useInterval, configResponsive, useResponsive, useUpdateEffect } from 'ahooks';
+import { useAsyncEffect, useInterval, useResponsive, useUpdateEffect } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 import useUrlState from '@ahooksjs/use-url-state';
 import { theme, Pagination, Progress, App } from 'antd';
 import dayjs from 'dayjs';
 import _ from 'lodash'
 
-configResponsive({
-  sm: 768,
-  md: 992,
-  lg: 1280,
-  xl: 1600,
-  xxl: 2000
-});
 
 const Rooms = () => {
   const { token } = theme.useToken()
