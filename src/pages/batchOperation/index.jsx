@@ -18,7 +18,7 @@ configResponsive({
 
 const BatchOperation = () => {
     const { notification } = App.useApp()
-    const [pageState, setPageState] = useSetState({
+    const [pageState] = useSetState({
         current: 1,
         searchType: 'Original',
         search: undefined,
@@ -36,7 +36,7 @@ const BatchOperation = () => {
     }
     useAsyncEffect(refreshPage, [pageState])
 
-    const { isLoading, total, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
+    const { isLoading, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
     const roomListMap = useMemo(() => _(roomInfoList).map(item => [item?.uid, item]).fromPairs().value(), [roomInfoList])
     const [search, setSearch] = useState('')
     const filteredList = useMemo(() => {

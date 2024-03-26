@@ -2,10 +2,19 @@ import dayjs from "dayjs";
 import useRecordingPath from "../../hooks/useRecordingPath"
 import useFileNameAndPath from "../../hooks/useFileNameAndPath"
 import { useTranslation } from "react-i18next";
-import { useMount } from "ahooks";
+import { useMount, configResponsive, useResponsive, } from "ahooks";
 import { Input, Space, Col, Row, Button, theme, Table, Popconfirm } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
 import _ from "lodash"
+
+configResponsive({
+  sm: 768,
+  md: 992,
+  lg: 1280,
+  xl: 1600,
+  xxl: 2000
+});
+
 const FullRow = ({ children }) => <Col span={24}><Space size={24}>{children}</Space></Col>
 const BackEnd = () => {
   const { token } = theme.useToken()
@@ -36,6 +45,7 @@ const BackEnd = () => {
     { tag: "{R}", effect: t('randomNumber') },
     { tag: "\\\\", effect: `(${t('Folder')})/` },
   ]
+  const responsive = useResponsive();
   const nameTable = <Table
     columns={[
       {
@@ -48,7 +58,7 @@ const BackEnd = () => {
       }
     ]}
     dataSource={tagList}
-    style={{ width: '25vw' }}
+    style={{ width: responsive.sm ? '25vw' : '60vw' }}
     scroll={{ y: 400 }}
     pagination={false}
   />
