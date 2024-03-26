@@ -15,6 +15,18 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          antd: ['antd'],
+          react: ['react', 'react-dom', 'react-router-dom', 'react-i18next', 'zustand'],
+          lodash: ['lodash'],
+          ahooks: ['ahooks'],
+        }
+      },
+    }
+  },
   server: {
     open: true,
     proxy: {
