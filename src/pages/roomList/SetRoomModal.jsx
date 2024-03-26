@@ -54,7 +54,7 @@ const SetRoomModal = (props) => {
 
     const cover = <Card>
         <Image
-            src={roomInfo?.coverFromUser || roomInfo?.keyFrame}
+            src={roomInfo?.cover_from_user?.Value || roomInfo?.keyframe?.Value}
             fallback={errorImg}
             preview={false} />
     </Card>
