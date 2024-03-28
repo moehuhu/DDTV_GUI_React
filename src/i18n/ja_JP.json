@@ -48,6 +48,7 @@
     "Tag": "Tag",
     "Effect": "Effect",
     "randomNumber": "Random Number",
+    "randomString": "Random String",
     "s": "s",
     "DefaultRoomConfig": "Default Room Config",
     "collapseTheSidebar": "折り畳み",

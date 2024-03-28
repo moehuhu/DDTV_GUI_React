@@ -34,7 +34,8 @@ const BackEnd = () => {
     { tag: `{mm} (${t('case-sensitive')})`, effect: now.format("mm") },
     { tag: "{SS} {ss}", effect: now.format("ss") },
     { tag: "{FFFF} {fff}", effect: now.format("SSS") },
-    { tag: "{R}", effect: t('randomNumber') },
+    { tag: "{R}", effect: t('randomString') },
+    { tag: "/", effect: `(${t('Folder')})/` },
     { tag: "\\\\", effect: `(${t('Folder')})/` },
   ]
   const responsive = useResponsive();
