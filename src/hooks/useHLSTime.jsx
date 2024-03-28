@@ -1,20 +1,23 @@
 import { getHLSWaitingTime, setHLSWaitingTime } from "../api/config"
 import { useBoolean } from 'ahooks'
+import { useState } from "react"
 import to from "await-to-js"
-const useSetHLS = () => {
+const useHLSTime = () => {
   const [isLoading, { setTrue, setFalse }] = useBoolean()
+  const [time, setTime] = useState(0)
   const getHLSTime = async () => {
     setTrue()
     const [err, res] = await to(getHLSWaitingTime())
+    setTime(res?.data?.data || 0)
     setFalse()
     return [err, res]
   }
-  const setHLSTime = async (time) => {
+  const setHLSTime = async () => {
     setTrue()
-    const [err, res] = await to(setHLSWaitingTime({ time }))
+    const [err, res] = await to(setHLSWaitingTime({ waitingtime: time }))
     setFalse()
     return [err, res]
   }
-  return { isLoading, getHLSTime, setHLSTime }
+  return { isLoading, time, setTime, getHLSTime, setHLSTime }
 }
-export default useSetHLS
+export default useHLSTime

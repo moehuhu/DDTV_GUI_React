@@ -1,9 +1,12 @@
-import dayjs from "dayjs";
+import useCoreVersion from "../../hooks/useCoreVersion";
+import useAutoRepair from "../../hooks/useAutoRepair";
+import useHLSTime from "../../hooks/useHLSTime";
 import useRecordingPath from "../../hooks/useRecordingPath"
 import useFileNameAndPath from "../../hooks/useFileNameAndPath"
+import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { useMount, useResponsive, } from "ahooks";
-import { Input, Space, Col, Row, Button, theme, Table, Popconfirm } from "antd";
+import { Input, InputNumber, Checkbox, Space, Col, Row, Button, theme, Table, Popconfirm } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
 import _ from "lodash"
 
@@ -19,6 +22,10 @@ const BackEnd = () => {
   const { isLoading: isLoadingPathName, getPathName, checkPathName,
     checkNameData, setCheckNameData, applyPathName, pathName, editPathName } = useFileNameAndPath()
   useMount(getPathName)
+  const { isLoading: isLoadingHLSTime, time, setTime, getHLSTime, setHLSTime } = useHLSTime()
+  useMount(getHLSTime)
+  const { isLoading: isLoadingAutoRepair, isAutoRepair, setIsAutoRepair, getRepairConfig, setRepairConfig } = useAutoRepair()
+  useMount(getRepairConfig)
   const now = dayjs()
   const tagList = [
     { tag: "{ROOMID}", effect: t('roomID') },
@@ -83,6 +90,21 @@ const BackEnd = () => {
   </Popconfirm>
 
   return <Row className="backtend-settings" align="middle" gutter={[16, 16]}>
+    <FullRow>
+      <span style={style}>{`${t('AutoRepair')}:`}</span>
+      <Space>
+        <Checkbox onChange={e => setIsAutoRepair(e.target.checked)} checked={isAutoRepair} disabled={isLoadingAutoRepair} />
+        <Button onClick={() => setRepairConfig()}>{t('Apply')}</Button>
+      </Space>
+    </FullRow>
+    <FullRow>
+      <span style={style}>{`${t('HLS Waiting Time')}:`}</span>
+      <Space>
+        <InputNumber style={{ width: '80px' }} min={0} disabled={isLoadingHLSTime} value={time} onChange={setTime} />
+        <span style={style}>{t('s')}</span>
+        <Button onClick={() => setHLSTime()}>{t('Apply')}</Button>
+      </Space>
+    </FullRow>
     <FullRow>
       <span style={style}>{`${t('Path')}:`}</span>
       <Space>

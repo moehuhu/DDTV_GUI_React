@@ -29,7 +29,7 @@ export function getHLSWaitingTime() {
   return instance.get<Response<any>>('config/get_hls_waiting_time')
 }
 
-export function setHLSWaitingTime(data: { time: bigint; }) {
+export function setHLSWaitingTime(data: { waitingtime: bigint; }) {
   return instance.post<Response<any>>('config/set_hls_waiting_time', data)
 }
 
