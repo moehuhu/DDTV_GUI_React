@@ -40,7 +40,3 @@ export function getAutoRepair() {
 export function setAutoRepair(data: { automatic_repair: boolean; }) {
   return instance.post<Response<any>>('config/set_automatic_repair', data)
 }
-
-export function getCoreVersion() {
-  return instance.get<Response<any>>('config/get_core_version')
-}

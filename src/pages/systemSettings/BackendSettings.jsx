@@ -18,6 +18,8 @@ const BackEnd = (props) => {
   const color = token.colorText
   const style = { color }
   const { t } = useTranslation()
+  const { getVersion, version } = useCoreVersion()
+  useMount(getVersion)
   const { loginStatus } = props
   const { getLoginUser, userInfo, relogin } = useLoginBiliBili()
   useMount(getLoginUser)
@@ -148,7 +150,9 @@ const BackEnd = (props) => {
     {<Button onClick={relogin}>{t('logout')}</Button>}
   </div>
   const setUser = renderFullRow(t('User'), user)
+  const coreVersion = renderFullRow(version?.message, version?.data)
   return <Row className="backtend-settings" align="middle" gutter={[16, 16]}>
+    {version && coreVersion}
     {setAutoRepair}
     {setHLS}
     {setPath}
