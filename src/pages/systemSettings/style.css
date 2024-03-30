@@ -4,4 +4,23 @@
   padding: 16px;
   overflow-x: hidden;
   overflow-y: auto;
+  .user {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 8px;
+    .avatar {
+      margin-inline-end: 16px;
+    }
+    .info {
+      margin: 0px 16px;
+      .name {
+        margin: 0 0 4px 0;
+        font-size: 14px;
+      }
+      .description {
+        margin: 0 0 8px 0;
+      }
+    }
+  }
 }

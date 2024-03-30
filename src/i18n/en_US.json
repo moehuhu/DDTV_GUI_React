@@ -1,9 +1,11 @@
 {
   "translation": {
+    "User": "User",
     "name": "name",
     "username": "Username",
     "password": "Password",
     "login": "Login",
+    "logout": "Logout",
     "Loading": "Loading",
     "Refreshed": "Refreshed",
     "Added": "Added",

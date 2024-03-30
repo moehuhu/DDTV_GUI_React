@@ -1,21 +1,26 @@
 import useCoreVersion from "../../hooks/useCoreVersion";
+import useResetConfig from "../../hooks/useResetConfig";
 import useAutoRepair from "../../hooks/useAutoRepair";
 import useHLSTime from "../../hooks/useHLSTime";
 import useRecordingPath from "../../hooks/useRecordingPath"
 import useFileNameAndPath from "../../hooks/useFileNameAndPath"
+import useLoginBiliBili from "../../hooks/useLoginBiliBili";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { useMount, useResponsive, } from "ahooks";
-import { Input, InputNumber, Checkbox, Space, Col, Row, Button, theme, Table, Popconfirm } from "antd";
+import { Avatar, Input, InputNumber, Checkbox, Space, Col, Row, Button, theme, Table, Popconfirm } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
 import _ from "lodash"
 
 const FullRow = ({ children }) => <Col span={24}><Space size={24}>{children}</Space></Col>
-const BackEnd = () => {
+const BackEnd = (props) => {
   const { token } = theme.useToken()
   const color = token.colorText
   const style = { color }
   const { t } = useTranslation()
+  const { loginStatus } = props
+  const { getLoginUser, userInfo, relogin } = useLoginBiliBili()
+  useMount(getLoginUser)
   const { isLoading, getPath, checkPath,
     checkPathData, setCheckData, applyPath, path, editPath } = useRecordingPath()
   useMount(getPath)
@@ -89,37 +94,66 @@ const BackEnd = () => {
     <Button loading={isLoadingPathName} onClick={checkPathName}>{t('Apply')}</Button>
   </Popconfirm>
 
+  const renderFullRow = (title, content) => <FullRow>
+    <span style={style}>{`${title}:`}</span>
+    <Space>{content}</Space>
+  </FullRow>
+  const setAutoRepair = renderFullRow(t('AutoRepair'),
+    <><Checkbox
+      onChange={e => setIsAutoRepair(e.target.checked)}
+      checked={isAutoRepair}
+      disabled={isLoadingAutoRepair} />
+      <Button onClick={() => setRepairConfig()}>{t('Apply')}</Button></>)
+  const setHLS = renderFullRow(t('HLS Waiting Time'),
+    <><InputNumber
+      style={{ width: '80px' }}
+      min={0}
+      disabled={isLoadingHLSTime}
+      value={time}
+      onChange={setTime} />
+      <span style={style}>{t('s')}</span>
+      <Button onClick={() => setHLSTime()}>{t('Apply')}</Button></>)
+  const setPath = renderFullRow(t('Path'),
+    <><Input
+      style={{ width: '25vw' }}
+      disabled={isLoading}
+      value={path}
+      onChange={e => editPath(e.target.value)} />
+      {applyRecordingPathButton}</>)
+  const setFilename = renderFullRow(`${t('File')}${t('name')}`,
+    <><Input
+      style={{ width: '25vw' }}
+      disabled={isLoadingPathName}
+      value={pathName}
+      onChange={e => editPathName(e.target.value)} />
+      {applyFileNameAndPathButton}</>)
+
+  const noAvatar = 'https://i0.hdslb.com/bfs/face/member/noface.jpg@52w_52h_1c_1s.webp'
+  const avatar = <Avatar className="avatar" src={userInfo?.face || noAvatar} />
+  const name = <h4
+    className="name"
+    style={{ lineHeight: token.lineHeight, color: token.colorText }}>
+    {userInfo?.uname}
+  </h4>
+  const description = <span
+    className="description"
+    style={{ lineHeight: token.lineHeight, color: token.colorText }}>
+    {`UID: ${userInfo?.mid} `}
+  </span>
+  const user = <div
+    style={{ borderRadius: token.borderRadiusLG, borderColor: token.colorBorder }}
+    className="user">
+    {avatar}
+    <div className="info">{name}{description}</div>
+    {<Button onClick={relogin}>{t('logout')}</Button>}
+  </div>
+  const setUser = renderFullRow(t('User'), user)
   return <Row className="backtend-settings" align="middle" gutter={[16, 16]}>
-    <FullRow>
-      <span style={style}>{`${t('AutoRepair')}:`}</span>
-      <Space>
-        <Checkbox onChange={e => setIsAutoRepair(e.target.checked)} checked={isAutoRepair} disabled={isLoadingAutoRepair} />
-        <Button onClick={() => setRepairConfig()}>{t('Apply')}</Button>
-      </Space>
-    </FullRow>
-    <FullRow>
-      <span style={style}>{`${t('HLS Waiting Time')}:`}</span>
-      <Space>
-        <InputNumber style={{ width: '80px' }} min={0} disabled={isLoadingHLSTime} value={time} onChange={setTime} />
-        <span style={style}>{t('s')}</span>
-        <Button onClick={() => setHLSTime()}>{t('Apply')}</Button>
-      </Space>
-    </FullRow>
-    <FullRow>
-      <span style={style}>{`${t('Path')}:`}</span>
-      <Space>
-        <Input style={{ width: '25vw' }} disabled={isLoading} value={path} onChange={e => editPath(e.target.value)} />
-        {applyRecordingPathButton}
-      </Space>
-    </FullRow>
-    <FullRow>
-      <span style={style}>{`${t('File')}${t('name')}:`}</span>
-      <Space>
-        <Input style={{ width: '25vw' }} disabled={isLoadingPathName} value={pathName} onChange={e => editPathName(e.target.value)} />
-        {applyFileNameAndPathButton}
-      </Space>
-    </FullRow>
-    <FullRow>{nameTable}</FullRow>
+    {setAutoRepair}
+    {setHLS}
+    {setPath}
+    {setFilename}
+    {loginStatus && setUser}
   </Row>
 }
 export default BackEnd

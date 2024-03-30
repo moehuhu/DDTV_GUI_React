@@ -7,7 +7,6 @@ export function getLoginQrcode() {
   })
 }
 
-//TODO - 更换成url生成图片
 export function getLoginUrl() {
   return instance.get<Response<any>>('login/get_login_url')
 }
@@ -26,4 +25,8 @@ export function getUserAgreementState() {
 
 export function getLoginStatus() {
   return instance.post<Response<boolean>>('login/get_login_status')
+}
+
+export function getLoginUserInfo() {
+  return instance.get<Response<any>>('login/get_nav')
 }

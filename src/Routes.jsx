@@ -160,7 +160,7 @@ const AppRoutes = ({ setIsLoggedIn }) => {
     <Route path="/" element={<RoomList />} />
     <Route path='/batchOperation' element={<BatchOperation />} />
     <Route path="/fileManagement" element={<FileManagement />} />
-    <Route path="/systemSettings" element={<SystemSettings />} />
+    <Route path="/systemSettings" element={<SystemSettings loginStatus={loginStatus} />} />
     <Route path="*" element={<NoMatch />} />
   </Routes>
 
