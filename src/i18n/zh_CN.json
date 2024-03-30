@@ -92,6 +92,7 @@
     "Are you sure to delete this room?": "确定要删除这个房间?",
     "Are you sure to delete selected rooms?": "确定要删除选择的房间?",
     "Are you sure to reset these settings?": "确定要重置这些设置?",
+    "To restore all settings to default values, please restart the program and it will take effect after restarting": "恢复所有设置为默认值，请重新启动程序，重启后生效",
     "Verification failed, please check the filename format": "校验不通过，请检查文件名格式",
     "Are you sure to modify the filename format?": "确定要修改文件名格式?",
     "Verification failed, please check the path format": "校验失败，请检查路径格式",

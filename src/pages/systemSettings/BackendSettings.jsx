@@ -8,13 +8,14 @@ import useLoginBiliBili from "../../hooks/useLoginBiliBili";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { useMount, useResponsive, } from "ahooks";
-import { Avatar, Input, InputNumber, Checkbox, Space, Col, Row, Button, theme, Table, Popconfirm } from "antd";
+import { Avatar, Input, InputNumber, Checkbox, Space, Col, Row, Button, theme, Table, Popconfirm, App } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
 import _ from "lodash"
 
 const FullRow = ({ children }) => <Col span={24}><Space size={24}>{children}</Space></Col>
 const BackEnd = (props) => {
   const { token } = theme.useToken()
+  const { message } = App.useApp()
   const color = token.colorText
   const style = { color }
   const { t } = useTranslation()
@@ -33,6 +34,7 @@ const BackEnd = (props) => {
   useMount(getHLSTime)
   const { isLoading: isLoadingAutoRepair, isAutoRepair, setIsAutoRepair, getRepairConfig, setRepairConfig } = useAutoRepair()
   useMount(getRepairConfig)
+  const { reset } = useResetConfig()
   const now = dayjs()
   const tagList = [
     { tag: "{ROOMID}", effect: t('roomID') },
@@ -152,12 +154,29 @@ const BackEnd = (props) => {
   const setUser = renderFullRow(t('User'), user)
   const coreVersion = renderFullRow(version?.message, version?.data)
   return <Row className="backtend-settings" align="middle" gutter={[16, 16]}>
+    {loginStatus && setUser}
     {version && coreVersion}
     {setAutoRepair}
     {setHLS}
     {setPath}
     {setFilename}
-    {loginStatus && setUser}
+    {nameTable}
+    <FullRow>
+      <Popconfirm
+        key={'delete'}
+        title={t('Confirm')}
+        description={t('Are you sure to reset these settings?')}
+        onConfirm={async () => {
+          const [err, res] = await reset()
+          if (err) { message.error(err.message) }
+          if (res) { message.success(t('To restore all settings to default values, please restart the program and it will take effect after restarting')) }
+        }}
+        okText={t('Confirm')}
+        okButtonProps={{ danger: true }}
+        showCancel={false}>
+        <Button danger>{t('resetSettings')}</Button>
+      </Popconfirm>
+    </FullRow>
   </Row>
 }
 export default BackEnd
