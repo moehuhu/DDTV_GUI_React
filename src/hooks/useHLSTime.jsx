@@ -14,7 +14,7 @@ const useHLSTime = () => {
   }
   const setHLSTime = async () => {
     setTrue()
-    const [err, res] = await to(setHLSWaitingTime({ waitingtime: time }))
+    const [err, res] = await to(setHLSWaitingTime({ waiting_time: time }))
     setFalse()
     return [err, res]
   }
