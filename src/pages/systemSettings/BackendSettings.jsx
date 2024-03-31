@@ -79,6 +79,7 @@ const BackEnd = (props) => {
   const { reset, checkReinitialize, setCheckReinitialize, checkReinitializeData, applyReinitialize } = useResetConfig()
   const yangleButton = <Popconfirm
     okText={t('Confirm')}
+    okButtonProps={{ danger: true }}
     icon={checkReinitializeData?.checkFailed ? failedIcon : undefined}
     onConfirm={async () => {
       const [err, res] = await applyReinitialize()
