@@ -5,12 +5,14 @@ import useHLSTime from "../../hooks/useHLSTime";
 import useRecordingPath from "../../hooks/useRecordingPath"
 import useFileNameAndPath from "../../hooks/useFileNameAndPath"
 import useLoginBiliBili from "../../hooks/useLoginBiliBili";
+import { useState } from "react";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 import { useMount, useResponsive, } from "ahooks";
-import { Avatar, Input, InputNumber, Checkbox, Space, Col, Row, Button, theme, Table, Popconfirm, App } from "antd";
+import { Avatar, Input, InputNumber, Checkbox, Space, Col, Row, Button, theme, Table, Popconfirm, QRCode, Popover, App } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
 import _ from "lodash"
+const ddtv = new URL('../../../public/DDTV.png', import.meta.url).href
 
 const FullRow = ({ children }) => <Col span={24}><Space size={24}>{children}</Space></Col>
 const BackEnd = (props) => {
@@ -22,7 +24,8 @@ const BackEnd = (props) => {
   const { getVersion, version } = useCoreVersion()
   useMount(getVersion)
   const { loginStatus } = props
-  const { getLoginUser, userInfo, relogin } = useLoginBiliBili()
+  const { getLoginUser, userInfo, relogin, getLoginURL, loginURL } = useLoginBiliBili()
+  const [displayQrcode, setDisplayQrcode] = useState(false)
   useMount(getLoginUser)
   const { isLoading, getPath, checkPath,
     checkPathData, setCheckData, applyPath, path, editPath } = useRecordingPath()
@@ -144,12 +147,40 @@ const BackEnd = (props) => {
     style={{ lineHeight: token.lineHeight, color: token.colorText }}>
     {`UID: ${userInfo?.mid} `}
   </span>
+  const QRcode = <QRCode
+    icon={ddtv}
+    bordered={false}
+    value={loginURL || 'https://www.bilibili.com'}
+    status={loginURL ? 'active' : 'loading'}
+  />
+  const onClickRelogin = async (open) => {
+    setDisplayQrcode(open)
+    if (!open) { return }
+    const [reloginErr] = await relogin()
+    if (reloginErr) {
+      message.error(reloginErr?.message)
+      setDisplayQrcode(false)
+      return
+    }
+    const [getUrlErr] = await getLoginURL()
+    if (getUrlErr) {
+      message.error(getUrlErr?.message)
+      setDisplayQrcode(false)
+    }
+  }
   const user = <div
     style={{ borderRadius: token.borderRadiusLG, borderColor: token.colorBorder }}
     className="user">
     {avatar}
     <div className="info">{name}{description}</div>
-    {<Button onClick={relogin}>{t('logout')}</Button>}
+    {<Popover
+      content={QRcode}
+      overlayInnerStyle={{ padding: 0 }}
+      placement='top'
+      open={displayQrcode}
+      onOpenChange={onClickRelogin}
+      trigger='click'
+    ><Button>{t('Switch Account')}</Button></Popover>}
   </div>
   const setUser = renderFullRow(t('User'), user)
   const coreVersion = renderFullRow(version?.message, version?.data)
