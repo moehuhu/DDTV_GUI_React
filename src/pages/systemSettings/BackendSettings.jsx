@@ -17,6 +17,7 @@ const ddtv = new URL('../../../public/DDTV.png', import.meta.url).href
 const FullRow = ({ children }) => <Col span={24}><Space size={24}>{children}</Space></Col>
 const BackEnd = (props) => {
   const { token } = theme.useToken()
+  const failedIcon = <CloseCircleFilled style={{ color: token.colorError }} />
   const { message } = App.useApp()
   const color = token.colorText
   const style = { color }
@@ -37,7 +38,6 @@ const BackEnd = (props) => {
   useMount(getHLSTime)
   const { isLoading: isLoadingAutoRepair, isAutoRepair, setIsAutoRepair, getRepairConfig, setRepairConfig } = useAutoRepair()
   useMount(getRepairConfig)
-  const { reset } = useResetConfig()
   const now = dayjs()
   const tagList = [
     { tag: "{ROOMID}", effect: t('roomID') },
@@ -74,7 +74,26 @@ const BackEnd = (props) => {
     scroll={{ y: 400 }}
     pagination={false}
   />
-  const failedIcon = <CloseCircleFilled style={{ color: token.colorError }} />
+
+
+  const { reset, checkReinitialize, setCheckReinitialize, checkReinitializeData, applyReinitialize } = useResetConfig()
+  const yangleButton = <Popconfirm
+    okText={t('Confirm')}
+    icon={checkReinitializeData?.checkFailed ? failedIcon : undefined}
+    onConfirm={async () => {
+      const [err, res] = await applyReinitialize()
+      if (err) { message.error(err?.message) }
+      if (res) { message.success(t("All configuration files are cleared. The program will automatically terminated, please restart the process")) }
+    }}
+    onOpenChange={open => !open && setCheckReinitialize(null)}
+    open={!_.isEmpty(checkReinitializeData)}
+    showCancel={false}
+    title={checkReinitializeData?.title}
+    description={<div style={{ width: 300 }}>{checkReinitializeData?.message}</div>}
+  >
+    <Button type="primary" danger loading={isLoading} onClick={checkReinitialize}>{t('yangle')}</Button>
+  </Popconfirm>
+
   const applyRecordingPathButton = <Popconfirm
     okText={t('Confirm')}
     icon={checkPathData?.checkFailed ? failedIcon : undefined}
@@ -208,6 +227,7 @@ const BackEnd = (props) => {
         <Button danger>{t('resetSettings')}</Button>
       </Popconfirm>
     </FullRow>
+    <FullRow>{yangleButton}</FullRow>
   </Row>
 }
 export default BackEnd

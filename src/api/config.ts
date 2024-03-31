@@ -9,6 +9,10 @@ export function resetConfig() {
   return instance.get<Response<any>>('config/restore_all_settings_to_default')
 }
 
+export function reinitializeConfig(data: { check?: string }) {
+  return instance.post<Response<any>>('config/reinitialize', data)
+}
+
 export function setRecordingPath(data: { path?: string; check?: string }) {
   return instance.post<Response<any>>('config/set_recording_path', data)
 }
