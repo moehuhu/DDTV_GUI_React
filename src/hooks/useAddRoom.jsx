@@ -2,8 +2,6 @@ import to from "await-to-js"
 import { useState } from "react"
 import { useBoolean } from 'ahooks'
 import { addRoom, addRooms } from '@/api/set_room'
-import usePolling from './usePolling'
-import useRoomInfo from './useRoomInfo'
 import _ from 'lodash'
 const useAddRoom = () => {
     const [err, setError] = useState(null)
