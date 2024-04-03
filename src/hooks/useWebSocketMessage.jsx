@@ -16,7 +16,7 @@ const useWebSocketMessage = () => {
     newSocket.onopen = e => onOpen?.(toData(e))
     newSocket.onmessage = e => onMessage?.(toData(e))
     newSocket.onclose = e => onClose?.(toData(e))
-    return () => newSocket.close()
+    return () => newSocket.readyState == 1 && newSocket.close()
   }, [onOpen, onMessage, onClose]);
 
   const open = fn => setOpenCallback(() => fn)
