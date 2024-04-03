@@ -5638,20 +5638,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-singleton-hook@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "react-singleton-hook@npm:4.0.1"
-  peerDependencies:
-    react: 18
-  peerDependenciesMeta:
-    react-dom:
-      optional: true
-    react-native:
-      optional: true
-  checksum: 10c0/53261f8a99d0a4dd40ead18c6af1955b3d81d3c369c0a83eb7b3a3833499dc40e140f36fc868efa63fae5313765f49c610fa94031b919460af498a36010f5444
-  languageName: node
-  linkType: hard
-
 "react@npm:^18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
@@ -6526,7 +6512,6 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-i18next: "npm:^14.0.1"
     react-router-dom: "npm:^6.21.3"
-    react-singleton-hook: "npm:^4.0.1"
     terser: "npm:^5.27.0"
     vite: "npm:^5.0.8"
     vite-plugin-svgr: "npm:^4.2.0"
