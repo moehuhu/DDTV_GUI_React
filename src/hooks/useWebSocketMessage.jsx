@@ -7,10 +7,9 @@ import { useState } from 'react'
 import { useWebSocket } from 'ahooks'
 import { singletonHook } from 'react-singleton-hook';
 
-const useWebSocketMessage = singletonHook(wsURL, (props) => {
+const useWebSocketMessage = singletonHook(wsURL, (options) => {
   const [ws] = useState(wsURL)
-  const onMessage = props?.onMesage || ((message) => { console.log(message) })
-  const { latestMessage } = useWebSocket(ws, { onMessage })
-  return { latestMessage }
+  const result = useWebSocket(ws, options)
+  return result
 })
 export default useWebSocketMessage
