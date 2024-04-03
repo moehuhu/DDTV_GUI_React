@@ -75,26 +75,6 @@ const BackEnd = (props) => {
     pagination={false}
   />
 
-
-  const { reset, checkReinitialize, setCheckReinitialize, checkReinitializeData, applyReinitialize } = useResetConfig()
-  const yangleButton = <Popconfirm
-    okText={t('Confirm')}
-    okButtonProps={{ danger: true }}
-    icon={checkReinitializeData?.checkFailed ? failedIcon : undefined}
-    onConfirm={async () => {
-      const [err, res] = await applyReinitialize()
-      if (err) { message.error(err?.message) }
-      if (res) { message.success(t("All configuration files are cleared. The program will automatically terminated, please restart the process")) }
-    }}
-    onOpenChange={open => !open && setCheckReinitialize(null)}
-    open={!_.isEmpty(checkReinitializeData)}
-    showCancel={false}
-    title={checkReinitializeData?.title}
-    description={<div style={{ width: 300 }}>{checkReinitializeData?.message}</div>}
-  >
-    <Button type="primary" danger loading={isLoading} onClick={checkReinitialize}>{t('yangle')}</Button>
-  </Popconfirm>
-
   const applyRecordingPathButton = <Popconfirm
     okText={t('Confirm')}
     icon={checkPathData?.checkFailed ? failedIcon : undefined}
@@ -204,6 +184,40 @@ const BackEnd = (props) => {
   </div>
   const setUser = renderFullRow(t('User'), user)
   const coreVersion = renderFullRow(version?.message, version?.data)
+  
+  const { reset, checkReinitialize, setCheckReinitialize, checkReinitializeData, applyReinitialize } = useResetConfig()
+  const resetButton = <Popconfirm
+    key={'delete'}
+    title={t('Confirm')}
+    description={t('Are you sure to reset these settings?')}
+    onConfirm={async () => {
+      const [err, res] = await reset()
+      if (err) { message.error(err.message) }
+      if (res) { message.success(t('To restore all settings to default values, please restart the program and it will take effect after restarting')) }
+    }}
+    okText={t('Confirm')}
+    okButtonProps={{ danger: true }}
+    showCancel={false}>
+    <Button danger>{t('resetSettings')}</Button>
+  </Popconfirm>
+  const yangleButton = <Popconfirm
+    okText={t('Confirm')}
+    okButtonProps={{ danger: true }}
+    icon={checkReinitializeData?.checkFailed ? failedIcon : undefined}
+    onConfirm={async () => {
+      const [err, res] = await applyReinitialize()
+      if (err) { message.error(err?.message) }
+      if (res) { message.success(t("All configuration files are cleared. The program will automatically terminated, please restart the process")) }
+    }}
+    onOpenChange={open => !open && setCheckReinitialize(null)}
+    open={!_.isEmpty(checkReinitializeData)}
+    showCancel={false}
+    title={checkReinitializeData?.title}
+    description={<div style={{ width: 300 }}>{checkReinitializeData?.message}</div>}
+  >
+    <Button type="primary" danger loading={isLoading} onClick={checkReinitialize}>{t('yangle')}</Button>
+  </Popconfirm>
+  
   return <Row className="backtend-settings" align="middle" gutter={[16, 16]}>
     {loginStatus && setUser}
     {version && coreVersion}
@@ -212,22 +226,7 @@ const BackEnd = (props) => {
     {setPath}
     {setFilename}
     {nameTable}
-    <FullRow>
-      <Popconfirm
-        key={'delete'}
-        title={t('Confirm')}
-        description={t('Are you sure to reset these settings?')}
-        onConfirm={async () => {
-          const [err, res] = await reset()
-          if (err) { message.error(err.message) }
-          if (res) { message.success(t('To restore all settings to default values, please restart the program and it will take effect after restarting')) }
-        }}
-        okText={t('Confirm')}
-        okButtonProps={{ danger: true }}
-        showCancel={false}>
-        <Button danger>{t('resetSettings')}</Button>
-      </Popconfirm>
-    </FullRow>
+    <FullRow>{resetButton}</FullRow>
     <FullRow>{yangleButton}</FullRow>
   </Row>
 }
