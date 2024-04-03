@@ -4,7 +4,7 @@ import FileManagement from './pages/fileManagement'
 import SystemSettings from './pages/systemSettings'
 import NoMatch from './pages/noMatch';
 import { useState } from "react";
-import { useMount, useBoolean, useRafInterval, useInterval } from 'ahooks';
+import { useMount, useBoolean, useRafInterval } from 'ahooks';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import { Layout, Menu, theme, Modal, Typography, Popover, Tooltip, QRCode, App } from 'antd';
 const { Paragraph, Title } = Typography
@@ -41,11 +41,9 @@ const AppRoutes = ({ setIsLoggedIn }) => {
     navigate(key)
   }
 
-  const { checkLoginStatus, loginStatus, getLoginURL, loginURL, relogin } = useLoginBiliBili({
-    loginSuccess: () => window.location.reload()
-  })
+  const { checkLoginStatus, loginStatus, getLoginURL, loginURL, relogin } = useLoginBiliBili()
+  useMount(checkLoginStatus)
   const { agree, checkAgreementState, isAgreed } = useUserAgreement()
-  useInterval(checkLoginStatus, loginStatus ? 15000 : 5000, { immediate: true })
   useMount(checkAgreementState)
   const onConfirm = () => agree('y')
   const onCancel = () => setIsLoggedIn(false)

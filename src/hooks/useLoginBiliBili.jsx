@@ -1,7 +1,9 @@
 import { useState } from "react"
 import to from "await-to-js"
-import { useBoolean } from 'ahooks'
+import { useBoolean, useMount } from 'ahooks'
 import { getLoginUrl, doReLogin, getLoginStatus, getLoginUserInfo } from "../api/login"
+import useWebSocketMessage from "./useWebSocketMessage"
+import Opcode from "../enums/opcode"
 
 const useLoginBiliBili = (props) => {
   const loginSuccess = props?.loginSuccess
@@ -9,6 +11,23 @@ const useLoginBiliBili = (props) => {
   const [loginStatus, setLoginStatus] = useState(null)
   const [loginURL, setLoginURL] = useState('')
   const [userInfo, setUserInfo] = useState(null)
+  const socket = useWebSocketMessage()
+
+  const checkLoginStatus = async () => {
+    setTrue()
+    const [err, res] = await to(getLoginStatus())
+    setLoginStatus(res?.data?.data)
+    setFalse()
+    return [err, res?.data?.data]
+  }
+  useMount(() => {
+    socket.addEventListener('message', e => {
+      if (Opcode.LoginSuccessful == e?.code) {
+        checkLoginStatus()
+        loginSuccess?.()
+      }
+    })
+  })
   const relogin = async () => {
     setTrue()
     setLoginURL('')
@@ -27,16 +46,6 @@ const useLoginBiliBili = (props) => {
     setTrue()
     const [err, res] = await to(getLoginUserInfo())
     setUserInfo(res?.data?.data)
-    setFalse()
-    return [err, res?.data?.data]
-  }
-  const checkLoginStatus = async () => {
-    setTrue()
-    const [err, res] = await to(getLoginStatus())
-    if (loginStatus === false && res?.data?.data === true) {
-      loginSuccess?.()
-    }
-    setLoginStatus(res?.data?.data)
     setFalse()
     return [err, res?.data?.data]
   }

@@ -8,7 +8,7 @@ import useLoginBiliBili from "../../hooks/useLoginBiliBili";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
-import { useMount, useResponsive, } from "ahooks";
+import { useInterval, useMount, useResponsive } from "ahooks";
 import { Avatar, Input, InputNumber, Checkbox, Space, Col, Row, Button, theme, Table, Popconfirm, QRCode, Popover, App } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
 import _ from "lodash"
@@ -24,10 +24,15 @@ const BackEnd = (props) => {
   const { t } = useTranslation()
   const { getVersion, version } = useCoreVersion()
   useMount(getVersion)
-  const { loginStatus } = props
-  const { getLoginUser, userInfo, relogin, getLoginURL, loginURL } = useLoginBiliBili()
+  const loginStatus = _.get(props, 'loginStatus')
+  const { getLoginUser, userInfo, relogin, getLoginURL, loginURL } = useLoginBiliBili({
+    loginSuccess: () => window.location.reload()
+  })
   const [displayQrcode, setDisplayQrcode] = useState(false)
   useMount(getLoginUser)
+  useInterval(() => {
+    (!userInfo?.mid) && getLoginUser()
+  }, 15000)
   const { isLoading, getPath, checkPath,
     checkPathData, setCheckData, applyPath, path, editPath } = useRecordingPath()
   useMount(getPath)
@@ -182,9 +187,9 @@ const BackEnd = (props) => {
       trigger='click'
     ><Button>{t('Switch Account')}</Button></Popover>}
   </div>
-  const setUser = renderFullRow(t('User'), user)
+  const setUser = renderFullRow(t('User'), userInfo?.mid ? user : (t('Loading') + '...'))
   const coreVersion = renderFullRow(version?.message, version?.data)
-  
+
   const { reset, checkReinitialize, setCheckReinitialize, checkReinitializeData, applyReinitialize } = useResetConfig()
   const resetButton = <Popconfirm
     key={'delete'}
@@ -217,7 +222,7 @@ const BackEnd = (props) => {
   >
     <Button type="primary" danger loading={isLoading} onClick={checkReinitialize}>{t('yangle')}</Button>
   </Popconfirm>
-  
+
   return <Row className="backtend-settings" align="middle" gutter={[16, 16]}>
     {loginStatus && setUser}
     {version && coreVersion}
