@@ -12,6 +12,10 @@ const useWebSocketMessage = () => {
     const listenTo = { message }[type]
     listenTo?.(callback)
   }
-  return { addEventListener }
+  const removeEventListener = (type) => {
+    const listenTo = { message }[type]
+    listenTo?.(null)
+  }
+  return { addEventListener, removeEventListener }
 }
 export default useWebSocketMessage

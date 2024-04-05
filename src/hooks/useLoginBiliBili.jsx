@@ -20,14 +20,6 @@ const useLoginBiliBili = (props) => {
     setFalse()
     return [err, res?.data?.data]
   }
-  useMount(() => {
-    socket.addEventListener('message', e => {
-      if (Opcode.LoginSuccessful == e?.code) {
-        checkLoginStatus()
-        loginSuccess?.()
-      }
-    })
-  })
   const relogin = async () => {
     setTrue()
     setLoginURL('')
@@ -36,6 +28,13 @@ const useLoginBiliBili = (props) => {
     return [err, res]
   }
   const getLoginURL = async () => {
+    socket.addEventListener('message', e => {
+      if (Opcode.LoginSuccessful == e?.code) {
+        checkLoginStatus()
+        loginSuccess?.()
+        socket.removeEventListener('message')
+      }
+    })
     setTrue()
     const [err, res] = await to(getLoginUrl())
     setLoginURL(res?.data?.data)
