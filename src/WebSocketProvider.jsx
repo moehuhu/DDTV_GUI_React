@@ -4,7 +4,7 @@ export const WebSocketContext = createContext();
 const WebSocketProvider = ({ children }) => {
   const emitter = useMemo(() => mitt(), [])
   useEffect(() => {
-    const workerInstance = new Worker(new URL('./utils/webSocketWorker.js', import.meta.url))
+    const workerInstance = new Worker(new URL('./utils/webSocketWorker.js', import.meta.url), { type: 'module' })
     workerInstance.postMessage({ type: 'connect' })
     workerInstance.addEventListener('message', e => {
       emitter.emit('message', e?.data)
