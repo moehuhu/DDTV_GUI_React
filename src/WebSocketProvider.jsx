@@ -9,7 +9,7 @@ const WebSocketProvider = ({ children }) => {
     workerInstance.postMessage({ type: 'connect' })
     workerInstance.addEventListener('message', e => setMessage(e?.data))
     return () => workerInstance.postMessage({ type: 'close' })
-  })
+  }, [])
   return <WebSocketContext.Provider value={message}>
     {children}
   </WebSocketContext.Provider>
