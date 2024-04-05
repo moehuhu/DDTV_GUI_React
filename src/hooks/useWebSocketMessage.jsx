@@ -1,16 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { WebSocketContext } from '../WebSocketProvider'
 
 const useWebSocketMessage = () => {
   const [onMessage, setMessageCallback] = useState()
-
+  const wsMessage = useContext(WebSocketContext)
   useEffect(() => {
-    const workerInstance = new Worker(new URL('../utils/webSocketWorker.js', import.meta.url))
-    workerInstance.addEventListener('message', e => onMessage?.(e?.data))
-    return () => workerInstance.postMessage({ type: 'close' })
-  }, [onMessage]);
-
+    onMessage?.(wsMessage)
+  }, [onMessage, wsMessage]);
   const message = fn => setMessageCallback(() => fn)
-
   const addEventListener = (type, callback) => {
     const listenTo = { message }[type]
     listenTo?.(callback)

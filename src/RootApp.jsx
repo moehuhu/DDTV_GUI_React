@@ -11,6 +11,7 @@ import './i18n/i18n.js'
 import useIsLoggedIn from './hooks/useIsLoggedIn.jsx'
 import LanguageIcon from './assets/language.svg?react'
 import { useSystemSettingsStore } from './SystemSettingsStore.jsx'
+import WebSocketProvider from './WebSocketProvider.jsx'
 
 configResponsive({
     sm: 768,
@@ -65,9 +66,10 @@ const RootApp = () => {
     const router = <HashRouter>
         {isLoggedIn ? mainPages : unauthenticatedPages}
     </HashRouter>
-
-    return <ConfigProvider theme={{ algorithm: theme[themeMode] }}>
-        <App>{floatButtons}{router}</App>
-    </ConfigProvider>
+    return <WebSocketProvider>
+        <ConfigProvider theme={{ algorithm: theme[themeMode] }}>
+            <App>{floatButtons}{router}</App>
+        </ConfigProvider>
+    </WebSocketProvider>
 }
 export default RootApp
