@@ -1,21 +1,18 @@
-import { useState, useEffect, useContext } from 'react'
-import { flushSync } from 'react-dom'
+import { useContext } from 'react'
+import { useSetState } from 'ahooks'
 import { WebSocketContext } from '../WebSocketProvider'
+import _ from 'lodash'
 
 const useWebSocketMessage = () => {
-  const [onMessage, setMessageCallback] = useState()
-  const wsMessage = useContext(WebSocketContext)
-  useEffect(() => {
-    onMessage?.(wsMessage)
-  }, [onMessage, wsMessage]);
-  const message = fn => setMessageCallback(() => fn)
-  const addEventListener = (type, callback) => flushSync(() => {
-    const listenTo = { message }[type]
-    listenTo?.(callback)
-  })
+  const [callbacks, setMessageCallback] = useSetState({})
+  const { emitter } = useContext(WebSocketContext)
+  const addEventListener = (type, callback) => {
+    setMessageCallback({ [type]: callback })
+    emitter.on(type, callback)
+  }
   const removeEventListener = (type) => {
-    const listenTo = { message }[type]
-    listenTo?.(null)
+    setMessageCallback(_.omit(callbacks, type))
+    emitter.off(type, callbacks[type])
   }
   return { addEventListener, removeEventListener }
 }
