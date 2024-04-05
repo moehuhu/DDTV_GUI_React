@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
+import { flushSync } from 'react-dom'
 import { WebSocketContext } from '../WebSocketProvider'
 
 const useWebSocketMessage = () => {
@@ -8,10 +9,10 @@ const useWebSocketMessage = () => {
     onMessage?.(wsMessage)
   }, [onMessage, wsMessage]);
   const message = fn => setMessageCallback(() => fn)
-  const addEventListener = (type, callback) => {
+  const addEventListener = (type, callback) => flushSync(() => {
     const listenTo = { message }[type]
     listenTo?.(callback)
-  }
+  })
   const removeEventListener = (type) => {
     const listenTo = { message }[type]
     listenTo?.(null)
