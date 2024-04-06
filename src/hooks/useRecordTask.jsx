@@ -16,14 +16,25 @@ const useRecordTask = (onLoadingEnd) => {
         return [err, res]
     }
     const cancelRecTask = async (uid) => {
-        const checkCancelRes = (data) => {
-            const isThisCancelTask = data?.UID == uid
-            if (!isThisCancelTask) { return }
+        const stopLoadingAndRefresh = () => {
             setFalse()
             onLoadingEnd?.()
-            socket.removeEventListener(Opcode.RecordingEnd, checkCancelRes)
         }
-        socket.addEventListener(Opcode.RecordingEnd, checkCancelRes)
+        const checkCancelSuccess = (data) => {
+            const isThisTask = data?.UID == uid
+            if (!isThisTask) { return }
+            const isDownload = data?.DownInfo?.IsDownload
+            if (!isDownload) { stopLoadingAndRefresh() }
+            socket.removeEventListener(Opcode.CancelRecordingSuccessful, checkCancelSuccess)
+        }
+        const checkRecordingEnd = (data) => {
+            const isThisTask = data?.UID == uid
+            if (!isThisTask) { return }
+            stopLoadingAndRefresh()
+            socket.removeEventListener(Opcode.RecordingEnd, checkRecordingEnd)
+        }
+        socket.addEventListener(Opcode.CancelRecordingSuccessful, checkCancelSuccess)
+        socket.addEventListener(Opcode.RecordingEnd, checkRecordingEnd)
         setTrue()
         const [err, res] = await to(cancelTask({ uid, state: false }))
         return [err, res]
