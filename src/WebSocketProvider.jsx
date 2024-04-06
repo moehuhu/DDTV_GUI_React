@@ -6,6 +6,7 @@ const WebSocketProvider = ({ children }) => {
   const emitter = useMemo(() => mitt(), [])
   useEffect(() => {
     const workerInstance = new Worker(workerURL, { type: 'module' })
+    workerInstance.postMessage({ type: 'connect', payload: location.href })
     workerInstance.addEventListener('message', e => emitter.emit(e?.data?.code, e?.data?.data))
     return () => workerInstance.postMessage({ type: 'close' })
   }, [emitter])
