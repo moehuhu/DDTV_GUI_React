@@ -17,11 +17,10 @@ const RoomActions = (item) => {
   useRafInterval(toggle, 500)
   const willOrRecording = appointmentRecord || isDownload
   const taskActionType = willOrRecording ? 'cancelRecTask' : 'createRecTask'
-  const taskActions = useRecordTask()
+  const taskActions = useRecordTask(refreshPage)
   const { cutSlice } = useCutSlice()
   const onClick = async () => {
     await taskActions[taskActionType](userInfo?.uid)
-    refreshPage?.()
   }
   const autoRecActionType = isAutoRec ? 'closeAutoRec' : 'openAutoRec'
   const autoRecActions = useAutoRec()
