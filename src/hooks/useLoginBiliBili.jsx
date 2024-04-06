@@ -28,13 +28,14 @@ const useLoginBiliBili = (props) => {
     return [err, res]
   }
   const getLoginURL = async () => {
-    socket.addEventListener('message', e => {
-      if (Opcode.LoginSuccessful == e?.code) {
-        checkLoginStatus()
-        loginSuccess?.()
-        socket.removeEventListener('message')
-      }
-    })
+    const checkLogin = e => {
+      const isLoginSuccess = Opcode.LoginSuccessful == e?.code
+      if (!isLoginSuccess) { return }
+      checkLoginStatus()
+      loginSuccess?.()
+      socket.removeEventListener('message', checkLogin)
+    }
+    socket.addEventListener('message', checkLogin)
     setTrue()
     const [err, res] = await to(getLoginUrl())
     setLoginURL(res?.data?.data)
