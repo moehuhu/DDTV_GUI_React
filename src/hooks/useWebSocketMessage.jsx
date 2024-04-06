@@ -3,11 +3,11 @@ import { WebSocketContext } from '../WebSocketProvider'
 
 const useWebSocketMessage = () => {
   const { emitter } = useContext(WebSocketContext)
-  const addEventListener = (type, callback) => {
-    emitter.on(type, callback)
+  const addEventListener = (code, callback) => {
+    emitter.on(code, callback)
   }
-  const removeEventListener = (type, callback) => {
-    emitter.off(type, callback)
+  const removeEventListener = (code, callback) => {
+    emitter.off(code, callback)
   }
   return { addEventListener, removeEventListener }
 }

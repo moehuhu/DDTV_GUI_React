@@ -16,15 +16,14 @@ const useRecordTask = (onLoadingEnd) => {
         return [err, res]
     }
     const cancelRecTask = async (uid) => {
-        const checkCancelRes = (e) => {
-            const isCancelSuccess = Opcode.RecordingEnd == e?.code
-            const isThisCancelTask = e?.data?.UID == uid
-            if (!isCancelSuccess || !isThisCancelTask) { return }
+        const checkCancelRes = (data) => {
+            const isThisCancelTask = data?.UID == uid
+            if (!isThisCancelTask) { return }
             setFalse()
             onLoadingEnd?.()
-            socket.removeEventListener('message', checkCancelRes)
+            socket.removeEventListener(Opcode.RecordingEnd, checkCancelRes)
         }
-        socket.addEventListener('message', checkCancelRes)
+        socket.addEventListener(Opcode.RecordingEnd, checkCancelRes)
         setTrue()
         const [err, res] = await to(cancelTask({ uid, state: false }))
         return [err, res]
