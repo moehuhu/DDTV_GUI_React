@@ -99,7 +99,10 @@ const RoomList = () => {
       setEditingRoom={setEditingRoom}
     />
   </div>
-  const footer = <div className="footer" style={{ borderBlockStart: `1px solid ${token.colorBorderSecondary}` }}>
+  const footer = <div className="footer" style={{
+    borderBlockStart: `1px solid ${token.colorBorderSecondary}`,
+    borderBlockEnd: `1px solid ${token.colorBorderSecondary}`
+  }}>
     <Pagination
       current={current}
       pageSize={pageSize}

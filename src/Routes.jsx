@@ -3,6 +3,7 @@ import BatchOperation from './pages/batchOperation';
 import FileManagement from './pages/fileManagement'
 import SystemSettings from './pages/systemSettings'
 import NoMatch from './pages/noMatch';
+import SystemResource from './SystemResource';
 import { useState } from "react";
 import { useMount, useBoolean, useRafInterval } from 'ahooks';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
@@ -13,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import _ from 'lodash'
 import useLoginBiliBili from './hooks/useLoginBiliBili';
 import useUserAgreement from './hooks/useUserAgreement';
+import './Routes.css'
 
 const { Sider, Content } = Layout;
 const ddtv = new URL('../public/DDTV.png', import.meta.url).href
@@ -132,7 +134,7 @@ const AppRoutes = ({ setIsLoggedIn }) => {
   const sider = <Sider
     collapsed={collapsed}
     theme="light"
-    style={{ height: '100vh' }}>
+    style={{ height: '100vh', alignItems: 'center' }}>
     {siderHeader}
     <Menu
       theme="light"
@@ -141,6 +143,7 @@ const AppRoutes = ({ setIsLoggedIn }) => {
       mode="inline"
       items={items}
     />
+    <SystemResource />
   </Sider>
 
   const contentWrapper = (content) => <Content
