@@ -2739,6 +2739,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bytes@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "bytes@npm:3.1.2"
+  checksum: 10c0/76d1c43cbd602794ad8ad2ae94095cddeb1de78c5dddaa7005c51af10b0176c69971a6d88e805a90c2b6550d76636e43c40d8427a808b8645ede885de4a0358e
+  languageName: node
+  linkType: hard
+
 "cacache@npm:^18.0.0":
   version: 18.0.2
   resolution: "cacache@npm:18.0.2"
@@ -6504,6 +6511,7 @@ __metadata:
     antd: "npm:^5.14.2"
     await-to-js: "npm:^3.0.0"
     axios: "npm:^1.6.5"
+    bytes: "npm:^3.1.2"
     crypto-js: "npm:^4.2.0"
     dayjs: "npm:^1.11.10"
     eslint: "npm:^8.55.0"

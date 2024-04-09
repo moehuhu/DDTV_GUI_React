@@ -1,4 +1,4 @@
-import RoomList from './pages/roomList'
+import Overview from './pages/overview'
 import BatchOperation from './pages/batchOperation';
 import FileManagement from './pages/fileManagement'
 import SystemSettings from './pages/systemSettings'
@@ -155,7 +155,7 @@ const AppRoutes = ({ setIsLoggedIn }) => {
   </Content>
 
   const routes = <Routes>
-    <Route path="/" element={<RoomList />} />
+    <Route path="/" element={<Overview />} />
     <Route path='/batchOperation' element={<BatchOperation />} />
     <Route path="/fileManagement" element={<FileManagement />} />
     <Route path="/systemSettings" element={<SystemSettings loginStatus={loginStatus} />} />

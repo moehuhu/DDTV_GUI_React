@@ -1,8 +1,7 @@
 import RoomCard from './RoomCard/index';
 import AddRoomModal from './AddRoomModal';
 import SetRoomModal from './SetRoomModal';
-import useDetailedRoomInfoList from '../../hooks/useDetailedRoomInfoList';
-import './style.css'
+import useDetailedRoomInfoList from '../../hooks/useDetailedRoomInfoList'
 import RoomListHeader from './RoomListHeader';
 import { useSystemSettingsStore } from '../../SystemSettingsStore';
 import { useMemo, useState, useRef } from 'react';
@@ -14,7 +13,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash'
 
 
-const Rooms = () => {
+const RoomList = () => {
   const { token } = theme.useToken()
   const { message } = App.useApp()
   const { t } = useTranslation()
@@ -126,8 +125,7 @@ const Rooms = () => {
     />
   </div>
 
-  return <div className='room-list'
-    style={{ borderRadius: token.borderRadiusLG }}>
+  return <>
     {addRoomModal}
     {setRoomModal}
     {header}
@@ -135,8 +133,7 @@ const Rooms = () => {
       {roomInfoList?.map(renderItem)}
     </div>
     {footer}
-  </div>
-
+  </>
 
 }
-export default Rooms
+export default RoomList
