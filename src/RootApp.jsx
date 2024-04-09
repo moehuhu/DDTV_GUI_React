@@ -16,7 +16,7 @@ import WebSocketProvider from './WebSocketProvider.jsx'
 configResponsive({
     sm: 768,
     md: 960,
-    lg: 1280,
+    lg: 1260,
     xl: 1600,
     xxl: 1920
 });
