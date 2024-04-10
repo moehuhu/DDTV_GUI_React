@@ -127,7 +127,7 @@
 
             label {
               flex-grow: 0;
-              max-width: 100%;
+              width: 60px;
               font-size: 14px;
             }
 

@@ -6,6 +6,7 @@ import { Switch, Button, Popconfirm, theme } from "antd"
 import { DeleteOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
+import { useBoolean } from "ahooks"
 import _ from "lodash"
 const Actions = (props) => {
     const { t } = useTranslation()
@@ -39,7 +40,13 @@ const Actions = (props) => {
     const setAutoRecItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('autoRec')}:</label>
         <Switch onChange={setAutoRec} value={autoRec} />
-        <Button disabled={isNullList} loading={setRecLoading} onClick={applyAutoRec}>{t('Apply')}</Button>
+        <Button
+            disabled={isNullList}
+            type={setRecLoading ? 'primary' : 'default'}
+            loading={setRecLoading}
+            onClick={applyAutoRec}>
+            {t('Apply')}
+        </Button>
     </div>
 
     const { openDanmuRec, closeDanmuRec, isLoading: setDanmuRecLoading } = useDanmuRec()
@@ -52,7 +59,13 @@ const Actions = (props) => {
     const setRecDanmuItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('recDanmu')}:</label>
         <Switch onChange={setRecDanmu} value={recDanmu} />
-        <Button disabled={isNullList} loading={setDanmuRecLoading} onClick={applyRecDanmu}>{t('Apply')}</Button>
+        <Button
+            disabled={isNullList}
+            type={setDanmuRecLoading ? 'primary' : 'default'}
+            loading={setDanmuRecLoading}
+            onClick={applyRecDanmu}>
+            {t('Apply')}
+        </Button>
     </div>
 
     const { openRemindMe, closeRemindMe, isLoading: setRemindLoading } = useRemindMe()
@@ -65,7 +78,13 @@ const Actions = (props) => {
     const setRemindItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('remind')}:</label>
         <Switch onChange={setRemind} value={remind} />
-        <Button disabled={isNullList} loading={setRemindLoading} onClick={applyRemind}>{t('Apply')}</Button>
+        <Button
+            disabled={isNullList}
+            type={setRemindLoading ? 'primary' : 'default'}
+            loading={setRemindLoading}
+            onClick={applyRemind}>
+            {t('Apply')}
+        </Button>
     </div>
     const { deleteRooms } = useDelRoom()
     const applyDelete = async () => {
@@ -92,11 +111,13 @@ const Actions = (props) => {
                 disabled={isNullList}
                 type="primary"
                 icon={<DeleteOutlined />}>
-                {t('Delete')}{t('Selected')}
+                {t('Delete Selected')}
             </Button>
         </Popconfirm>,
     </div>
+    const [isApplyingAll, { setTrue, setFalse }] = useBoolean()
     const applyAll = async () => {
+        setTrue()
         const [autoRecErr, autoRecRes] = await (autoRec ? openAutoRec : closeAutoRec)(stagedUIDs)
         messager(autoRecErr, autoRecRes)
         const [autoRecDanmuErr, autoRecDanmuRes] = await (recDanmu ? openDanmuRec : closeDanmuRec)(stagedUIDs)
@@ -104,6 +125,7 @@ const Actions = (props) => {
         const [remindErr, remindRes] = await (remind ? openRemindMe : closeRemindMe)(stagedUIDs)
         messager(remindErr, remindRes)
         refreshPage()
+        setFalse()
     }
     const modifyItems = <div className="items">
         {setAutoRecItem}
@@ -113,9 +135,10 @@ const Actions = (props) => {
     const applyAllButton = <Button
         className="apply-all-button"
         disabled={isNullList}
-        loading={setRecLoading || setDanmuRecLoading || setRemindLoading}
+        type={isApplyingAll ? 'primary' : 'default'}
+        loading={isApplyingAll}
         onClick={applyAll}>
-        {t('Apply') + t('All')}
+        {t('Apply All')}
     </Button>
     const options = <div className="set-rooms">
         {modifyItems}
