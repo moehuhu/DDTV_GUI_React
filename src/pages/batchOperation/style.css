@@ -103,29 +103,42 @@
       height: 60px;
       padding-inline: 24px;
     }
-
-    .set-rooms {
+    .all-actions {
+      height: calc(100% - 60px);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-
-      .item {
-        width: 240px;
-        height: 60px;
+      .set-rooms {
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
         align-items: center;
+        .items {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          .item {
+            width: 240px;
+            height: 60px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
 
-        label {
-          flex-grow: 0;
-          max-width: 100%;
-          font-size: 14px;
+            label {
+              flex-grow: 0;
+              max-width: 100%;
+              font-size: 14px;
+            }
+
+            .action {
+              flex: 1 1 0;
+              min-width: 0;
+            }
+          }
         }
-
-        .action {
-          flex: 1 1 0;
-          min-width: 0;
+        .apply-all-button {
+          height: 160px;
         }
       }
     }

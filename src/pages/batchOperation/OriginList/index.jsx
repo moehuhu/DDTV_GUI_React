@@ -63,7 +63,7 @@ const OriginList = (props) => {
     useUpdateEffect(() => scrollTo(0), [filteredList])
     const header = () => {
         const wrapper = content => <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>{content}</div>
-        if (isLoading) { return wrapper(<Spin spinning={isLoading} />) }
+        if (isLoading) { return wrapper(<Spin spinning={isLoading} style={{ margin: '22px 16px' }} />) }
         const onSearch = (search) => setSearch(search)
         const searchBar = <Input.Search
             defaultValue={search}

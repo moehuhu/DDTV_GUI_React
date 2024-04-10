@@ -10,10 +10,11 @@ const RoomListHeader = (props) => {
     const { isLoading, setPageState, searchType, search, setAddingRoom } = props
     const [searchBarOpen, setSearchBarOpen] = useState(false)
 
-    const { t } = useTranslation()
+    const { t, i18n: { language } } = useTranslation()
+    const isCN = language?.includes('zh')
     const spinIcon = <Spin size='small' spinning={isLoading} delay={500} />
     const showSpin = (key) => (key == searchType) && isLoading && spinIcon
-    const getLabel = (key) => ({ label: t(key), key, icon: showSpin(key) })
+    const getLabel = (key) => ({ label: key == 'All' && isCN ? t('All Rooms') : t(key), key, icon: showSpin(key) })
     const searchTypeKeys = _(SearchType).keys().filter(item => _.isNaN(Number(item))).slice(0, 5)
     const onSearch = (search) => {
         setPageState({ current: 1, searchType: 'All', search })

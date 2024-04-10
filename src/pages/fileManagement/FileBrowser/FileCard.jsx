@@ -5,6 +5,7 @@ const FileCard = (props) => {
     const { id, name, ext, isDir, size, childrenCount } = file
     const onDoubleClick = () => {
         if (isDir) { setCurrentFolderId(id); return; }
+        if (ext == '.log') { return }
         window.open(id)
     }
     const fileIcon = <div onDoubleClick={onDoubleClick}>

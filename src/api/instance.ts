@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 // 定义封装的axios实例
 const instance = axios.create({
-  timeout: 10000,
+  timeout: 60000,
   baseURL: '/api/'
 })
 

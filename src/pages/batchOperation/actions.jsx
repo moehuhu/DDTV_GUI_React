@@ -6,9 +6,11 @@ import { Switch, Button, Popconfirm, theme } from "antd"
 import { DeleteOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
+import _ from "lodash"
 const Actions = (props) => {
     const { t } = useTranslation()
     const { stagedUIDs, setStagedUIDs, refreshPage } = props
+    const isNullList = _.isEmpty(stagedUIDs)
     const { message } = props
     const messager = (err, res) => {
         if (err) {
@@ -37,7 +39,7 @@ const Actions = (props) => {
     const setAutoRecItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('autoRec')}:</label>
         <Switch onChange={setAutoRec} value={autoRec} />
-        <Button loading={setRecLoading} onClick={applyAutoRec}>{t('Apply')}</Button>
+        <Button disabled={isNullList} loading={setRecLoading} onClick={applyAutoRec}>{t('Apply')}</Button>
     </div>
 
     const { openDanmuRec, closeDanmuRec, isLoading: setDanmuRecLoading } = useDanmuRec()
@@ -50,7 +52,7 @@ const Actions = (props) => {
     const setRecDanmuItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('recDanmu')}:</label>
         <Switch onChange={setRecDanmu} value={recDanmu} />
-        <Button loading={setDanmuRecLoading} onClick={applyRecDanmu}>{t('Apply')}</Button>
+        <Button disabled={isNullList} loading={setDanmuRecLoading} onClick={applyRecDanmu}>{t('Apply')}</Button>
     </div>
 
     const { openRemindMe, closeRemindMe, isLoading: setRemindLoading } = useRemindMe()
@@ -63,7 +65,7 @@ const Actions = (props) => {
     const setRemindItem = <div className="item">
         <label style={{ color: token.colorText }}>{t('remind')}:</label>
         <Switch onChange={setRemind} value={remind} />
-        <Button loading={setRemindLoading} onClick={applyRemind}>{t('Apply')}</Button>
+        <Button disabled={isNullList} loading={setRemindLoading} onClick={applyRemind}>{t('Apply')}</Button>
     </div>
     const { deleteRooms } = useDelRoom()
     const applyDelete = async () => {
@@ -76,7 +78,7 @@ const Actions = (props) => {
         setStagedUIDs([])
         refreshPage()
     }
-    const deleteItem = <div className="item" style={{ justifyContent: "center" }}>
+    const deleteItem = <div className="delete-button" style={{ justifyContent: "center" }}>
         <Popconfirm
             key={'delete'}
             title={t('Delete the room')}
@@ -87,16 +89,40 @@ const Actions = (props) => {
             showCancel={false}>
             <Button
                 danger
+                disabled={isNullList}
                 type="primary"
                 icon={<DeleteOutlined />}>
                 {t('Delete')}{t('Selected')}
             </Button>
         </Popconfirm>,
     </div>
-    const actions = <div className="set-rooms">
+    const applyAll = async () => {
+        const [autoRecErr, autoRecRes] = await (autoRec ? openAutoRec : closeAutoRec)(stagedUIDs)
+        messager(autoRecErr, autoRecRes)
+        const [autoRecDanmuErr, autoRecDanmuRes] = await (recDanmu ? openDanmuRec : closeDanmuRec)(stagedUIDs)
+        messager(autoRecDanmuErr, autoRecDanmuRes)
+        const [remindErr, remindRes] = await (remind ? openRemindMe : closeRemindMe)(stagedUIDs)
+        messager(remindErr, remindRes)
+        refreshPage()
+    }
+    const modifyItems = <div className="items">
         {setAutoRecItem}
         {setRecDanmuItem}
         {setRemindItem}
+    </div>
+    const applyAllButton = <Button
+        className="apply-all-button"
+        disabled={isNullList}
+        loading={setRecLoading || setDanmuRecLoading || setRemindLoading}
+        onClick={applyAll}>
+        {t('Apply') + t('All')}
+    </Button>
+    const options = <div className="set-rooms">
+        {modifyItems}
+        {applyAllButton}
+    </div>
+    const allActions = <div className="all-actions">
+        {options}
         {deleteItem}
     </div>
     return <div
@@ -106,7 +132,7 @@ const Actions = (props) => {
             borderRadius: token.borderRadiusLG
         }}>
         {header}
-        {actions}
+        {allActions}
     </div>
 }
 export default Actions
