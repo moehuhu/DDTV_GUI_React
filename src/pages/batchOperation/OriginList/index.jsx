@@ -1,9 +1,9 @@
 
 import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
-import { theme, Spin, Button, Input } from "antd"
+import { theme, Spin, Button, Input, Dropdown } from "antd"
 import { useVirtualList, useUpdateEffect, useResponsive, } from "ahooks"
-import { CheckOutlined, PlusOutlined } from "@ant-design/icons"
+import { CheckOutlined, PlusOutlined, BlockOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState, useMemo, useRef } from "react"
 import _ from 'lodash'
@@ -110,36 +110,57 @@ const OriginList = (props) => {
     }
 
     const staged = uid => stagedSet.has(uid)
+    const onClickItem = (item) => {
+        selectedSet.has(item?.uid) ? addToStage(selectedUID) : addToStage([item?.uid])
+        setSelectedUID([])
+    }
+    const onRightClickItem = (e, item) => {
+        if (selectedSet.has(item?.uid)) { return }
+        setSelectedUID([item?.uid])
+    }
+    const rightClickItems = [
+        {
+            label: t('Add'),
+            icon: <PlusOutlined />,
+            key: 'Add',
+            onClick: () => { addToStage(selectedUID); setSelectedUID([]) }
+        }, {
+            label: t('SelectAll'),
+            icon: <BlockOutlined />,
+            key: 'SelectAll',
+            onClick: () => setSelectedUID(filteredList?.map(({ uid }) => uid))
+        },
+    ]
+    const extra = item => staged(item?.uid) ?
+        <CheckOutlined style={{ color: token.colorText }} />
+        : <PlusOutlined
+            onClick={() => onClickItem(item)}
+            style={{ color: token.colorText, cursor: 'pointer' }}
+        />
     const renderOriginListItem = (item, index) => <RoomInfo
         height={responsive.sm ? 75 : 120}
         key={item?.uid}
-        onClick={() => select({ item, index }, filteredList)}
-        onDoubleClick={() => addToStage([item?.uid])}
         item={item}
         selected={selectedSet?.has(item?.uid)}
-        extra={staged(item?.uid) ?
-            <CheckOutlined style={{ color: token.colorText }} />
-            : <PlusOutlined
-                onClick={() => {
-                    selectedSet.has(item?.uid) ? addToStage(selectedUID) : addToStage([item?.uid])
-                    setSelectedUID([])
-                }}
-                style={{ color: token.colorText, cursor: 'pointer' }}
-            />}
+        onClick={() => select({ item, index }, filteredList)}
+        onDoubleClick={() => addToStage([item?.uid])}
+        onContextMenu={e => onRightClickItem(e, item)}
+        extra={extra(item)}
     />
-
     const originList = <div
         className="origin-list"
         style={{
             border: `1px solid ${token.colorBorder}`,
             borderRadius: token.borderRadiusLG,
             height: responsive.sm ? 'calc(96%)' : 'calc(48%)',
-            width: responsive.sm ? '40vw' : '80vw'
+            width: responsive.sm ? '38vw' : '80vw'
         }}>
         {header()}
-        <div ref={containerRef} className="list">
-            <div ref={wrapperRef}>{list.map(ele => renderOriginListItem(ele.data, ele.index))}</div>
-        </div>
+        <Dropdown menu={{ items: rightClickItems, }} trigger={['contextMenu']}>
+            <div ref={containerRef} className="list">
+                <div ref={wrapperRef}>{list.map(ele => renderOriginListItem(ele.data, ele.index))}</div>
+            </div>
+        </Dropdown>
     </div>
     return originList
 }

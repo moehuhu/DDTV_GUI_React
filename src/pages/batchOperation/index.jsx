@@ -78,7 +78,7 @@ const BatchOperation = () => {
     const responsive = useResponsive();
     const operationArea = <div
         className="operation-area"
-        style={{ width: responsive.sm ? '40vw' : '80vw' }}
+        style={{ width: responsive.sm ? '38vw' : '80vw' }}
     >
         {targetList}
         {actions}
