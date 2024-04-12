@@ -4,7 +4,7 @@ import FileManagement from './pages/fileManagement'
 import SystemSettings from './pages/systemSettings'
 import NoMatch from './pages/noMatch';
 import SystemResource from './SystemResource';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMount, useBoolean, useRafInterval } from 'ahooks';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import { Layout, Menu, theme, Modal, Typography, Popover, Tooltip, QRCode, App } from 'antd';
@@ -50,16 +50,21 @@ const AppRoutes = ({ setIsLoggedIn }) => {
   const { agree, checkAgreementState, isAgreed } = useUserAgreement()
   useMount(checkAgreementState)
   const socket = useWebSocketMessage()
-  useMount(() => {
-    socket.addEventListener(Opcode.StartBroadcastingReminder, (data) => {
-      const { Name, Title: { Value }, UID, } = data
-      notification.info({
-        message: `${Name}(${UID}) ${t('isOnLive')}`,
-        description: Value,
-        placement: 'bottomRight'
-      })
-    })
-  })
+  useEffect(() => {
+    const reminder = (data) => {
+      const { Name, Title: { Value }, UID, RoomId } = data
+      const url = 'https://live.bilibili.com/' + RoomId
+      const roomInfo = {
+        message: `${Name} (${UID})`,
+        description: <a onClick={() => window.open(url)}>{Value}</a>,
+        placement: 'bottomRight',
+        duration: 10
+      }
+      notification.info(roomInfo)
+    }
+    socket.addEventListener(Opcode.StartBroadcastingReminder, reminder)
+    return () => { socket.removeEventListener(Opcode.StartBroadcastingReminder, reminder) }
+  }, [notification, socket, t])
   const onConfirm = () => agree('y')
   const onCancel = () => setIsLoggedIn(false)
   const agreeModal = <Modal
