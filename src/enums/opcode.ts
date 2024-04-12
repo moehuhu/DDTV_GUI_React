@@ -57,6 +57,8 @@ export enum Opcode {
   QrCodeWaitingForScann = 30108,
   /// 已扫码等待确认
   ScannedCodeWaitingForConfirmation = 30109,
+  /// 二维码已过期
+  QrCodeExpir = 30110,
 
   /// 保存弹幕相关文件
   SaveBulletScreenFile = 40101,
