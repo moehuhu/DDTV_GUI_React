@@ -1,7 +1,7 @@
 
 import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
-import { theme, Spin, Button, Input } from "antd"
+import { theme, Skeleton, Button, Input } from "antd"
 import { useVirtualList, useUpdateEffect, useResponsive, } from "ahooks"
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
@@ -63,8 +63,6 @@ const OriginList = (props) => {
     })
     useUpdateEffect(() => scrollTo(0), [filteredList])
     const header = () => {
-        const wrapper = content => <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>{content}</div>
-        if (isLoading) { return wrapper(<Spin spinning={isLoading} style={{ margin: '22px 16px' }} />) }
         const onSearch = (search) => setSearch(search)
         const searchBar = <Input.Search
             defaultValue={search}
@@ -103,11 +101,11 @@ const OriginList = (props) => {
             {shiftButton}
         </div>
 
-        return wrapper(<>
+        return <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>
             <span style={{ margin: '16px' }}>{t('Total')}:{` ${_.size(filteredList)}`}</span>
             {searchBar}
             {hotKeys}
-        </>)
+        </div>
     }
 
     const staged = uid => stagedSet.has(uid)
@@ -126,16 +124,17 @@ const OriginList = (props) => {
             onClick={() => onClickItem(item)}
             style={{ color: token.colorText, cursor: 'pointer' }}
         />
-    const renderOriginListItem = (item, index) => <RoomInfo
-        height={responsive.sm ? 75 : 120}
-        key={item?.uid}
-        item={item}
-        selected={selectedSet?.has(item?.uid)}
-        onClick={() => select({ item, index }, filteredList)}
-        onDoubleClick={() => addToStage([item?.uid])}
-        onContextMenu={e => onRightClickItem(e, item)}
-        extra={extra(item)}
-    />
+    const renderOriginListItem = (item, index) => <Skeleton key={item?.uid} style={{ padding: token.paddingLG }} loading={isLoading}>
+        <RoomInfo
+            height={responsive.sm ? 75 : 120}
+            item={item}
+            selected={selectedSet?.has(item?.uid)}
+            onClick={() => select({ item, index }, filteredList)}
+            onDoubleClick={() => addToStage([item?.uid])}
+            onContextMenu={e => onRightClickItem(e, item)}
+            extra={extra(item)}
+        />
+    </Skeleton>
     const originList = <div
         className="origin-list"
         style={{
