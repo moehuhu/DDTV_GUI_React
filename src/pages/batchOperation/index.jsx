@@ -81,8 +81,9 @@ const BatchOperation = () => {
     const operationArea = <div
         className="operation-area"
         style={{
-            height: responsive.md ? 'calc(100% - 64px)' : 'calc(48%)',
-            width: responsive.md ? 'calc(50% - 48px)' : 'calc(100% - 32px)'
+            height: responsive.md ? 'calc(100% - 64px)' : 'calc(1000px - 64px)',
+            margin: responsive.md ? undefined : '0px 0px 32px 0px',
+            width: responsive.md ? 'calc(50% - 48px)' : 'calc(100% - 64px)'
         }}
     >
         {targetList}
