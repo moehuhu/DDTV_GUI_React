@@ -141,8 +141,8 @@ const OriginList = (props) => {
         style={{
             border: `1px solid ${token.colorBorder}`,
             borderRadius: token.borderRadiusLG,
-            height: responsive.sm ? 'calc(96%)' : 'calc(48%)',
-            width: responsive.sm ? '38vw' : '80vw'
+            height: responsive.md ? 'calc(100% - 64px)' : 'calc(48%)',
+            width: responsive.md ? 'calc(50% - 48px)' : 'calc(100% - 32px)'
         }}>
         {header()}
         <RightClickWrapper

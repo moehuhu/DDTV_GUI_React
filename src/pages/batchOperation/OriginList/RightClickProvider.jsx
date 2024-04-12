@@ -23,7 +23,7 @@ const RightClickWrapper = (props) => {
     if (err) { message('error')?.(err); return; }
     if (res) { message('success')?.({ message: t('Applied') }) }
   }
-  
+
   const { openAutoRec, closeAutoRec } = useAutoRec()
   const applyAutoRec = async (autoRec) => {
     const [err, res] = await (autoRec ? openAutoRec : closeAutoRec)(selectedUID)
@@ -61,23 +61,26 @@ const RightClickWrapper = (props) => {
     }, {
       label: t('autoRec'),
       icon: <VideoCameraOutlined style={style} />,
+      key: 'autoRec',
       children: [
-        { label: t('Enable'), onClick: () => applyAutoRec(true) },
-        { label: t('Disable'), onClick: () => applyAutoRec(false) }
+        { label: t('Enable'), key: 'EnablAutoRec', onClick: () => applyAutoRec(true) },
+        { label: t('Disable'), key: 'DisableAutoRec', onClick: () => applyAutoRec(false) }
       ]
     }, {
       label: t('recDanmu'),
       icon: <Icon style={style} component={Danmakus} />,
+      key: 'recDanmu',
       children: [
-        { label: t('Enable'), onClick: () => applyRecDanmu(true) },
-        { label: t('Disable'), onClick: () => applyRecDanmu(false) }
+        { label: t('Enable'), key: 'EnableRecDanmu', onClick: () => applyRecDanmu(true) },
+        { label: t('Disable'), key: 'DisableRecDanmu', onClick: () => applyRecDanmu(false) }
       ]
     }, {
       label: t('remind'),
       icon: <BellOutlined style={style} />,
+      key: 'remind',
       children: [
-        { label: t('Enable'), onClick: () => applyRemind(true) },
-        { label: t('Disable'), onClick: () => applyRemind(false) }
+        { label: t('Enable'), key: 'EnableRemind', onClick: () => applyRemind(true) },
+        { label: t('Disable'), key: 'DisableRemind', onClick: () => applyRemind(false) }
       ]
     }
   ]
