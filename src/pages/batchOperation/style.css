@@ -78,7 +78,7 @@
   align-items: flex-start;
 
   .target-list {
-    height: calc(50% - 16px);
+    height: calc(50% - 8px);
     width: calc(100%);
     display: flex;
     flex-direction: column;
@@ -90,7 +90,7 @@
   }
 
   .actions {
-    height: calc(50% - 16px);
+    height: calc(50% - 8px);
     width: calc(100%);
 
     .header {
