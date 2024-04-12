@@ -53,6 +53,8 @@ const BatchOperation = () => {
     }
 
     const originList = <OriginList
+        refreshPage={refreshPage}
+        message={message}
         search={search}
         isLoading={isLoading}
         filteredList={filteredList}

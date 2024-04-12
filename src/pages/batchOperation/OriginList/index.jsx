@@ -146,8 +146,7 @@ const OriginList = (props) => {
         }}>
         {header()}
         <RightClickWrapper
-            filteredList={filteredList}
-            addToStage={addToStage}
+            {...props}
             setSelectedUID={setSelectedUID}
             selectedUID={selectedUID}>
             <div ref={containerRef} className="list">
