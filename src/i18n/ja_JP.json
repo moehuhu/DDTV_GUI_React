@@ -71,6 +71,7 @@
     "All Rooms": "All Rooms",
     "LiveAndRecording": "Recording",
     "Live": "On Live",
+    "isOnLive": "is on live",
     "NotLive": "Off Live",
     "LiveButNotRecording": "Off Live & Not Recording",
     "openAutoRec": "Subscribe Recording",

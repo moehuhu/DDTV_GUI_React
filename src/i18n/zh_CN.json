@@ -71,6 +71,7 @@
     "All Rooms": "所有直播间",
     "LiveAndRecording": "正在录制中",
     "Live": "正在直播",
+    "isOnLive": "正在直播",
     "NotLive": "未开播",
     "LiveButNotRecording": "开播且未设置录制",
     "openAutoRec": "加入监听录制",

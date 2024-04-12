@@ -14,6 +14,8 @@ import { useTranslation } from 'react-i18next';
 import _ from 'lodash'
 import useLoginBiliBili from './hooks/useLoginBiliBili';
 import useUserAgreement from './hooks/useUserAgreement';
+import useWebSocketMessage from './hooks/useWebSocketMessage';
+import { Opcode } from './enums';
 import './Routes.css'
 
 const { Sider, Content } = Layout;
@@ -26,7 +28,7 @@ const AppRoutes = ({ setIsLoggedIn }) => {
   const navigate = useNavigate()
   const { token } = theme.useToken()
   const { t } = useTranslation()
-  const { message } = App.useApp()
+  const { message, notification } = App.useApp()
 
   const items = [
     { label: t('overview'), key: '/', icon: <DesktopOutlined /> },
@@ -47,6 +49,17 @@ const AppRoutes = ({ setIsLoggedIn }) => {
   useMount(checkLoginStatus)
   const { agree, checkAgreementState, isAgreed } = useUserAgreement()
   useMount(checkAgreementState)
+  const socket = useWebSocketMessage()
+  useMount(() => {
+    socket.addEventListener(Opcode.StartBroadcastingReminder, (data) => {
+      const { Name, Title: { Value }, UID, } = data
+      notification.info({
+        message: `${Name}(${UID}) ${t('isOnLive')}`,
+        description: Value,
+        placement: 'bottomRight'
+      })
+    })
+  })
   const onConfirm = () => agree('y')
   const onCancel = () => setIsLoggedIn(false)
   const agreeModal = <Modal
