@@ -61,7 +61,7 @@ const OriginList = (props) => {
         itemHeight: responsive.sm ? 75 : 120,
         overscan: 20,
     })
-    useUpdateEffect(() => scrollTo(0), [filteredList])
+    useUpdateEffect(() => scrollTo(0), [filteredList.length])
     const header = () => {
         const onSearch = (search) => setSearch(search)
         const searchBar = <Input.Search
