@@ -1,7 +1,7 @@
 
 import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
-import { theme, Skeleton, Button, Input } from "antd"
+import { theme, Skeleton, Button, Switch, Input, Popover, Menu } from "antd"
 import { useVirtualList, useUpdateEffect, useResponsive, } from "ahooks"
 import { CheckOutlined, PlusOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
@@ -12,6 +12,7 @@ import RightClickWrapper from "./RightClickProvider"
 const OriginList = (props) => {
     const { token } = theme.useToken()
     const { setSearch, search, isLoading, filteredList = [], roomListMap = {} } = props
+    const { enableFilter, setEnableFilter, isAutoRec, setIsAutoRec, isRecDanmu, setIsRecDanmu, isRemind, setIsRemind } = props
     const { addToStage, stagedSet = {} } = props
     const [selectedUID, setSelectedUID] = useState([]);
     const [lastSelectedUID, setlastSelectedUID] = useState({})
@@ -95,10 +96,29 @@ const OriginList = (props) => {
             type={shiftPressed ? 'primary' : 'default'}>
             Shift
         </Button>
-        const hotKeys = <div className="hot-keys" style={{ margin: '16px' }}>
+        const menuItems = [
+            {
+                key: 'autoRec',
+                label: <Switch checked={isAutoRec} onChange={setIsAutoRec} checkedChildren={t('autoRec')} unCheckedChildren={t('autoRec')} />
+            }, {
+                key: 'recDanmu',
+                label: <Switch checked={isRecDanmu} onChange={setIsRecDanmu} checkedChildren={t('recDanmu')} unCheckedChildren={t('recDanmu')} />
+            }, {
+                key: 'remind',
+                label: <Switch checked={isRemind} onChange={setIsRemind} checkedChildren={t('remind')} unCheckedChildren={t('remind')} />
+            },
+        ]
+        const filterMenu = <Menu style={{ borderInlineEnd: 'none' }} items={menuItems} />
+        const otherFilterSwitch = <Popover
+            destroyTooltipOnHide
+            content={filterMenu}>
+            <Switch checked={enableFilter} onChange={setEnableFilter} checkedChildren={t('Filters')} unCheckedChildren={t('Filters')} />
+        </Popover>
+        const hotKeys = <div className="hot-keys" style={{ margin: '16px', display: 'flex', alignItems: 'center' }}>
             {ctrlButton}
             {aButton}
             {shiftButton}
+            {otherFilterSwitch}
         </div>
 
         return <div className="header" style={{ borderBlockEnd: `1px solid ${token.colorBorderSecondary}` }}>

@@ -31,6 +31,10 @@ const BatchOperation = () => {
     const { isLoading, roomInfoList, refreshRoomInfoList } = useDetailedRoomInfoList()
     const roomListMap = useMemo(() => _(roomInfoList).map(item => [item?.uid, item]).fromPairs().value(), [roomInfoList])
     const [search, setSearch] = useState('')
+    const [isAutoRec, setIsAutoRec] = useState(false)
+    const [isRecDanmu, setIsRecDanmu] = useState(false)
+    const [isRemind, setIsRemind] = useState(false)
+    const [enableFilter, setEnableFilter] = useState(false)
     const filteredList = useMemo(() => {
         const getLower = (str) => ((str || '') + '').toLocaleLowerCase()
         const searchWord = getLower(search)
@@ -40,10 +44,15 @@ const BatchOperation = () => {
             const roomId = getLower(item?.roomInfo?.roomId)
             const shortId = getLower(item?.roomInfo?.shortId)
             const isInSearch = (str) => _(str).includes(searchWord)
-            return isInSearch(name) || isInSearch(uid) || isInSearch(roomId) || isInSearch(shortId)
+            const searched = isInSearch(name) || isInSearch(uid) || isInSearch(roomId) || isInSearch(shortId)
+            const filtered = enableFilter ? (
+                item?.userInfo?.isAutoRec == isAutoRec
+                && item?.userInfo?.isRecDanmu == isRecDanmu
+                && item?.userInfo?.isRemind == isRemind
+            ) : true
+            return searched && filtered
         })
-    }, [roomInfoList, search])
-
+    }, [roomInfoList, search, isAutoRec, isRecDanmu, isRemind, enableFilter])
     const [stagedUIDs, setStagedUIDs] = useState([])
     const stagedSet = useMemo(() => new Set(stagedUIDs), [stagedUIDs])
 
@@ -58,6 +67,14 @@ const BatchOperation = () => {
         search={search}
         isLoading={isLoading}
         filteredList={filteredList}
+        enableFilter={enableFilter}
+        setEnableFilter={setEnableFilter}
+        isAutoRec={isAutoRec}
+        setIsAutoRec={setIsAutoRec}
+        isRecDanmu={isRecDanmu}
+        setIsRecDanmu={setIsRecDanmu}
+        isRemind={isRemind}
+        setIsRemind={setIsRemind}
         roomListMap={roomListMap}
         setSearch={setSearch}
         addToStage={addToStage}
