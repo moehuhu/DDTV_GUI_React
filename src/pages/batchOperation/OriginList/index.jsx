@@ -1,12 +1,13 @@
 
 import RoomInfo from "../RoomInfo"
 import useHotkey from "../../../hooks/useHotkey"
-import { theme, Spin, Button, Input, Dropdown } from "antd"
+import { theme, Spin, Button, Input } from "antd"
 import { useVirtualList, useUpdateEffect, useResponsive, } from "ahooks"
-import { CheckOutlined, PlusOutlined, BlockOutlined } from "@ant-design/icons"
+import { CheckOutlined, PlusOutlined } from "@ant-design/icons"
 import { useTranslation } from "react-i18next"
 import { useState, useMemo, useRef } from "react"
 import _ from 'lodash'
+import RightClickWrapper from "./RightClickProvider"
 
 const OriginList = (props) => {
     const { token } = theme.useToken()
@@ -118,19 +119,7 @@ const OriginList = (props) => {
         if (selectedSet.has(item?.uid)) { return }
         setSelectedUID([item?.uid])
     }
-    const rightClickItems = [
-        {
-            label: t('Add'),
-            icon: <PlusOutlined />,
-            key: 'Add',
-            onClick: () => { addToStage(selectedUID); setSelectedUID([]) }
-        }, {
-            label: t('SelectAll'),
-            icon: <BlockOutlined />,
-            key: 'SelectAll',
-            onClick: () => setSelectedUID(filteredList?.map(({ uid }) => uid))
-        },
-    ]
+
     const extra = item => staged(item?.uid) ?
         <CheckOutlined style={{ color: token.colorText }} />
         : <PlusOutlined
@@ -156,11 +145,15 @@ const OriginList = (props) => {
             width: responsive.sm ? '38vw' : '80vw'
         }}>
         {header()}
-        <Dropdown menu={{ items: rightClickItems, }} trigger={['contextMenu']}>
+        <RightClickWrapper
+            filteredList={filteredList}
+            addToStage={addToStage}
+            setSelectedUID={setSelectedUID}
+            selectedUID={selectedUID}>
             <div ref={containerRef} className="list">
                 <div ref={wrapperRef}>{list.map(ele => renderOriginListItem(ele.data, ele.index))}</div>
             </div>
-        </Dropdown>
+        </RightClickWrapper>
     </div>
     return originList
 }
