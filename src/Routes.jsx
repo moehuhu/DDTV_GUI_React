@@ -84,13 +84,19 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
 
     const endReminder = (data) => {
       const { Name, UID, IsRemind } = data
+      const roomInfo = {
+        message: `${Name} (${UID})`,
+        description: t('isOffLive'),
+        placement: 'topRight',
+        stack: false
+      }
       const endSound = new Howl({
         src: [endLive],
-        onend: () => { message.info(`${Name}(${UID}) ${t('isOffLive')}`); endSound.unload() }
+        onend: () => { endSound.unload() }
       })
-      if (IsRemind && enableSound) {
-        endSound.play()
-        message.info(`${Name}(${UID}) ${t('isOffLive')}`)
+      if (IsRemind) {
+        notification.info(roomInfo)
+        enableSound && endSound.play()
       }
     }
     socket.addEventListener(Opcode.StopLiveEvent, endReminder)
