@@ -61,6 +61,22 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
     if (!currentUserTitle) { return }
     setCurrentUserTitle((_.tail(currentUserTitle) || []).join(''))
   }, [currentUserTitle])
+  const remindStartLive = _.debounce((Name, Value) => {
+    const startSound = new Howl({
+      src: [startLive],
+      volume: 0.5,
+      onend: () => { setCurrentUserTitle(`${Name}: ${Value} - `); startSound.unload() }
+    })
+    startSound.play();
+  }, 500)
+  const remindEndLive = _.debounce(() => {
+    const endSound = new Howl({
+      src: [endLive],
+      volume: 0.5,
+      onend: () => { endSound.unload() }
+    })
+    endSound.play()
+  }, 500)
   useEffect(() => {
     const startReminder = (data) => {
       const { Name, Title: { Value }, UID, RoomId } = data
@@ -74,12 +90,7 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
       }
       notification.info(roomInfo)
       if (enableSound) {
-        const startSound = new Howl({
-          src: [startLive],
-          volume: 0.5,
-          onend: () => { setCurrentUserTitle(`${Name}: ${Value} - `); startSound.unload() }
-        })
-        startSound.play();
+        remindStartLive(Name, Value)
         return
       }
       setCurrentUserTitle(`${Name}: ${Value} - `)
@@ -97,12 +108,7 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
       if (IsRemind) {
         notification.info(roomInfo)
         if (!enableSound) { return }
-        const endSound = new Howl({
-          src: [endLive],
-          volume: 0.5,
-          onend: () => { endSound.unload() }
-        })
-        endSound.play()
+        remindEndLive()
       }
     }
     socket.addEventListener(Opcode.StopLiveEvent, endReminder)
