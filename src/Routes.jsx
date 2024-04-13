@@ -15,6 +15,7 @@ import { Howl } from 'howler';
 import _ from 'lodash'
 import startLive from './assets/startLive.mp3'
 import endLive from './assets/endLive.mp3'
+import psplive from './assets/psplive.mp3'
 import useLoginBiliBili from './hooks/useLoginBiliBili';
 import useUserAgreement from './hooks/useUserAgreement';
 import useWebSocketMessage from './hooks/useWebSocketMessage';
@@ -24,6 +25,15 @@ import './Routes.css'
 const { Sider, Content } = Layout;
 const ddtv = new URL('../public/DDTV.png', import.meta.url).href
 const ddtvGrayscale = new URL('../public/DDTV-grayscale.png', import.meta.url).href
+
+const pspliveUIDs = [
+  186463, 899804, 62359, 147471, 6365248,
+  477332594, 479633069, 3821157, 480248442, 51030552,
+  15641218, 438848253, 2138602891, 1041474702, 1703797642,
+  3570093, 435243735, 1687766935, 1377219279, 52522,
+  88271743, 29080, 1694610556, 1329085897, 1823500310,
+  9667357
+]
 
 const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
   const [collapsed, setCollapsed] = useState(false);
@@ -61,9 +71,10 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
     if (!currentUserTitle) { return }
     setCurrentUserTitle((_.tail(currentUserTitle) || []).join(''))
   }, [currentUserTitle])
-  const remindStartLive = _.debounce((Name, Value) => {
+  const remindStartLive = _.debounce((Name, Value, isPSP) => {
     const startSound = new Howl({
-      src: [startLive],
+      src: [isPSP ? psplive : startLive],
+      volume: isPSP ? 0.01 : 1,
       onend: () => { setCurrentUserTitle(`${Name}: ${Value} - `); startSound.unload() }
     })
     startSound.play();
@@ -88,7 +99,7 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
       }
       notification.info(roomInfo)
       if (enableSound) {
-        remindStartLive(Name, Value)
+        remindStartLive(Name, Value, pspliveUIDs.includes(UID))
         return
       }
       setCurrentUserTitle(`${Name}: ${Value} - `)
