@@ -78,7 +78,7 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
         onend: () => { setCurrentUserTitle(`${Name}: ${Value} - `); startSound.unload() }
       })
       if (enableSound) { startSound.play(); return }
-      setTimeout(() => setCurrentUserTitle(`${Name}: ${Value} - `), 5000)
+      setCurrentUserTitle(`${Name}: ${Value} - `)
     }
     socket.addEventListener(Opcode.StartBroadcastingReminder, startReminder)
 
