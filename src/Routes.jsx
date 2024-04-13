@@ -73,11 +73,15 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
         stack: false
       }
       notification.info(roomInfo)
-      const startSound = new Howl({
-        src: [startLive],
-        onend: () => { setCurrentUserTitle(`${Name}: ${Value} - `); startSound.unload() }
-      })
-      if (enableSound) { startSound.play(); return }
+      if (enableSound) {
+        const startSound = new Howl({
+          src: [startLive],
+          volume: 0.5,
+          onend: () => { setCurrentUserTitle(`${Name}: ${Value} - `); startSound.unload() }
+        })
+        startSound.play();
+        return
+      }
       setCurrentUserTitle(`${Name}: ${Value} - `)
     }
     socket.addEventListener(Opcode.StartBroadcastingReminder, startReminder)
@@ -90,13 +94,15 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
         placement: 'topRight',
         stack: false
       }
-      const endSound = new Howl({
-        src: [endLive],
-        onend: () => { endSound.unload() }
-      })
       if (IsRemind) {
         notification.info(roomInfo)
-        enableSound && endSound.play()
+        if (!enableSound) { return }
+        const endSound = new Howl({
+          src: [endLive],
+          volume: 0.5,
+          onend: () => { endSound.unload() }
+        })
+        endSound.play()
       }
     }
     socket.addEventListener(Opcode.StopLiveEvent, endReminder)
