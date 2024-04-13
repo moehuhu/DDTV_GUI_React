@@ -106,6 +106,7 @@
     "Delete the room": "删除房间",
     "Delete Selected": "删除已选",
     "AccessKeyId and AccessKeySecret are configured in DDTV_Config.ini": "AccessKeyId和AccessKeySecret配置在DDTV_Config.ini中",
+    "Click here to enable beeps. Due to browser security policy restrictions, you need to enable it again when you re-enter the page.": "点此启用提示音。受浏览器安全策略限制，重新进入页面时需要再次启用。",
     "Are you sure to delete this room?": "确定要删除这个房间?",
     "Are you sure to delete selected rooms?": "确定要删除选择的房间?",
     "Are you sure to reset these settings?": "确定要重置这些设置?",

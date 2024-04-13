@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next';
 import { Howl } from 'howler';
 import _ from 'lodash'
 import startLive from './assets/startLive.mp3'
-import endLive from './assets/endLive.mp3'
 import useLoginBiliBili from './hooks/useLoginBiliBili';
 import useUserAgreement from './hooks/useUserAgreement';
 import useWebSocketMessage from './hooks/useWebSocketMessage';
@@ -55,13 +54,6 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
   const socket = useWebSocketMessage()
   useEffect(() => {
     const startSound = new Howl({ src: [startLive] })
-    const endSound = new Howl({ src: [endLive] })
-    if (enableSound) { startSound.play() }
-    if (!enableSound) { endSound.play() }
-    return () => { startSound.unload(); endSound.unload() }
-  }, [enableSound])
-  useEffect(() => {
-    const startSound = new Howl({ src: [startLive] })
     const reminder = (data) => {
       const { Name, Title: { Value }, UID, RoomId } = data
       const url = 'https://live.bilibili.com/' + RoomId
@@ -69,7 +61,8 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
         message: `${Name} (${UID})`,
         description: <a onClick={() => window.open(url)}>{Value}</a>,
         placement: 'bottomRight',
-        duration: 10
+        duration: 10,
+        stack: false
       }
       notification.info(roomInfo)
       enableSound && startSound.play();
