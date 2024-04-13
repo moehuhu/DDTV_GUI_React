@@ -64,7 +64,6 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
   const remindStartLive = _.debounce((Name, Value) => {
     const startSound = new Howl({
       src: [startLive],
-      volume: 0.5,
       onend: () => { setCurrentUserTitle(`${Name}: ${Value} - `); startSound.unload() }
     })
     startSound.play();
@@ -72,7 +71,6 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
   const remindEndLive = _.debounce(() => {
     const endSound = new Howl({
       src: [endLive],
-      volume: 0.5,
       onend: () => { endSound.unload() }
     })
     endSound.play()
