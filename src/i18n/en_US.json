@@ -74,6 +74,7 @@
     "LiveAndRecording": "Recording",
     "Live": "On Live",
     "isOnLive": "is on live",
+    "isOffLive": "is off live",
     "NotLive": "Off Live",
     "LiveButNotRecording": "Off Live & Not Recording",
     "openAutoRec": "Subscribe Recording",

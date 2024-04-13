@@ -74,6 +74,7 @@
     "LiveAndRecording": "正在录制中",
     "Live": "正在直播",
     "isOnLive": "正在直播",
+    "isOffLive": "结束直播",
     "NotLive": "未开播",
     "LiveButNotRecording": "开播且未设置录制",
     "openAutoRec": "加入监听录制",
