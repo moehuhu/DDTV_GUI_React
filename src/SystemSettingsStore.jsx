@@ -11,7 +11,7 @@ export const useSystemSettingsStore = create(
         const defaultOverviewConfig = {
             isAutoRefresh: true,
             autoRefreshIntervalSeconds: 15,
-            pageSize: 16,
+            pageSize: 20,
             recDanmu: false,
             autoRec: false,
             remind: false,

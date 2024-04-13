@@ -5,7 +5,7 @@ import SystemSettings from './pages/systemSettings'
 import NoMatch from './pages/noMatch';
 import SystemResource from './SystemResource';
 import { useState, useEffect } from "react";
-import { useMount, useBoolean, useRafInterval } from 'ahooks';
+import { useTitle, useMount, useBoolean, useRafInterval, useAsyncEffect } from 'ahooks';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import { Layout, Menu, theme, Modal, Typography, Popover, Tooltip, QRCode, App } from 'antd';
 const { Paragraph, Title } = Typography
@@ -52,8 +52,15 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
   const { agree, checkAgreementState, isAgreed } = useUserAgreement()
   useMount(checkAgreementState)
   const socket = useWebSocketMessage()
+  const [currentUserTitle, setCurrentUserTitle] = useState('')
+  useTitle(currentUserTitle + t('titleText'))
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+  useAsyncEffect(async () => {
+    await delay(500)
+    if (!currentUserTitle) { return }
+    setCurrentUserTitle((_.tail(currentUserTitle) || []).join(''))
+  }, [currentUserTitle])
   useEffect(() => {
-    const startSound = new Howl({ src: [startLive] })
     const reminder = (data) => {
       const { Name, Title: { Value }, UID, RoomId } = data
       const url = 'https://live.bilibili.com/' + RoomId
@@ -65,10 +72,15 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
         stack: false
       }
       notification.info(roomInfo)
-      enableSound && startSound.play();
+      const startSound = new Howl({
+        src: [startLive],
+        onend: () => { setCurrentUserTitle(`${Name}: ${Value} - `); startSound.unload() }
+      })
+      if (enableSound) { startSound.play(); return }
+      setTimeout(() => setCurrentUserTitle(`${Name}: ${Value} - `), 5000)
     }
     socket.addEventListener(Opcode.StartBroadcastingReminder, reminder)
-    return () => { socket.removeEventListener(Opcode.StartBroadcastingReminder, reminder); startSound.unload() }
+    return () => { socket.removeEventListener(Opcode.StartBroadcastingReminder, reminder) }
   }, [notification, socket, t, enableSound])
   const onConfirm = () => agree('y')
   const onCancel = () => setIsLoggedIn(false)

@@ -5,14 +5,15 @@ import { LockOutlined, KeyOutlined, QuestionCircleOutlined } from '@ant-design/i
 import { Card, Button, Form, Input, Layout, Popover, App } from 'antd';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { useMount } from 'ahooks';
+import { useMount, useTitle } from 'ahooks';
 
 
 const Login = ({ setIsLoggedIn }) => {
   const { t } = useTranslation()
+  useTitle(t('titleText'))
+
   const navigate = useNavigate()
   useMount(() => navigate('/'))
-
   const usernameInput = <Form.Item
     name="AccessKeyId"
     rules={[

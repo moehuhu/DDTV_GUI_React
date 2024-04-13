@@ -121,10 +121,10 @@ const RoomList = () => {
         page_size: t('PageSize')
       }}
       onChange={(current) => { setPageState({ current }) }}
-      pageSizeOptions={[8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80]}
+      pageSizeOptions={[16, 20, 24, 30, 32, 40, 48, 56, 60, 64, 72, 80]}
       onShowSizeChange={(current, size) => { setPageSize(size); setPageState({ current }) }}
-      showSizeChanger
-      showQuickJumper
+      showSizeChanger={responsive.md}
+      showQuickJumper={responsive.sm}
     />
   </div>
 
