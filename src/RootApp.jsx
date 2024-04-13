@@ -33,32 +33,34 @@ const RootApp = () => {
     useTitle(t('titleText'))
 
     const [enableSound, setEnableSound] = useState(false)
+    const [isInitialTips, setIsInitialTips] = useState(true)
     const onClickSound = () => {
+        setIsInitialTips(false)
         if (!enableSound) { startSound.play() }
         if (enableSound) { endSound.play() }
         setEnableSound(!enableSound)
     }
     const [displaySoundTip, setDisplaySoundTip] = useState(true)
     const clearTimeout = useTimeout(() => setDisplaySoundTip(false), 10000)
-    const [enableTips, setEnableTips] = useState(t("Click here to enable beeps. Due to browser security policy restrictions, you need to enable it again when you re-enter the page."))
     const setOpen = (open) => {
-        if (!open) {
-            clearTimeout()
-            setEnableTips(t('Disable Beeps'))
-        }
+        if (!open) { clearTimeout() }
+        setIsInitialTips(false)
         setDisplaySoundTip(open)
     }
+    const disableTips = isInitialTips ?
+        t("Click here to enable beeps. Due to browser security policy restrictions, you need to enable it again when you re-enter the page.")
+        : t('Disable Beeps')
     const soundButton = <Tooltip
         open={displaySoundTip}
         onOpenChange={setOpen}
         placement='right'
         color={enableSound ? token.colorInfo : token.colorBgMask}
-        title={enableSound ? t('Enable Beeps') : enableTips}>
+        title={enableSound ? t('Enable Beeps') : disableTips}>
         <FloatButton
             icon={<MutedOutlined style={{ color: enableSound ? token.colorInfo : undefined }} />}
             onClick={onClickSound}
         />
-    </Tooltip>
+    </Tooltip >
 
     const { isDarkMode, toggleDarkMode } = useSystemSettingsStore(state => state)
     const themeMode = isDarkMode ? 'darkAlgorithm' : 'defaultAlgorithm'
