@@ -20,6 +20,7 @@
     "bytes": "^3.1.2",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.10",
+    "howler": "^2.2.4",
     "i18next": "^23.7.19",
     "i18next-browser-languagedetector": "^7.2.0",
     "ini": "^4.1.2",

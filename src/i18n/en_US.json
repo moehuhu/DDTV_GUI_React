@@ -6,6 +6,8 @@
     "password": "Password",
     "login": "Login",
     "logout": "Logout",
+    "Enable Beeps": "Enable Beeps",
+    "Disable Beeps": "Disable Beeps",
     "Switch Account": "Switch Account",
     "Loading": "Loading",
     "Refreshed": "Refreshed",

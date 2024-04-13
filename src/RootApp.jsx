@@ -5,7 +5,8 @@ import { HashRouter, Routes, Route } from 'react-router-dom'
 import { useTitle, useMount, useUpdateEffect, configResponsive } from 'ahooks'
 import { useTranslation } from 'react-i18next'
 import { ConfigProvider, theme, FloatButton, Popover, Menu, App } from 'antd'
-import { BulbOutlined } from '@ant-design/icons'
+import { BulbOutlined, MutedOutlined } from '@ant-design/icons'
+import { useState } from 'react'
 import './index.css'
 import './i18n/i18n.js'
 import useIsLoggedIn from './hooks/useIsLoggedIn.jsx'
@@ -23,7 +24,16 @@ configResponsive({
 
 const RootApp = () => {
     const { t } = useTranslation()
+    const { token } = theme.useToken()
     useTitle(t('titleText'))
+
+    const [enableSound, setEnableSound] = useState(false)
+    const soundButton = <FloatButton
+        tooltip={enableSound ? t('Disable Beeps') : t('Enable Beeps')}
+        icon={<MutedOutlined style={{ color: enableSound ? token.colorInfo : undefined }} />}
+        onClick={() => setEnableSound(!enableSound)}
+    />
+
     const { isDarkMode, toggleDarkMode } = useSystemSettingsStore(state => state)
     const themeMode = isDarkMode ? 'darkAlgorithm' : 'defaultAlgorithm'
     const darkModeButton = <FloatButton
@@ -46,23 +56,24 @@ const RootApp = () => {
         selectedKeys={[i18n.language]}
         items={items}
     />
-    const { token } = theme.useToken()
+
     const languageButtonIcon = <LanguageIcon style={{ height: 20, width: 20, fill: token.colorInfo }} />
     const languageButton = <Popover content={languageMenu}>
         <FloatButton icon={languageButtonIcon} />
     </Popover>
 
     const floatButtons = <FloatButton.Group shape="square" style={{ left: 24 }}>
+        {soundButton}
         {darkModeButton}
         {languageButton}
     </FloatButton.Group>
 
-    const [isLoggedIn, setIsLoggedIn, systemState] = useIsLoggedIn()
+    const [isLoggedIn, setIsLoggedIn] = useIsLoggedIn()
     const unauthenticatedPages = <Routes>
         <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="*" element={<NoMatch />} />
     </Routes>
-    const mainPages = <MainRoutes setIsLoggedIn={setIsLoggedIn} systemState={systemState} />
+    const mainPages = <MainRoutes setIsLoggedIn={setIsLoggedIn} enableSound={enableSound} />
     const router = <HashRouter>
         {isLoggedIn ? mainPages : unauthenticatedPages}
     </HashRouter>

@@ -11,7 +11,10 @@ import { Layout, Menu, theme, Modal, Typography, Popover, Tooltip, QRCode, App }
 const { Paragraph, Title } = Typography
 import { DesktopOutlined, BlockOutlined, HddOutlined, SettingOutlined, MenuFoldOutlined, ColumnWidthOutlined } from "@ant-design/icons";
 import { useTranslation } from 'react-i18next';
+import { Howl } from 'howler';
 import _ from 'lodash'
+import startLive from './assets/startLive.mp3'
+import endLive from './assets/endLive.mp3'
 import useLoginBiliBili from './hooks/useLoginBiliBili';
 import useUserAgreement from './hooks/useUserAgreement';
 import useWebSocketMessage from './hooks/useWebSocketMessage';
@@ -22,7 +25,7 @@ const { Sider, Content } = Layout;
 const ddtv = new URL('../public/DDTV.png', import.meta.url).href
 const ddtvGrayscale = new URL('../public/DDTV-grayscale.png', import.meta.url).href
 
-const AppRoutes = ({ setIsLoggedIn }) => {
+const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
   const [collapsed, setCollapsed] = useState(false);
   const { pathname } = useLocation()
   const navigate = useNavigate()
@@ -51,6 +54,14 @@ const AppRoutes = ({ setIsLoggedIn }) => {
   useMount(checkAgreementState)
   const socket = useWebSocketMessage()
   useEffect(() => {
+    const startSound = new Howl({ src: [startLive] })
+    const endSound = new Howl({ src: [endLive] })
+    if (enableSound) { startSound.play() }
+    if (!enableSound) { endSound.play() }
+    return () => { startSound.unload(); endSound.unload() }
+  }, [enableSound])
+  useEffect(() => {
+    const startSound = new Howl({ src: [startLive] })
     const reminder = (data) => {
       const { Name, Title: { Value }, UID, RoomId } = data
       const url = 'https://live.bilibili.com/' + RoomId
@@ -61,10 +72,11 @@ const AppRoutes = ({ setIsLoggedIn }) => {
         duration: 10
       }
       notification.info(roomInfo)
+      enableSound && startSound.play();
     }
     socket.addEventListener(Opcode.StartBroadcastingReminder, reminder)
-    return () => { socket.removeEventListener(Opcode.StartBroadcastingReminder, reminder) }
-  }, [notification, socket, t])
+    return () => { socket.removeEventListener(Opcode.StartBroadcastingReminder, reminder); startSound.unload() }
+  }, [notification, socket, t, enableSound])
   const onConfirm = () => agree('y')
   const onCancel = () => setIsLoggedIn(false)
   const agreeModal = <Modal
