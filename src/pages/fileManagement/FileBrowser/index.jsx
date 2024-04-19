@@ -4,7 +4,7 @@ import _ from "lodash"
 import { useCallback, useMemo } from "react"
 import FileCard from "./FileCard"
 const FileBrowser = (props) => {
-    const { files, folderChain, setCurrentFolderId } = props
+    const { files, setVideoSrc, folderChain, setCurrentFolderId } = props
     const getPathItems = useCallback((folderChain) => {
         const items = (folderChain || []).map?.(node => ({
             icon: <FolderOutlined />,
@@ -26,7 +26,7 @@ const FileBrowser = (props) => {
     const grid = { xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6, }
     const header = <Menu className="nav" mode="horizontal" items={paths} selectedKeys={[]} />
     const renderItem = (node) => <List.Item>
-        <FileCard key={node?.id} file={node} setCurrentFolderId={setCurrentFolderId} />
+        <FileCard key={node?.id} file={node} setVideoSrc={setVideoSrc} setCurrentFolderId={setCurrentFolderId} />
     </List.Item>
     const list = <List
         className="file-list"

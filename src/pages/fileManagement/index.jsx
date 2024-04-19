@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react';
 import { useMount } from "ahooks"
-import { App } from 'antd';
+import { App, Modal } from 'antd';
 import useFileTree from "../../hooks/useFileTree"
 import FileBrowser from './FileBrowser';
 import './style.css'
 const FileManagement = () => {
   const { getTree, treeMap } = useFileTree()
   const [currentFolderId, setCurrentFolderId] = useState('')
+  const [videoSrc, setVideoSrc] = useState('')
   const { message } = App.useApp()
   useMount(async () => {
     const [err, tree] = await getTree()
@@ -36,7 +37,22 @@ const FileManagement = () => {
 
 
   return <div className="file-management">
-    <FileBrowser files={files} folderChain={folderChain} setCurrentFolderId={setCurrentFolderId} />
+    <FileBrowser
+      files={files}
+      setVideoSrc={setVideoSrc}
+      folderChain={folderChain}
+      setCurrentFolderId={setCurrentFolderId}
+    />
+    <Modal
+      className='video-player'
+      closable={false}
+      footer={null}
+      mask={false}
+      open={videoSrc}
+      destroyOnClose
+      onCancel={() => setVideoSrc('')}>
+      <video className='player' controls src={videoSrc} />
+    </Modal>
   </div>
 }
 export default FileManagement

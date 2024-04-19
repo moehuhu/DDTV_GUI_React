@@ -3066,6 +3066,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"download-in-browser@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "download-in-browser@npm:0.2.0"
+  checksum: 10c0/7fbc866f2ccd3196a683473c4d5dcda2d1a0eac4955684e5cb7669cb8d7cc804675396c98cf28586f1266d36d576c2f9afc11ccd01339e078f6cbc1b54250282
+  languageName: node
+  linkType: hard
+
 "eastasianwidth@npm:^0.2.0":
   version: 0.2.0
   resolution: "eastasianwidth@npm:0.2.0"
@@ -6521,6 +6528,7 @@ __metadata:
     bytes: "npm:^3.1.2"
     crypto-js: "npm:^4.2.0"
     dayjs: "npm:^1.11.10"
+    download-in-browser: "npm:^0.2.0"
     eslint: "npm:^8.55.0"
     eslint-plugin-react: "npm:^7.33.2"
     eslint-plugin-react-hooks: "npm:^4.6.0"

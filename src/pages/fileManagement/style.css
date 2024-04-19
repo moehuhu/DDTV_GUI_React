@@ -1,38 +1,49 @@
 .file-management {
-    .chonky-chonkyRoot {
-        height: calc(100vh - 36px);
-        margin: 8px;
-    }
+  .chonky-chonkyRoot {
+    height: calc(100vh - 36px);
+    margin: 8px;
+  }
 
-    .file-browser {
-        .file-list {
-            .ant-list-header {
-                padding: 0px;
-                border-block-end: none;
-            }
+  .file-browser {
+    .file-list {
+      .ant-list-header {
+        padding: 0px;
+        border-block-end: none;
+      }
 
-            .ant-spin-container {
-                height: calc(98vh - 50px);
-                overflow-y: auto;
-                overflow-x: hidden;
-                padding: 15px 0px 0px 0px;
+      .ant-spin-container {
+        height: calc(98vh - 50px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 15px 0px 0px 0px;
 
-                .ant-list-item {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    flex-direction: column;
+        .ant-list-item {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
 
-                    .file-name {
-                        width: 180px;
-                        height: 1.5em;
-                        text-align: center;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                    }
-                }
-            }
+          .file-name {
+            width: 180px;
+            height: 1.5em;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
+      }
     }
+  }
+}
+.video-player {
+  display: flex;
+  .ant-modal-content {
+    background: rgba(255, 255, 255, 0);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(6.5px);
+    -webkit-backdrop-filter: blur(6.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
 }
