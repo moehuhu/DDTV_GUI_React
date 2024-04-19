@@ -37,8 +37,8 @@
   }
 }
 .preview-content {
-  width: calc(64vw + 64px);
-  height: calc(36vw + 64px);
+  width: none !important;
+  height: none !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,10 +49,14 @@
     -webkit-backdrop-filter: blur(6.5px);
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    .player,
+    .video-player,
     .previewer {
       width: calc(64vw);
       height: calc(36vw);
+    }
+    .audio-player {
+      width: calc(64vw);
+      height: 64px;
     }
     .previewer {
       border: none;

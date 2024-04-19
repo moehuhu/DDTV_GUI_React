@@ -37,7 +37,7 @@ const FileManagement = () => {
     return { files, folderChain };
   }, [treeMap, currentFolder])
 
-  const previewContent = <video className='player' controls src={fileSrc?.src} />
+  const previewContent = fileSrc?.isVideo ? <video className='video-player' controls src={fileSrc?.src} /> : <audio className='audio-player' controls src={fileSrc?.src} />
   return <div className="file-management">
     <FileBrowser
       files={files}

@@ -10,14 +10,15 @@ const FileCard = (props) => {
     const { id, name, ext, isDir, size, childrenCount } = file
     const type = mime.getType(_.toLower(ext))
     const isVideo = _.includes(type, 'video')
-    const isPreviewable = isVideo
+    const isAudio = _.includes(type, 'audio')
+    const isPreviewable = isVideo || isAudio
         || _.includes(type, 'json')
         || _.includes(type, 'xml')
         || _.includes(type, 'pdf')
         || _.includes(type, 'image')
     const handlePreview = () => {
-        if (isVideo) {
-            setFileSrc({ src: id, isVideo, ext });
+        if (isVideo || isAudio) {
+            setFileSrc({ src: id, isVideo, isAudio, ext });
             return
         }
         window.open(id)
