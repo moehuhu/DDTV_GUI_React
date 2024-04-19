@@ -25,7 +25,7 @@ const FileCard = (props) => {
     }
     const fileIcon = <div onDoubleClick={onDoubleClick}>
         <Badge offset={[-21, 35]} count={childrenCount || 0}>
-            <FileIcon isDir={isDir} ext={ext} />
+            <FileIcon isDir={isDir} ext={ext} childrenCount={childrenCount} />
         </Badge>
     </div>
     const { token } = theme.useToken()
