@@ -12,9 +12,16 @@ const weakRules = _(fileIcons).keys().map(extIsIn).value()
 const rules = [...strictRules, ...weakRules]
 
 const FileIcon = (props) => {
-    const { isDir, ext, childrenCount } = props
-    const type = useMemo(() => isDir ? (childrenCount ? 'folder' : 'empty') : (rules?.find(rule => rule[0]?.(ext))?.[1] || 'unknown'), [isDir, ext])
-    const icon = <Image className="icon" width={200} preview={false} src={fileIcons[type]?.default} />
+    const { src, isDir, ext, childrenCount } = props
+    const type = useMemo(() => isDir ? (childrenCount ? 'folder' : 'empty') : (rules?.find(rule => rule[0]?.(ext))?.[1] || 'unknown'), [isDir, childrenCount, ext])
+    const icon = <Image
+        className="icon"
+        width={200}
+        height={200}
+        preview={false}
+        fallback={fileIcons[type]?.default}
+        src={type == 'image' ? src : fileIcons[type]?.default}
+    />
     return icon
 }
 export default FileIcon
