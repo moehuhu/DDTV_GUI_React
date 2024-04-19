@@ -19,7 +19,7 @@ import psplive from './assets/psplive.mp3'
 import useLoginBiliBili from './hooks/useLoginBiliBili';
 import useUserAgreement from './hooks/useUserAgreement';
 import useWebSocketMessage from './hooks/useWebSocketMessage';
-import { Opcode } from './enums';
+import { Opcode, Mode } from './enums';
 import './Routes.css'
 
 const { Sider, Content } = Layout;
@@ -35,7 +35,7 @@ const pspliveUIDs = new Set([
   9667357
 ])
 
-const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
+const AppRoutes = ({ setIsLoggedIn, enableSound, heartBeatStatus }) => {
   const [collapsed, setCollapsed] = useState(false);
   const { pathname } = useLocation()
   const navigate = useNavigate()
@@ -75,7 +75,12 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
     const startSound = new Howl({
       src: [isPSP ? psplive : startLive],
       volume: isPSP ? 0.12 : 1,
-      onend: () => { setCurrentUserTitle(`${Name}: ${Value} - `); startSound.unload() }
+      onend: () => {
+        if (!heartBeatStatus?.StartMode == Mode.Client) {
+          setCurrentUserTitle(`${Name}: ${Value} - `)
+        }
+        startSound.unload()
+      }
     })
     startSound.play();
   }, 500)
@@ -98,11 +103,15 @@ const AppRoutes = ({ setIsLoggedIn, enableSound }) => {
         stack: false
       }
       notification.info(roomInfo)
+      
       if (enableSound) {
         remindStartLive(Name, Value, pspliveUIDs.has(UID))
         return
       }
-      setCurrentUserTitle(`${Name}: ${Value} - `)
+
+      if (!heartBeatStatus?.StartMode == Mode.Client) {
+        setCurrentUserTitle(`${Name}: ${Value} - `)
+      }
     }
     socket.addEventListener(Opcode.StartBroadcastingReminder, startReminder)
 

@@ -96,12 +96,17 @@ const RootApp = () => {
         {languageButton}
     </FloatButton.Group>
 
-    const [isLoggedIn, setIsLoggedIn] = useIsLoggedIn()
+    const [isLoggedIn, setIsLoggedIn, systemState, heartBeatStatus] = useIsLoggedIn()
     const unauthenticatedPages = <Routes>
         <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="*" element={<NoMatch />} />
     </Routes>
-    const mainPages = <MainRoutes setIsLoggedIn={setIsLoggedIn} enableSound={enableSound} />
+    const mainPages = <MainRoutes
+        setIsLoggedIn={setIsLoggedIn}
+        enableSound={enableSound}
+        systemState={systemState}
+        heartBeatStatus={heartBeatStatus}
+    />
     const router = <HashRouter>
         {isLoggedIn ? mainPages : unauthenticatedPages}
     </HashRouter>

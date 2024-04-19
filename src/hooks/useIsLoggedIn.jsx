@@ -7,7 +7,7 @@ const useIsLoggedIn = () => {
   const { accessKeyId, accessKeySecret } = useLocalAccessToken()
   const [isCliLoggedIn, setIsCliLoggedIn] = useState(accessKeyId && accessKeySecret)
   const [systemState, setSystemState] = useState({})
-  const { heartBeat } = useDokiDoki()
+  const { heartBeat, heartBeatStatus } = useDokiDoki()
   const setIsLoggedIn = (state) => {
     if (!state) {
       localStorage.removeItem('AccessKeyId')
@@ -24,6 +24,6 @@ const useIsLoggedIn = () => {
       setIsLoggedIn(false)
     }
   }, 10000)
-  return [isCliLoggedIn, setIsLoggedIn, systemState]
+  return [isCliLoggedIn, setIsLoggedIn, systemState, heartBeatStatus]
 }
 export default useIsLoggedIn
