@@ -1,22 +1,26 @@
-import { Badge, theme } from "antd"
+import { Badge, Dropdown, theme } from "antd"
+import { useTranslation } from "react-i18next"
 import FileIcon from "./FileIcon"
 import mime from 'mime'
 import _ from 'lodash'
 import download from 'download-in-browser'
 const FileCard = (props) => {
-    const { file, setVideoSrc, setCurrentFolderId } = props
+    const { t } = useTranslation()
+    const { file, setFileSrc, setCurrentFolderId } = props
     const { id, name, ext, isDir, size, childrenCount } = file
+    const type = mime.getType(_.toLower(ext))
+    const isVideo = _.includes(type, 'video')
+    const isPreviewable = isVideo
+        || _.includes(type, 'json')
+        || _.includes(type, 'xml')
+        || _.includes(type, 'pdf')
+    const handlePreview = () => {
+        if (isVideo) { setFileSrc({ src: id, isVideo, ext }); return }
+        window.open(id)
+    }
     const onDoubleClick = () => {
         if (isDir) { setCurrentFolderId(id); return; }
-        const type = mime.getType(_.toLower(ext))
-        if (_.includes(type, 'video')) {
-            setVideoSrc(id)
-            return
-        }
-        if (_.includes(type, 'json') || _.includes(type, 'xml')) {
-            window.open(id)
-            return
-        }
+        if (isPreviewable) { handlePreview(); return; }
         download(id, name)
     }
     const fileIcon = <div onDoubleClick={onDoubleClick}>
@@ -28,10 +32,36 @@ const FileCard = (props) => {
     const color = token.colorText
     const style = { color }
     const fileName = <span title={name} className="file-name" style={style}>{name}</span>
-    const fileCard = <>
+    const fileCard = <div className="file-card">
         {fileIcon}
         {fileName}
-    </>
-    return fileCard
+    </div>
+    const preview = {
+        label: t('Preview'),
+        key: 'Preview',
+        onClick: () => handlePreview()
+    }
+    const downloadFile = {
+        label: t('Download'),
+        key: 'Download',
+        disabled: isDir,
+        onClick: () => download(id, name)
+    }
+    const CopyFilename = {
+        label: t('CopyFilename'),
+        key: 'CopyFilename',
+        onClick: () => navigator.clipboard.writeText(name)
+    }
+
+    const openDir = {
+        label: t('Open'),
+        key: 'Open',
+        onClick: () => setCurrentFolderId(id)
+    }
+
+    const rightClickItems = isPreviewable ? [downloadFile, preview, CopyFilename] : isDir ? [downloadFile, openDir, CopyFilename] : [downloadFile, CopyFilename]
+    return <Dropdown menu={{ items: rightClickItems, }} trigger={['contextMenu']}>
+        {fileCard}
+    </Dropdown>
 }
 export default FileCard

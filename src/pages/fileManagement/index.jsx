@@ -1,13 +1,15 @@
 import { useMemo, useState } from 'react';
 import { useMount } from "ahooks"
-import { App, Modal } from 'antd';
+import { App, Modal, theme } from 'antd';
 import useFileTree from "../../hooks/useFileTree"
 import FileBrowser from './FileBrowser';
 import './style.css'
 const FileManagement = () => {
+  const { token } = theme.useToken()
   const { getTree, treeMap } = useFileTree()
   const [currentFolderId, setCurrentFolderId] = useState('')
-  const [videoSrc, setVideoSrc] = useState('')
+  const [pdfPageNum, setPdfPageNum] = useState(1)
+  const [fileSrc, setFileSrc] = useState(null)
   const { message } = App.useApp()
   useMount(async () => {
     const [err, tree] = await getTree()
@@ -35,23 +37,25 @@ const FileManagement = () => {
     return { files, folderChain };
   }, [treeMap, currentFolder])
 
-
+  const previewContent = <video className='player' controls src={fileSrc?.src} />
   return <div className="file-management">
     <FileBrowser
       files={files}
-      setVideoSrc={setVideoSrc}
+      setFileSrc={setFileSrc}
       folderChain={folderChain}
       setCurrentFolderId={setCurrentFolderId}
     />
     <Modal
-      className='video-player'
+      className='preview-content'
       closable={false}
+      width={null}
       footer={null}
       mask={false}
-      open={videoSrc}
+      open={fileSrc}
       destroyOnClose
-      onCancel={() => setVideoSrc('')}>
-      <video className='player' controls src={videoSrc} />
+      centered
+      onCancel={() => setFileSrc(null)}>
+      {previewContent}
     </Modal>
   </div>
 }
