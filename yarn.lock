@@ -1997,6 +1997,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stencil/core@npm:^4.0.0":
+  version: 4.16.0
+  resolution: "@stencil/core@npm:4.16.0"
+  bin:
+    stencil: bin/stencil
+  checksum: 10c0/9cf21050d97bf1db275b7ff7bcd2cdcff71af5e3cbce48dcc2e5e0f7ffa1df748a526b01a565fe99e5b53837bef825b5045244e7be4cb25a1e122803e1f02e6d
+  languageName: node
+  linkType: hard
+
 "@svgr/babel-plugin-add-jsx-attribute@npm:8.0.0":
   version: 8.0.0
   resolution: "@svgr/babel-plugin-add-jsx-attribute@npm:8.0.0"
@@ -2715,6 +2724,15 @@ __metadata:
   dependencies:
     balanced-match: "npm:^1.0.0"
   checksum: 10c0/b358f2fe060e2d7a87aa015979ecea07f3c37d4018f8d6deb5bd4c229ad3a0384fe6029bb76cd8be63c81e516ee52d1a0673edbe2023d53a5191732ae3c3e49f
+  languageName: node
+  linkType: hard
+
+"browser-video-thumbnail-generator@npm:^1.2.8":
+  version: 1.2.8
+  resolution: "browser-video-thumbnail-generator@npm:1.2.8"
+  dependencies:
+    "@stencil/core": "npm:^4.0.0"
+  checksum: 10c0/6557cce98fc572a2307d18c989a0cef267a52d8277636a6c97b14ee4984bd3178dccaffbd887cbb69a2a61ce648d404e723b07e971fcbbb3e292588f6ea054cc
   languageName: node
   linkType: hard
 
@@ -6525,6 +6543,7 @@ __metadata:
     antd: "npm:^5.14.2"
     await-to-js: "npm:^3.0.0"
     axios: "npm:^1.6.5"
+    browser-video-thumbnail-generator: "npm:^1.2.8"
     bytes: "npm:^3.1.2"
     crypto-js: "npm:^4.2.0"
     dayjs: "npm:^1.11.10"

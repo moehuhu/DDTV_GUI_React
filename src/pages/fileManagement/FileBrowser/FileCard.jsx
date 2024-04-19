@@ -2,8 +2,8 @@ import { Badge, Dropdown, theme } from "antd"
 import { useTranslation } from "react-i18next"
 import FileIcon from "./FileIcon"
 import mime from 'mime'
-import _ from 'lodash'
 import download from 'download-in-browser'
+import _ from 'lodash'
 const FileCard = (props) => {
     const { t } = useTranslation()
     const { file, setFileSrc, setCurrentFolderId } = props
@@ -16,7 +16,10 @@ const FileCard = (props) => {
         || _.includes(type, 'pdf')
         || _.includes(type, 'image')
     const handlePreview = () => {
-        if (isVideo) { setFileSrc({ src: id, isVideo, ext }); return }
+        if (isVideo) {
+            setFileSrc({ src: id, isVideo, ext });
+            return
+        }
         window.open(id)
     }
     const onDoubleClick = () => {

@@ -19,15 +19,18 @@
 
         .ant-list-item {
           display: flex;
-          justify-content: center;
+          justify-content: space-between;
           align-items: center;
           flex-direction: column;
           .file-card {
+            height: 240px;
             display: flex;
             flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
             user-select: none;
             .file-name {
-              width: 180px;
+              width: 200px;
               height: 1.5em;
               text-align: center;
               overflow: hidden;
