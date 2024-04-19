@@ -5,39 +5,32 @@
   }
 
   .file-browser {
+    .nav {
+      padding: 0px;
+      height: 48px;
+    }
     .file-list {
-      .ant-list-header {
-        padding: 0px;
-        border-block-end: none;
-      }
-
-      .ant-spin-container {
-        height: calc(98vh - 50px);
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding: 15px 0px 0px 0px;
-
-        .ant-list-item {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          flex-direction: column;
-          .file-card {
-            height: 240px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            user-select: none;
-            .file-name {
-              width: 200px;
-              height: 1.5em;
-              text-align: center;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-            }
-          }
+      height: calc(100vh - 48px);
+      display: flex;
+      justify-content: flex-start;
+      align-content: flex-start;
+      flex-wrap: wrap;
+      overflow-x: hidden;
+      overflow-y: auto;
+      .file-card {
+        height: 240px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        user-select: none;
+        .file-name {
+          height: 1.5em;
+          width: 270px;
+          text-align: center;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
     }

@@ -1,8 +1,9 @@
-import { Menu, List } from "antd"
-import { HolderOutlined, FolderOutlined } from "@ant-design/icons"
-import _ from "lodash"
-import { useCallback, useMemo } from "react"
 import FileCard from "./FileCard"
+import { Menu } from "antd"
+import { HolderOutlined, FolderOutlined } from "@ant-design/icons"
+import { useSize } from "ahooks"
+import { useCallback, useMemo, useRef } from "react"
+import _ from "lodash"
 const FileBrowser = (props) => {
     const { files, setFileSrc, folderChain, setCurrentFolderId } = props
     const getPathItems = useCallback((folderChain) => {
@@ -23,21 +24,22 @@ const FileBrowser = (props) => {
         ]
     }, [setCurrentFolderId])
     const paths = useMemo(() => getPathItems(folderChain), [folderChain, getPathItems])
-    const grid = { xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 6, }
     const header = <Menu className="nav" mode="horizontal" items={paths} selectedKeys={[]} />
-    const renderItem = (node) => <List.Item>
-        <FileCard key={node?.id} file={node} setFileSrc={setFileSrc} setCurrentFolderId={setCurrentFolderId} />
-    </List.Item>
-    const list = <List
-        className="file-list"
-        grid={grid}
-        header={header}
-        renderItem={renderItem}
-        bordered={false}
-        dataSource={files}
+    const fileListRef = useRef(null)
+    const width = useSize(fileListRef)?.width
+    const lineItemCount = Math.floor(width / 270)
+    const widthPercent = `${100.0 / lineItemCount}%`
+    const renderItem = (node) => <FileCard
+        key={node?.id}
+        file={node}
+        fileCardStyle={{ width: widthPercent, maxWidth: widthPercent }}
+        setFileSrc={setFileSrc}
+        setCurrentFolderId={setCurrentFolderId}
     />
+
     return <div className="file-browser">
-        {list}
+        {header}
+        <div ref={fileListRef} className="file-list">{files?.map?.(renderItem)}</div>
     </div>
 }
 export default FileBrowser

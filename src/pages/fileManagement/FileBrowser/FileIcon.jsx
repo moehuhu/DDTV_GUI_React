@@ -16,20 +16,24 @@ const rules = [...strictRules, ...weakRules]
 const FileIcon = (props) => {
     const [thumbnail, setThumbnail] = useState()
     const { src, isDir, ext, childrenCount } = props
+    const [width, setWidth] = useState(200)
     const type = useMemo(() => isDir ? (childrenCount ? 'folder' : 'empty') : (rules?.find(rule => rule[0]?.(ext))?.[1] || 'unknown'), [isDir, childrenCount, ext])
     useEffect(() => {
+        if (type == 'image') { setWidth(240); return }
         if (!['flv', 'video'].includes(type)) { return }
         const generator = new VideoThumbnailGenerator(src)
         generator.getThumbnail().then((thumbnail) => {
             setThumbnail(thumbnail?.thumbnail);
+            setWidth(240)
         });
         return () => { generator.revokeUrls() }
     }, [src, type])
     const icon = <Image
         className="icon"
-        width={thumbnail ? 240 : 200}
+        width={width}
         height={200}
         preview={false}
+        onError={() => { setWidth(200) }}
         fallback={fileIcons[type]?.default}
         src={type == 'image' ? src : (thumbnail || fileIcons[type]?.default)}
     />

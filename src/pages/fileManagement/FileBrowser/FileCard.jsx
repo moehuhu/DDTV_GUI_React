@@ -6,7 +6,7 @@ import download from 'download-in-browser'
 import _ from 'lodash'
 const FileCard = (props) => {
     const { t } = useTranslation()
-    const { file, setFileSrc, setCurrentFolderId } = props
+    const { file, setFileSrc, setCurrentFolderId, fileCardStyle } = props
     const { id, name, ext, isDir, size, childrenCount } = file
     const type = mime.getType(_.toLower(ext))
     const isVideo = _.includes(type, 'video')
@@ -36,7 +36,7 @@ const FileCard = (props) => {
     const color = token.colorText
     const style = { color }
     const fileName = <span title={name} className="file-name" style={style}>{name}</span>
-    const fileCard = <div className="file-card">
+    const fileCard = <div className="file-card" style={fileCardStyle} >
         {fileIcon}
         {fileName}
     </div>
