@@ -103,7 +103,7 @@ const AppRoutes = ({ setIsLoggedIn, enableSound, heartBeatStatus }) => {
         stack: false
       }
       notification.info(roomInfo)
-      
+
       if (enableSound) {
         remindStartLive(Name, Value, pspliveUIDs.has(UID))
         return
@@ -134,7 +134,7 @@ const AppRoutes = ({ setIsLoggedIn, enableSound, heartBeatStatus }) => {
       socket.removeEventListener(Opcode.StartBroadcastingReminder, startReminder)
       socket.removeEventListener(Opcode.StopLiveEvent, endReminder)
     }
-  }, [notification, message, socket, t, remindStartLive, remindEndLive, enableSound])
+  }, [notification, message, socket, t, remindStartLive, remindEndLive, enableSound, heartBeatStatus?.StartMode])
   const onConfirm = () => agree('y')
   const onCancel = () => setIsLoggedIn(false)
   const agreeModal = <Modal
