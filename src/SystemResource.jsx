@@ -32,8 +32,8 @@ const SystemResource = () => {
       percent={usedDiskPercent} size="small" />
   </Tooltip>
   return <div className='system-bar' style={{ margin: token.margin }}>
-    {memory}
-    {disk}
+    {systemState?.Memory && memory}
+    {systemState?.HDDInfo && disk}
   </div>
 }
 export default SystemResource

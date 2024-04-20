@@ -22,7 +22,7 @@ const endSound = new Howl({ src: [endLive] })
 configResponsive({
     sm: 768,
     md: 960,
-    lg: 1260,
+    lg: 1280,
     xl: 1600,
     xxl: 1920
 });

@@ -5,7 +5,7 @@ import useDetailedRoomInfoList from '../../hooks/useDetailedRoomInfoList'
 import RoomListHeader from './RoomListHeader';
 import { useSystemSettingsStore } from '../../SystemSettingsStore';
 import { useMemo, useState, useRef } from 'react';
-import { useAsyncEffect, useInterval, useResponsive, useUpdateEffect } from 'ahooks';
+import { useAsyncEffect, useInterval, useResponsive, useSize, useUpdateEffect } from 'ahooks';
 import { useTranslation } from 'react-i18next';
 import useUrlState from '@ahooksjs/use-url-state';
 import { theme, Pagination, Progress, App } from 'antd';
@@ -85,8 +85,9 @@ const RoomList = () => {
     refreshPage={refreshPage}
   />
   const uidMapper = item => item?.userInfo?.uid
-  const responsive = useResponsive();
-  const columnCount = useMemo(() => _(responsive).countBy(value => value == true).value()['true'] || 1, [responsive])
+  const responsive = useResponsive()
+  const width = useSize(listRef)?.width;
+  const columnCount = useMemo(() => Math.floor(width / 336.0) || 1, [width])
   const widthPercent = `${100.0 / columnCount}%`
   const renderItem = (item) => <div
     className="card-container"
@@ -121,7 +122,7 @@ const RoomList = () => {
         page_size: t('PageSize')
       }}
       onChange={(current) => { setPageState({ current }) }}
-      pageSizeOptions={[16, 20, 24, 30, 32, 40, 48, 56, 60, 64, 72, 80]}
+      pageSizeOptions={[16, 20, 24, 30, 32, 40, 42, 48, 56, 60, 64, 72, 80]}
       onShowSizeChange={(current, size) => { setPageSize(size); setPageState({ current }) }}
       showSizeChanger={responsive.md}
       showQuickJumper={responsive.sm}
