@@ -124,6 +124,8 @@
     "Verification failed, please check the path format": "Verification failed, please check the filename format",
     "Are you sure to modify the path?": "Are you sure to modify the path?",
     "Multiple UIDs separated by ;": "Multiple UIDs separated by commas ,",
-    "Double Click": "Double Click"
+    "Double Click": "Double Click",
+    "About": "About",
+    "jpTranslation": "JP Translation"
   }
 }

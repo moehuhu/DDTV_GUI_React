@@ -189,7 +189,10 @@ const BackEnd = (props) => {
     ><Button>{t('Switch Account')}</Button></Popover>}
   </div>
   const setUser = renderFullRow(t('User'), userInfo?.mid ? user : (t('Loading') + '...'))
-  const coreVersion = renderFullRow(version?.message, version?.data)
+  const coreVersion = renderFullRow(version?.message, <a onClick={() => window.open("https://github.com/CHKZL/DDTV")}
+    style={{ ...style, textDecoration: 'underline' }}>
+    {version?.data}
+  </a>)
 
   const { reset, checkReinitialize, setCheckReinitialize, checkReinitializeData, applyReinitialize } = useResetConfig()
   const resetButton = <Popconfirm
