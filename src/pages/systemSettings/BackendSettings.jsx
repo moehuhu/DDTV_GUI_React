@@ -21,7 +21,8 @@ const BackEnd = (props) => {
   const { message } = App.useApp()
   const color = token.colorText
   const style = { color }
-  const { t } = useTranslation()
+  const { t, i18n: { language } } = useTranslation()
+  const isEN = language?.includes('en')
   const { getVersion, version } = useCoreVersion()
   useMount(getVersion)
   const loginStatus = _.get(props, 'loginStatus')
@@ -206,7 +207,7 @@ const BackEnd = (props) => {
     <Button danger>{t('resetSettings')}</Button>
   </Popconfirm>
   const yangleButton = <Popconfirm
-    okText={t('yangle')}
+    okText={isEN ? t('doNotPress') : t('yangle')}
     okButtonProps={{ danger: true }}
     icon={checkReinitializeData?.checkFailed ? failedIcon : undefined}
     onConfirm={async () => {

@@ -54,6 +54,7 @@
     "version": "バージョン",
     "resetSettings": "デフォルト設定にリセットする",
     "yangle": "起爆",
+    "doNotPress": "押さないでください",
     "AutoRefresh": "ページを自動的に更新",
     "RefreshInterval": "更新間隔",
     "Path": "保存先",
