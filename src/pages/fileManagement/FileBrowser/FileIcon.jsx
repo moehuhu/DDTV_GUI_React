@@ -22,10 +22,6 @@ const FileIcon = (props) => {
         if (type == 'image') { setWidth(240); return }
         if (!['flv', 'video'].includes(type)) { return }
         const generator = new VideoThumbnailGenerator(src)
-        generator.getThumbnail().then((thumbnail) => {
-            setThumbnail(thumbnail?.thumbnail);
-            setWidth(240)
-        });
         return () => { generator.revokeUrls() }
     }, [src, type])
     const icon = <Image
