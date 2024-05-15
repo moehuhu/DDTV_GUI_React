@@ -2,17 +2,26 @@ import { Card } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
 import RoomActions from './RoomActions';
 import useOpenBilibiliPage from '../../../hooks/useOpenBilibiliPage';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useInterval } from 'ahooks';
 import bytes from 'bytes';
 import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration'
+dayjs.extend(duration)
 const { Meta } = Card;
 
 const NoPhotoRoomCard = (item) => {
   const { roomInfo, userInfo, taskStatus } = item
   const [currentDownloadRate, setCurrentDownloadRate] = useState(0)
   const [currentDownloadSize, setCurrentDownloadSize] = useState(0)
-  const refreshDownloadRate = () => {
+  const [liveDuration, setLiveDuration] = useState('00:00:00')
+
+  const refreshDownloadInfo = () => {
+    if (!taskStatus?.isDownload) {
+      setCurrentDownloadRate(0);
+      setCurrentDownloadSize(0);
+      return
+    }
     const targetRate = taskStatus?.downloadRate || 0
     const averageRate = (currentDownloadRate + targetRate) * 0.5
     const targetSize = taskStatus?.downloadSize || 0
@@ -20,9 +29,19 @@ const NoPhotoRoomCard = (item) => {
     setCurrentDownloadRate(averageRate)
     setCurrentDownloadSize(averageSize)
   }
+  const refreshLivingInfo = () => {
+    if (!roomInfo?.liveStatus) { setLiveDuration('00:00:00'); return }
+    const startTime = dayjs.unix(roomInfo?.liveTime)
+    const duration = dayjs.duration(dayjs().diff(startTime)).format('HH:mm:ss')
+    setLiveDuration(duration)
+  }
   useInterval(() => {
-    if (!taskStatus?.isDownload) { return }
-    refreshDownloadRate()
+    if (!roomInfo?.liveStatus) { return }
+    if (!taskStatus?.isDownload) {
+      refreshLivingInfo()
+      return
+    }
+    refreshDownloadInfo()
   }, 1000)
   const [openBiliLiveRoom, openBiliHomepage] = useOpenBilibiliPage(item)
   const title = <span
@@ -44,9 +63,6 @@ const NoPhotoRoomCard = (item) => {
     {user}
     {buttons}
   </div >
-  const isLiving = roomInfo?.liveStatus
-  const startTime = dayjs.unix(roomInfo?.liveTime)
-  const isDownload = taskStatus?.isDownload
   const rateStr = `${bytes(currentDownloadRate, { unitSeparator: ' ' })}} / s`
   const sizeStr = `${bytes(currentDownloadSize, { unitSeparator: ' ' })}}`
   const otherInfo = <div className='other-info'>
