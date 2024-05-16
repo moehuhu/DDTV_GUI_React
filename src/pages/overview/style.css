@@ -97,23 +97,31 @@
         .no-photo-card {
           .ant-card-body {
             width: 320px;
-            height: 280px;
+            height: 160px;
             display: flex;
-            flex-direction: column;
             justify-content: space-between;
-            .basic-info {
+            .info {
               display: flex;
-              justify-content: space-between;
-              width: 320px;
-              height: 100px;
-            }
-            .other-info {
-              width: 320px;
-              height: 180px;
-              padding: 12px 16px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
+              flex-direction: column;
+              .basic-info {
+                display: flex;
+                justify-content: space-between;
+                width: 320px;
+                height: 100px;
+              }
+              .other-info {
+                width: 320px;
+                height: 40px;
+                margin: 8px 16px 12px 16px;
+                display: flex;
+                flex-direction: column;
+                .live-info,
+                .recording-info {
+                  height: 40px;
+                  display: flex;
+                  align-items: center;
+                }
+              }
             }
           }
         }

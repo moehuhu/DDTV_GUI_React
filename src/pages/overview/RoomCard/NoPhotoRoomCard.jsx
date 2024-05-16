@@ -1,4 +1,4 @@
-import { Card } from 'antd'
+import { Card, Tag, Statistic, Tooltip } from 'antd'
 import { DownloadOutlined } from '@ant-design/icons'
 import RoomActions from './RoomActions';
 import useOpenBilibiliPage from '../../../hooks/useOpenBilibiliPage';
@@ -7,11 +7,13 @@ import { useInterval } from 'ahooks';
 import bytes from 'bytes';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration'
+import { useTranslation } from 'react-i18next';
 dayjs.extend(duration)
 const { Meta } = Card;
 
 const NoPhotoRoomCard = (item) => {
   const { roomInfo, userInfo, taskStatus } = item
+  const { t } = useTranslation()
   const [currentDownloadRate, setCurrentDownloadRate] = useState(0)
   const [currentDownloadSize, setCurrentDownloadSize] = useState(0)
   const [liveDuration, setLiveDuration] = useState('00:00:00')
@@ -58,19 +60,34 @@ const NoPhotoRoomCard = (item) => {
     title={title}
     description={description}
   />
-  const buttons = <RoomActions {...item} />
   const basicInfo = <div className='basic-info' >
     {user}
-    {buttons}
+    <RoomActions {...item} />
   </div >
-  const rateStr = `${bytes(currentDownloadRate, { unitSeparator: ' ' })}} / s`
-  const sizeStr = `${bytes(currentDownloadSize, { unitSeparator: ' ' })}}`
-  const otherInfo = <div className='other-info'>
-    { }
+  const rateStr = `${bytes(currentDownloadRate, { unitSeparator: ' ' })} / s`
+  const sizeStr = `${bytes(currentDownloadSize, { unitSeparator: ' ' })}`
+  const liveInfo = roomInfo?.liveStatus ? <div className='live-info'>
+    <span><Tag color="red">{t('Live')}</Tag></span>
+    <Statistic value={liveDuration} />
+  </div>:<div className='live-info'>
+    <span><Tag color="gray">{t('NotLive')}</Tag></span>
+    <Statistic value={liveDuration} />
   </div>
-  return <Card className='no-photo-card'>
+  const recordingInfo = taskStatus?.isDownload && <Tooltip title={sizeStr}>
+    <div className='recording-info'>
+      <span><Tag color="blue">{t('LiveAndRecording')}</Tag></span>
+      <Statistic value={rateStr} />
+    </div>
+  </Tooltip>
+  const otherInfo = <div className='other-info'>
+    {taskStatus?.isDownload ? recordingInfo : liveInfo}
+  </div>
+  const info = <div className='info'>
     {basicInfo}
     {otherInfo}
+  </div>
+  return <Card className='no-photo-card'>
+    {info}
   </Card>
 }
 export default NoPhotoRoomCard

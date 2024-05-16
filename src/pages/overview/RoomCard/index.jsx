@@ -4,6 +4,7 @@ import { BellFilled } from '@ant-design/icons';
 import RoomCover from './RoomCover';
 import RoomUser from './RoomUser';
 import RoomActions from './RoomActions';
+import NoPhotoRoomCard from './NoPhotoRoomCard';
 
 const RoomCard = (item) => {
   const { roomInfo, userInfo } = item
@@ -29,7 +30,8 @@ const RoomCard = (item) => {
       {component}
     </Badge.Ribbon>
     : component
-  const roomCard = autoRecStatusWrapper(liveStatusWrapper(card))
+  const isNoPhoto = true
+  const roomCard = isNoPhoto ? <NoPhotoRoomCard {...item} /> : autoRecStatusWrapper(liveStatusWrapper(card))
 
   return <div className='room-card'>{roomCard}</div>
 }

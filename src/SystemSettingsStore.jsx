@@ -15,6 +15,7 @@ export const useSystemSettingsStore = create(
             recDanmu: false,
             autoRec: false,
             remind: false,
+            isNoPhoto: false,
         }
         return {
             ...defaultGlobalConfig,
@@ -28,6 +29,7 @@ export const useSystemSettingsStore = create(
             setRecDanmu: getSetter('recDanmu'),
             setAutoRec: getSetter('autoRec'),
             setRemind: getSetter('remind'),
+            setNoPhoto: getSetter('isNoPhoto'),
         }
     }, { name: 'settingsStorage' })
 )
