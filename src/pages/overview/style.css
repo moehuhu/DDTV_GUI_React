@@ -82,6 +82,9 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: stretch;
+            .active {
+              will-change: contents;
+            }
           }
 
           .ant-card-meta {
@@ -120,6 +123,9 @@
                   height: 40px;
                   display: flex;
                   align-items: center;
+                  .active {
+                    will-change: contents;
+                  }
                 }
               }
             }

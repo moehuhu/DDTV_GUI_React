@@ -63,6 +63,7 @@ const RoomActions = (item) => {
   }
   const cameraButton = <Tooltip title={t(taskActionType)}>
     <Button
+      className={'camera-button' + isDownload ? ' active' : ''}
       onClick={onClick}
       danger={blinkState}
       icon={willOrRecording ? <VideoCameraOutlined spin={taskActions?.isLoading} /> : <VideoCameraAddOutlined />}

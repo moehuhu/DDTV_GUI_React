@@ -68,15 +68,15 @@ const NoPhotoRoomCard = (item) => {
   const sizeStr = `${bytes(currentDownloadSize, { unitSeparator: ' ' })}`
   const liveInfo = roomInfo?.liveStatus ? <div className='live-info'>
     <span><Tag color="red">{t('Live')}</Tag></span>
-    <Statistic value={liveDuration} />
-  </div>:<div className='live-info'>
+    <Statistic className='active' value={liveDuration} />
+  </div> : <div className='live-info'>
     <span><Tag color="gray">{t('NotLive')}</Tag></span>
     <Statistic value={liveDuration} />
   </div>
   const recordingInfo = taskStatus?.isDownload && <Tooltip title={sizeStr}>
     <div className='recording-info'>
       <span><Tag color="blue">{t('LiveAndRecording')}</Tag></span>
-      <Statistic value={rateStr} />
+      <Statistic className='active' value={rateStr} />
     </div>
   </Tooltip>
   const otherInfo = <div className='other-info'>
