@@ -88,7 +88,7 @@ const Actions = (props) => {
     </div>
     const { deleteRooms } = useDelRoom()
     const applyDelete = async () => {
-        const [err, res] = await deleteRooms(stagedUIDs)
+        const [err, res] = await deleteRooms(stagedUIDs?.join?.(','))
         if (err) {
             messager(err, res)
             return

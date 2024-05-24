@@ -14,7 +14,8 @@ const useAddRoom = () => {
             .mapKeys((item, key) => _.snakeCase(key))
             .value()
         const { uid } = mappedParams
-        const isBatchAdd = _.isArray(uid)
+        const isBatchAdd = _.includes(uid, ',') || _.includes(uid, '，')
+        if (isBatchAdd) { mappedParams.uids = uid }
         const [err, res] = await to(isBatchAdd ? addRooms(mappedParams) : addRoom(mappedParams))
         if (err) { console.error(err) }
         setFalse()

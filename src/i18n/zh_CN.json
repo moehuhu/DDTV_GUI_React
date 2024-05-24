@@ -123,7 +123,7 @@
     "Are you sure to modify the filename format?": "确定要修改文件名格式?",
     "Verification failed, please check the path format": "校验失败，请检查路径格式",
     "Are you sure to modify the path?": "确定要修改路径?",
-    "Multiple UIDs separated by ;": "输入多个UID时以英文逗号 , 分隔",
+    "Multiple UIDs separated by ,": "输入多个UID时以英文逗号 , 分隔",
     "Double Click": "双击",
     "About": "关于",
     "jpTranslation": "日文翻译"

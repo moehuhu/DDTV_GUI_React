@@ -123,7 +123,7 @@
     "Are you sure to modify the filename format?": "パスを変更してもよろしいですか?",
     "Verification failed, please check the path format": "検証に失敗しました。ファイル名の形式を確認してください",
     "Are you sure to modify the path?": "パスを変更してもよろしいですか?",
-    "Multiple UIDs separated by ;": "カンマで , 区切られた複数の UID",
+    "Multiple UIDs separated by ,": "カンマで , 区切られた複数の UID",
     "Double Click": "ダブルクリック",
     "About": "について",
     "jpTranslation": "日本語訳"

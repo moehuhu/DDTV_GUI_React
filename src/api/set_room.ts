@@ -13,11 +13,11 @@ export function setRoomsDMState(data: { uid: bigint[]; state: boolean }) {
   return instance.post<Response<any>>('set_rooms/modify_room_dm_settings', data)
 }
 
-export function addRooms(data: { uid: bigint[]; auto_rec: boolean; remind: boolean; rec_danmu: boolean }) {
+export function addRooms(data: { uids: String; auto_rec: boolean; remind: boolean; rec_danmu: boolean }) {
   return instance.post<Response<any>>('set_rooms/batch_add_room', data)
 }
 
-export function delRooms(data: { uid: bigint[] }) {
+export function delRooms(data: { uids: String }) {
   return instance.post<Response<any>>('set_rooms/batch_delete_rooms', data)
 }
 

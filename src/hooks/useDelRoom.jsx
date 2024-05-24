@@ -15,9 +15,9 @@ const useDelRoom = () => {
         return [err, res?.data]
     }
 
-    const deleteRooms = async (uid) => {
+    const deleteRooms = async (uids) => {
         setTrue()
-        const [err, res] = await to(delRooms({ uid }))
+        const [err, res] = await to(delRooms({ uids }))
         if (err) { console.error(err) }
         setFalse()
         setRes(res)
