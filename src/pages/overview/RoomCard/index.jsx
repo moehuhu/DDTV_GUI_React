@@ -5,6 +5,7 @@ import RoomCover from './RoomCover';
 import RoomUser from './RoomUser';
 import RoomActions from './RoomActions';
 import NoPhotoRoomCard from './NoPhotoRoomCard';
+import { useSystemSettingsStore } from '../../../SystemSettingsStore';
 
 const RoomCard = (item) => {
   const { roomInfo, userInfo } = item
@@ -30,7 +31,7 @@ const RoomCard = (item) => {
       {component}
     </Badge.Ribbon>
     : component
-  const isNoPhoto = true
+  const { isNoPhoto } = useSystemSettingsStore(state => state)
   const roomCard = isNoPhoto ? <NoPhotoRoomCard {...item} /> : autoRecStatusWrapper(liveStatusWrapper(card))
 
   return <div className='room-card'>{roomCard}</div>

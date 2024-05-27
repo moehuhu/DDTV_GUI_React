@@ -5,7 +5,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom'
 import { useTitle, useTimeout, useMount, useUpdateEffect, configResponsive } from 'ahooks'
 import { useTranslation } from 'react-i18next'
 import { ConfigProvider, theme, FloatButton, Popover, Tooltip, Menu, App } from 'antd'
-import { BulbOutlined, MutedOutlined } from '@ant-design/icons'
+import { AreaChartOutlined, BulbOutlined, MutedOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import { Howl } from 'howler'
 import './index.css'
@@ -47,6 +47,10 @@ const RootApp = () => {
         setIsInitialTips(false)
         setDisplaySoundTip(open)
     }
+
+    const { isNoPhoto, setNoPhoto } = useSystemSettingsStore(state => state)
+    const imageButton = <FloatButton onClick={() => setNoPhoto(!isNoPhoto)} icon={<AreaChartOutlined style={{ color: isNoPhoto ? undefined : token.colorInfo }} />} />
+
     const disableTips = isInitialTips ?
         t("Click here to enable beeps. Due to browser security policy restrictions, you need to enable it again when you re-enter the page.")
         : t('Disable Beeps')
@@ -91,6 +95,7 @@ const RootApp = () => {
     </Popover>
 
     const floatButtons = <FloatButton.Group shape="square" style={{ left: 24 }}>
+        {imageButton}
         {soundButton}
         {darkModeButton}
         {languageButton}
