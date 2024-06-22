@@ -21,7 +21,12 @@ export function getRecordingPath() {
   return instance.get<Response<any>>('config/get_recording_path')
 }
 
-export function setFileNameAndPath(data: { path_and_format?: string; check?: string }) {
+export function setFileNameAndPath(data: {
+  default_liver_folder_name?: string;
+  default_data_folder_name?: string;
+  default_file_name?: string;
+  check?: string;
+}) {
   return instance.post<Response<any>>('config/set_default_file_path_name_format', data)
 }
 

@@ -8,22 +8,30 @@ const useRecordingPath = () => {
   const { t } = useTranslation()
   const [isLoading, { setTrue, setFalse }] = useBoolean(false)
   const [checkNameData, setCheckNameData] = useState(null)
-  const [pathName, setPathName] = useState('')
-  const editPathName = (pathName) => {
+  const [majorDirectory, setMajorDirectory] = useState('')
+  const [minorDirectory, setMinorDirectory] = useState('')
+  const [filename, setFilename] = useState('')
+  const editFilename = (filename) => {
     setCheckNameData(null)
-    setPathName(pathName)
+    setFilename(filename)
   }
-  const getPathName = async () => {
+  const getFilenameAndPath = async () => {
     setTrue()
     const [err, res] = await to(getFileNameAndPath())
-    setPathName(res?.data?.data)
+    setMajorDirectory(res?.data?.data?.Item2)
+    setMinorDirectory(res?.data?.data?.Item3)
+    setFilename(res?.data?.data?.Item4)
     setFalse()
     return [err, res]
   }
 
-  const checkPathName = async () => {
+  const checkFilenameAndPath = async () => {
     setTrue()
-    const [err, res] = await to(setFileNameAndPath({ path_and_format: pathName }))
+    const [err, res] = await to(setFileNameAndPath({
+      default_liver_folder_name: majorDirectory,
+      default_data_folder_name: minorDirectory,
+      default_file_name: filename
+    }))
     const checkKey = res?.data?.data
     const checkFailed = !checkKey || checkKey == "错误"
     const title = checkFailed ? t('Error') : t('Warning')
@@ -34,17 +42,25 @@ const useRecordingPath = () => {
     return [err, res?.data]
   }
 
-  const applyPathName = async () => {
+  const applyFilenameAndPath = async () => {
     const checkKey = checkNameData?.data
     if (!checkKey || checkKey == "错误") { return }
     setTrue()
-    const [err, res] = await to(setFileNameAndPath({ path_and_format: pathName, check: checkKey }))
+    const [err, res] = await to(setFileNameAndPath({
+      default_liver_folder_name: majorDirectory,
+      default_data_folder_name: minorDirectory,
+      default_file_name: filename,
+      check: checkKey
+    }))
     setCheckNameData(null)
     setFalse()
     return [err, res?.data]
   }
 
-  return { getPathName, checkPathName, checkNameData, setCheckNameData, applyPathName, isLoading, pathName, editPathName }
+  return {
+    getFilenameAndPath, checkFilenameAndPath, checkNameData, setCheckNameData,
+    applyFilenameAndPath, isLoading, majorDirectory, minorDirectory, filename, editFilename
+  }
 
 }
 export default useRecordingPath

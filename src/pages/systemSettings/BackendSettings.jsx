@@ -37,9 +37,9 @@ const BackEnd = (props) => {
   const { isLoading, getPath, checkPath,
     checkPathData, setCheckData, applyPath, path, editPath } = useRecordingPath()
   useMount(getPath)
-  const { isLoading: isLoadingPathName, getPathName, checkPathName,
-    checkNameData, setCheckNameData, applyPathName, pathName, editPathName } = useFileNameAndPath()
-  useMount(getPathName)
+  const { isLoading: isLoadingFilenameAndPath, getFilenameAndPath, checkFilenameAndPath,
+    checkNameData, setCheckNameData, applyFilenameAndPath, filename, editFilename } = useFileNameAndPath()
+  useMount(getFilenameAndPath)
   const { isLoading: isLoadingHLSTime, time, setTime, getHLSTime, setHLSTime } = useHLSTime()
   useMount(getHLSTime)
   const { isLoading: isLoadingAutoRepair, isAutoRepair, setIsAutoRepair, getRepairConfig, setRepairConfig } = useAutoRepair()
@@ -97,14 +97,14 @@ const BackEnd = (props) => {
   const applyFileNameAndPathButton = <Popconfirm
     okText={t('Confirm')}
     icon={checkNameData?.checkFailed ? failedIcon : undefined}
-    onConfirm={applyPathName}
+    onConfirm={applyFilenameAndPath}
     onOpenChange={open => !open && setCheckNameData(null)}
     open={!_.isEmpty(checkNameData)}
     showCancel={false}
     title={checkNameData?.title}
     description={<div style={{ width: 300 }}>{checkNameData?.message}</div>}
   >
-    <Button loading={isLoadingPathName} onClick={checkPathName}>{t('Apply')}</Button>
+    <Button loading={isLoadingFilenameAndPath} onClick={checkFilenameAndPath}>{t('Apply')}</Button>
   </Popconfirm>
 
   const renderFullRow = (title, content) => <FullRow>
@@ -136,9 +136,9 @@ const BackEnd = (props) => {
   const setFilename = renderFullRow(`${t('File')}${t('name')}`,
     <><Input
       style={{ width: '25vw' }}
-      disabled={isLoadingPathName}
-      value={pathName}
-      onChange={e => editPathName(e.target.value)} />
+      disabled={isLoadingFilenameAndPath}
+      value={filename}
+      onChange={e => editFilename(e.target.value)} />
       {applyFileNameAndPathButton}</>)
 
   const noAvatar = 'https://i0.hdslb.com/bfs/face/member/noface.jpg@52w_52h_1c_1s.webp'
