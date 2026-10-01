@@ -1,3 +1,16 @@
 body {
   margin: 0;
 }
+
+.tooltip-light .ant-tooltip-inner {
+  background-color: #ffffff !important;
+  color: rgba(0, 0, 0, 0.88) !important;
+}
+
+.tooltip-light .ant-tooltip-arrow::before {
+  background: #ffffff !important;
+}
+
+.tooltip-light .ant-tooltip-arrow {
+  --antd-arrow-background-color: #ffffff;
+}

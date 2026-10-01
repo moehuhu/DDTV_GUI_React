@@ -51,7 +51,7 @@ const RootApp = () => {
     const { isNoPhoto, setNoPhoto } = useSystemSettingsStore(state => state)
     const imageButton = <FloatButton onClick={() => setNoPhoto(!isNoPhoto)} icon={<AreaChartOutlined style={{ color: isNoPhoto ? undefined : token.colorInfo }} />} />
 
-    const disableTips = isInitialTips ?
+    const disableSoundTips = isInitialTips ?
         t("Click here to enable beeps. Due to browser security policy restrictions, you need to enable it again when you re-enter the page.")
         : t('Disable Beeps')
     const soundButton = <Tooltip
@@ -59,7 +59,7 @@ const RootApp = () => {
         onOpenChange={setOpen}
         placement='right'
         color={enableSound ? token.colorInfo : token.colorBgMask}
-        title={enableSound ? t('Enable Beeps') : disableTips}>
+        title={enableSound ? t('Enable Beeps') : disableSoundTips}>
         <FloatButton
             icon={<MutedOutlined style={{ color: enableSound ? token.colorInfo : undefined }} />}
             onClick={onClickSound}
@@ -68,10 +68,20 @@ const RootApp = () => {
 
     const { isDarkMode, toggleDarkMode } = useSystemSettingsStore(state => state)
     const themeMode = isDarkMode ? 'darkAlgorithm' : 'defaultAlgorithm'
-    const darkModeButton = <FloatButton
-        icon={<BulbOutlined style={{ color: isDarkMode ? undefined : token.colorInfo }} />}
-        onClick={toggleDarkMode}
-    />
+    const darkModeButton = <Tooltip
+        placement='right'
+        color={isDarkMode ? '#ffffff' : undefined}
+        overlayClassName={isDarkMode ? 'tooltip-light' : undefined}
+        title={
+            <span style={{ color: isDarkMode ? 'rgba(0, 0, 0, 0.88)' : undefined }}>
+                {isDarkMode ? t('Disable DarkMode') : t('Enable DarkMode')}
+            </span>
+        }>
+        <FloatButton
+            icon={<BulbOutlined style={{ color: isDarkMode ? undefined : token.colorInfo }} />}
+            onClick={toggleDarkMode}
+        />
+    </Tooltip>
 
     const { i18n } = useTranslation()
     const { language, setLanguage } = useSystemSettingsStore(state => state)

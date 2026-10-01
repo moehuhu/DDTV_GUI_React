@@ -8,6 +8,8 @@
     "logout": "ログアウト",
     "Enable Beeps": "ビープ音を有効にする",
     "Disable Beeps": "ビープ音を無効にする",
+    "Enable DarkMode": "ダークモード 設定",
+    "Disable DarkMode": "ダークモード 解除",
     "Switch Account": "アカウントを切り替える",
     "Loading": "読み込み中",
     "Refreshed": "リフレッシュされた",

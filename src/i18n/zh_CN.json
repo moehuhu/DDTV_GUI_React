@@ -8,6 +8,8 @@
     "logout": "登出",
     "Enable Beeps": "启用提示音",
     "Disable Beeps": "关闭提示音",
+    "Enable DarkMode": "启用暗色模式",
+    "Disable DarkMode": "关闭暗色模式",
     "Switch Account": "切换账号",
     "Loading": "加载中",
     "Refreshed": "已刷新",
